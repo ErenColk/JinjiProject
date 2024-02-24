@@ -16,6 +16,9 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<CreateAdminDto, Admin>().ReverseMap();
             CreateMap<UpdateAdminDto, Admin>().ReverseMap();
             CreateMap<ListAdminDto, Admin>().ReverseMap();
+
+         
+
         }
     }
 }
