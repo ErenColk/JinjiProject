@@ -8,6 +8,7 @@ namespace JinjiProject.Dtos.Materials
 {
     public class CreateMaterialDto
     {
-
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
