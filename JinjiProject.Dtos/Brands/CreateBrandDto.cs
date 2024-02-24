@@ -8,6 +8,7 @@ namespace JinjiProject.Dtos.Brands
 {
     public class CreateBrandDto
     {
-
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
