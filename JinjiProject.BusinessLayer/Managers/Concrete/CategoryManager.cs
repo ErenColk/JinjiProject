@@ -1,7 +1,16 @@
-﻿using JinjiProject.BusinessLayer.Managers.Abstract;
+﻿using AutoMapper;
+using JinjiProject.BusinessLayer.Constants;
+using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Utilities.Results.Concrete;
+using JinjiProject.DataAccess.EFCore.Repositories;
+using JinjiProject.DataAccess.Interface.Repositories;
+using JinjiProject.Dtos.Admins;
+using JinjiProject.Dtos.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +18,116 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
     public class CategoryManager : ICategoryService
     {
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
+        public CategoryManager(ICategoryRepository CategoryRepository,IMapper mapper)
+        {
+            _categoryRepository = CategoryRepository;
+            _mapper = mapper;
+
+        }
+
+        public async Task<DataResult<Category>> CreateCategoryAsync(CreateCategoryDto createCategoryDto)
+        {
+            if (createCategoryDto == null)
+            {
+                return new ErrorDataResult<Category>(Messages.CreateCategoryError);
+            }
+            else
+            {
+                Category Category = _mapper.Map<Category>(createCategoryDto);
+                bool result = await _categoryRepository.Create(Category);
+                if (result)
+                    return new SuccessDataResult<Category>(Category, Messages.CreateCategorySuccess);
+                else
+                    return new ErrorDataResult<Category>(Category, Messages.CreateCategoryRepoError);
+
+            }
+        }
+
+        public async Task<DataResult<GetCategoryDto>> GetCategoryById(int id)
+        {
+            if (id <= 0)
+                return new ErrorDataResult<GetCategoryDto>(Messages.CategoryNotFound);
+            else
+            {
+                GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(await _categoryRepository.GetByIdAsync(id));
+                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
+            }
+
+
+        }
+
+        public async Task<DataResult<List<ListCategoryDto>>> GetAllCategory()
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+            return new SuccessDataResult<List<ListCategoryDto>>(_mapper.Map<List<ListCategoryDto>>(categories), Messages.CategoryListedSuccess);
+        }
+
+        public async Task<DataResult<GetCategoryDto>> GetFilteredCategory(Expression<Func<Category, bool>> expression)
+        {
+            var CategoryDto = await _categoryRepository.GetFilteredFirstOrDefault(expression);
+            if (CategoryDto == null)
+            {
+                return new ErrorDataResult<GetCategoryDto>(Messages.CategoryFilteredError);
+            }
+            else
+            {
+                GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(CategoryDto);
+                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFilteredSuccess);
+            }
+        }
+
+        public async Task<DataResult<Category>> HardDeleteCategoryAsync(int id)
+        {
+            var CategoryDto = await _categoryRepository.GetByIdAsync(id);
+            if (CategoryDto == null)
+            {
+                return new ErrorDataResult<Category>(Messages.CategoryNotFound);
+            }
+            else
+            {
+                bool result = await _categoryRepository.HardDelete(CategoryDto);
+                if (result)
+                    return new SuccessDataResult<Category>(Messages.CategoryDeletedSuccess);
+                else
+                    return new ErrorDataResult<Category>(Messages.CategoryDeletedRepoError);
+            }
+        }
+
+        public async Task<DataResult<Category>> SoftDeleteCategoryAsync(int id)
+        {
+            var CategoryDto = await _categoryRepository.GetByIdAsync(id);
+            if (CategoryDto == null)
+            {
+                return new ErrorDataResult<Category>(Messages.CategoryNotFound);
+            }
+            else
+            {
+                bool result = await _categoryRepository.SoftDelete(CategoryDto);
+                if (result)
+                    return new SuccessDataResult<Category>(Messages.CategoryDeletedSuccess);
+                else
+                    return new ErrorDataResult<Category>(Messages.CategoryDeletedRepoError);
+            }
+        }
+
+        public async Task<DataResult<Category>> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        {
+            if (updateCategoryDto == null)
+            {
+                return new ErrorDataResult<Category>(Messages.UpdateCategoryError);
+            }
+            else
+            {
+                Category Category = _mapper.Map<Category>(updateCategoryDto);
+                bool result = await _categoryRepository.Update(Category);
+                if (result)
+                    return new SuccessDataResult<Category>(Category, Messages.UpdateCategorySuccess);
+                else
+                    return new ErrorDataResult<Category>(Category, Messages.UpdateCategoryRepoError);
+            }
+        }
     }
 }
