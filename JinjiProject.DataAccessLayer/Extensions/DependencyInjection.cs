@@ -22,6 +22,7 @@ namespace JinjiProject.DataAccessLayer.Extensions
                         10,
                         TimeSpan.FromSeconds(10),
                         null));
+                options.UseLazyLoadingProxies();
             });
 
             return services;

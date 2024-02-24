@@ -13,14 +13,10 @@ namespace JinjiProject.Core.Entities.Concrete
 {
     public class AppUser : IdentityUser,IEntity
     {
-        public AppUser()
-        {
-
-        }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public DateTime DeletedDate { get; set; }
         public Status Status { get; set; }
-        public Admin Admin { get; set; }
+        public virtual Admin? Admin { get; set; }
     }
 }

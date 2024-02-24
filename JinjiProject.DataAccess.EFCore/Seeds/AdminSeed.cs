@@ -62,6 +62,7 @@ namespace JinjiProject.DataAccess.EFCore.Seeds
                 FirstName = "Admin",
                 LastName = "Admin",
                 Email = AdminEmail,
+                ImagePath = "~/images/defaultUserPhoto.png",
                 Gender = Gender.Man,
                 BirthDate = new DateTime(2000, 1, 1),
                 AppUserId = user.Id,
@@ -81,6 +82,7 @@ namespace JinjiProject.DataAccess.EFCore.Seeds
 
                 await context.Roles.AddAsync(new IdentityRole(roles[i]));
             }
+            context.SaveChanges();
         }
     }
 }

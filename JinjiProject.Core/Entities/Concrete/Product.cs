@@ -23,8 +23,8 @@ namespace JinjiProject.Core.Entities.Concrete
         [NotMapped]
         public IFormFile UploadPath { get; set; }
         public Size? Size { get; set; }
-        public Material Material { get; set; }
-        public Category Category { get; set; }
-        public Brand Brand { get; set; }
+        public virtual Material Material { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Brand Brand { get; set; }
     }
 }
