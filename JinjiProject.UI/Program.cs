@@ -1,4 +1,6 @@
 using AspNetCoreHero.ToastNotification.Extensions;
+using JinjiProject.BusinessLayer.Extensions;
+using JinjiProject.DataAccess.EFCore.Extensions;
 using JinjiProject.DataAccessLayer.Extensions;
 using JinjiProject.UI.Extensions;
 
@@ -13,6 +15,8 @@ namespace JinjiProject.UI
             // Add services to the container.
             builder.Services.
                 AddDataAccessServices(builder.Configuration)
+                .AddEFCoreServices(builder.Configuration)
+                .AddBusinessServices()
                 .AddMvcServices();
 
             var app = builder.Build();

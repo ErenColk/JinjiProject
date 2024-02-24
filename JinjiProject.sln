@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.UI", "JinjiProject.UI\JinjiProject.UI.csproj", "{4E3B15AA-9BB0-45F0-AB9C-917043488C7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JinjiProject.UI", "JinjiProject.UI\JinjiProject.UI.csproj", "{4E3B15AA-9BB0-45F0-AB9C-917043488C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.Core", "JinjiProject.Core\JinjiProject.Core.csproj", "{5129FDB7-6767-4933-B675-5B41B0F3A57E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JinjiProject.Core", "JinjiProject.Core\JinjiProject.Core.csproj", "{5129FDB7-6767-4933-B675-5B41B0F3A57E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.DataAccessLayer", "JinjiProject.DataAccessLayer\JinjiProject.DataAccessLayer.csproj", "{EDC10B24-83A6-4BFA-AF21-3F52F05CBCAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JinjiProject.DataAccessLayer", "JinjiProject.DataAccessLayer\JinjiProject.DataAccessLayer.csproj", "{EDC10B24-83A6-4BFA-AF21-3F52F05CBCAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.BusinessLayer", "JinjiProject.BusinessLayer\JinjiProject.BusinessLayer.csproj", "{428E6AD4-FB53-49BC-BF4A-73BD3F8AC90D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JinjiProject.BusinessLayer", "JinjiProject.BusinessLayer\JinjiProject.BusinessLayer.csproj", "{428E6AD4-FB53-49BC-BF4A-73BD3F8AC90D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.DataAccess.Interface", "JinjiProject.DataAccess.Interface\JinjiProject.DataAccess.Interface.csproj", "{CFA094DF-9A26-4D45-90A6-1516FE66CA3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.DataAccess.EFCore", "JinjiProject.DataAccess.EFCore\JinjiProject.DataAccess.EFCore.csproj", "{AF39873F-6485-46A9-A160-7C29F8AB2B5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JinjiProject.Dtos", "JinjiProject.Dtos\JinjiProject.Dtos.csproj", "{BF2DBB43-7211-46E1-B518-3ACCF433054A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{428E6AD4-FB53-49BC-BF4A-73BD3F8AC90D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{428E6AD4-FB53-49BC-BF4A-73BD3F8AC90D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{428E6AD4-FB53-49BC-BF4A-73BD3F8AC90D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFA094DF-9A26-4D45-90A6-1516FE66CA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFA094DF-9A26-4D45-90A6-1516FE66CA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFA094DF-9A26-4D45-90A6-1516FE66CA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFA094DF-9A26-4D45-90A6-1516FE66CA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF39873F-6485-46A9-A160-7C29F8AB2B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF39873F-6485-46A9-A160-7C29F8AB2B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF39873F-6485-46A9-A160-7C29F8AB2B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF39873F-6485-46A9-A160-7C29F8AB2B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF2DBB43-7211-46E1-B518-3ACCF433054A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF2DBB43-7211-46E1-B518-3ACCF433054A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF2DBB43-7211-46E1-B518-3ACCF433054A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF2DBB43-7211-46E1-B518-3ACCF433054A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

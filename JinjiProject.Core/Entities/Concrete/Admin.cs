@@ -17,7 +17,8 @@ namespace JinjiProject.Core.Entities.Concrete
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public string ImagePath { get; set; }
-
+        public string Email { get; set; }
+        public Gender Gender { get; set; }
         [NotMapped]
         public IFormFile UploadPath { get; set; }
         public DateTime CreatedDate { get; set; }

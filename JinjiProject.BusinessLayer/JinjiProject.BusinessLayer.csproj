@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JinjiProject.DataAccessLayer\JinjiProject.DataAccessLayer.csproj" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JinjiProject.DataAccess.EFCore\JinjiProject.DataAccess.EFCore.csproj" />
+    <ProjectReference Include="..\JinjiProject.Dtos\JinjiProject.Dtos.csproj" />
   </ItemGroup>
 
 </Project>
