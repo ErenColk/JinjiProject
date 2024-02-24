@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JinjiProject.DataAccessLayer.Context
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public const string ConnectionName = "JinjiApp";
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -22,10 +23,15 @@ namespace JinjiProject.DataAccessLayer.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Material> Materials { get; set; }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(builder);
         }
     }
 }

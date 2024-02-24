@@ -45,7 +45,9 @@ namespace JinjiProject.DataAccess.EFCore.Seeds
                 NormalizedUserName = AdminEmail.ToUpper(),
                 Email = AdminEmail,
                 NormalizedEmail = AdminEmail.ToUpper(),
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                CreatedDate = DateTime.Now,
+                Status = Status.Active 
             };
             user.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(user, AdminPassword);
             await context.Users.AddAsync(user);
