@@ -15,8 +15,8 @@ namespace JinjiProject.UI
             // Add services to the container.
             builder.Services.
                 AddDataAccessServices(builder.Configuration)
-                //.AddEFCoreServices(builder.Configuration)
-                //.AddBusinessServices()
+                .AddEFCoreServices(builder.Configuration)
+                .AddBusinessServices()
                 .AddMvcServices();
 
             var app = builder.Build();
@@ -38,6 +38,15 @@ namespace JinjiProject.UI
 
             app.UseNotyf();
             app.UseSession();
+
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                  name: "areas",
+                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+            });
 
             app.MapControllerRoute(
                 name: "default",

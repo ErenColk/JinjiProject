@@ -53,7 +53,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(await _categoryRepository.GetByIdAsync(id));
-                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
+                return   new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
             }
 
 
@@ -121,12 +121,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
-                Category Category = _mapper.Map<Category>(updateCategoryDto);
-                bool result = await _categoryRepository.Update(Category);
+                Category category =  await _categoryRepository.GetByIdAsync(updateCategoryDto.Id);
+                _mapper.Map(updateCategoryDto,category);
+                bool result = await _categoryRepository.Update(category);
                 if (result)
-                    return new SuccessDataResult<Category>(Category, Messages.UpdateCategorySuccess);
+                    return new SuccessDataResult<Category>(category, Messages.UpdateCategorySuccess);
                 else
-                    return new ErrorDataResult<Category>(Category, Messages.UpdateCategoryRepoError);
+                    return new ErrorDataResult<Category>(category, Messages.UpdateCategoryRepoError);
             }
         }
     }

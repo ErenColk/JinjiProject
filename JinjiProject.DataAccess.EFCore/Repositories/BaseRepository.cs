@@ -108,7 +108,8 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
 
         public async Task<bool> SaveChange()
         {
-            return await appDbContext.SaveChangesAsync() > 0;
+
+            return await appDbContext.SaveChangesAsync() > 0 ;
         }
 
         public Task<bool> SoftDelete(T entity)

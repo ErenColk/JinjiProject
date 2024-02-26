@@ -17,6 +17,7 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<UpdateCategoryDto, Category>().ReverseMap();
             CreateMap<ListCategoryDto, Category>().ReverseMap();
             CreateMap<GetCategoryDto, Category>().ReverseMap();
+            CreateMap<GetCategoryDto, UpdateCategoryDto>().ReverseMap();
 
 
         }
