@@ -15,6 +15,8 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
         public Task<DataResult<Category>> CreateCategoryAsync(CreateCategoryDto createCategoryDto);
         public Task<DataResult<Category>> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
         public Task<DataResult<Category>> SoftDeleteCategoryAsync(int id);
+        public Task<DataResult<List<ListCategoryDto>>> GetAllByExpression(Expression<Func<Category, bool>> expression);
+
         public Task<DataResult<Category>> HardDeleteCategoryAsync(int id);
         public Task<DataResult<List<ListCategoryDto>>> GetAllCategory();
         public Task<DataResult<GetCategoryDto>> GetCategoryById(int id);

@@ -13,6 +13,8 @@ namespace JinjiProject.DataAccess.Interface.Repositories
     {
         Task<T> GetByIdAsync(int id);
 
+
+
         Task<IEnumerable<T>> GetAllAsync(bool tracking = true);
 
         Task<IEnumerable<T>> GetAllByExpression(Expression<Func<T, bool>> expression);

@@ -130,5 +130,11 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     return new ErrorDataResult<Category>(category, Messages.UpdateCategoryRepoError);
             }
         }
+
+        public async Task<DataResult<List<ListCategoryDto>>> GetAllByExpression(Expression<Func<Category, bool>> expression)
+        {
+            var categories = await _categoryRepository.GetAllByExpression(expression);
+            return new SuccessDataResult<List<ListCategoryDto>>(_mapper.Map<List<ListCategoryDto>>(categories), Messages.CategoryListedSuccess);
+        }
     }
 }
