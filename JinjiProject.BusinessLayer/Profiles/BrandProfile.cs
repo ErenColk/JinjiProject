@@ -17,6 +17,7 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<UpdateBrandDto, Brand>().ReverseMap();
             CreateMap<ListBrandDto, Brand>().ReverseMap();
             CreateMap<GetBrandDto, Brand>().ReverseMap();
+            CreateMap<GetBrandDto, UpdateBrandDto>().ReverseMap();
         }
     }
 }
