@@ -67,6 +67,7 @@
     <script src="~/template/assets/js/custom.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
     <script>
 
         $(function() {

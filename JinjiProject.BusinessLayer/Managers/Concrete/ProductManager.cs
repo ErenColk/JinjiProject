@@ -2,10 +2,12 @@
 using JinjiProject.BusinessLayer.Constants;
 using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Enums;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Products;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +133,20 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     return new SuccessDataResult<Product>(Product, Messages.UpdateProductSuccess);
                 else
                     return new ErrorDataResult<Product>(Product, Messages.UpdateProductRepoError);
+            }
+        }
+
+        public async Task<DataResult<List<ListProductDto>>> GetFilteredProductsAsync(Expression<Func<Product, bool>> expression)
+        {
+            var products = await _productRepository.GetAllByExpression(expression);
+            if (products == null)
+            {
+                return new ErrorDataResult<List<ListProductDto>>(Messages.ProductFilteredError);
+            }
+            else
+            {
+                List<ListProductDto> listProductDto = _mapper.Map<List<ListProductDto>>(products);
+                return new SuccessDataResult<List<ListProductDto>>(listProductDto, Messages.ProductFilteredSuccess);
             }
         }
     }
