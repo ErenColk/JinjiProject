@@ -89,6 +89,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var deletedCategory =  await _categoryService.GetAllByExpression(x=>x.Status == Status.Deleted);
             List<DeletedCategoryListDto> deletedCategoryList = _mapper.Map<List<DeletedCategoryListDto>>(deletedCategory.Data);
             return View(deletedCategoryList);
+
         }     
         
         
