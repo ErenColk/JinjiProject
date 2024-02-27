@@ -58,7 +58,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
             var updateCategory = await _categoryService.UpdateCategoryAsync(updateCategoryDto);
-
+             
             return RedirectToAction(nameof(CategoryList));
         }
 
