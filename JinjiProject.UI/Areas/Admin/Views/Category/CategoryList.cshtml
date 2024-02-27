@@ -36,7 +36,7 @@
                                             <td>@GetEnumDescription.Description(item.Status)</td>
                                             <td><a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
                                             <td><a href="/Admin/Category/DetailCategory/@item.Id" class="btn btn-outline-primary">Detaylar</a></td>
-                                            <td><a href="/Admin/Category/DeleteCategory/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Admin/Category/SoftDelete/@item.Id" class="btn btn-outline-danger">Sil</a></td>
                                         </tr>
                                     }
 
@@ -45,7 +45,7 @@
                             </tbody>
                         </table>
                         <a href="/Admin/Category/CreateCategory" class="btn btn-outline-primary">Yeni Kategori Girişi </a>
-                        <a style="margin-left:10px" href="/Admin/Genre/DeletedListGenre" class="btn btn-outline-danger">Silinen Kategoriler</a>
+                        <a style="margin-left:10px" href="/Admin/Category/DeletedCategoryList" class="btn btn-outline-danger">Silinen Kategoriler</a>
                     </div>
                 </div>
             </div>
