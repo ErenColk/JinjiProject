@@ -37,9 +37,12 @@
                                         <td>@item.DeletedDate</td>
                                         <td>
                                             <a type="submit" href="/Admin/Category/AddAgainCategory/@item.Id" class="btn btn-outline-success">Tekrar Ekle</a>
-                                            <a type="submit" href="/Admin/Category/AddAgainCategory/@item.Id" class="btn btn-outline-danger">Veriyi Sil</a>
+                                            <button type="button" class="btn btn-outline-danger" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
+                                                Veriyi Sil
+                                            </button>
                                         </td>
                                     </tr>
+
                                 }
                             </tbody>
                         </table>
@@ -51,9 +54,6 @@
     </div>
 </div>
 
-
-
-
-
-
+<partial name="~/Areas/Admin/Views/Category/_CategoryHardDeletedPartialView.cshtml" />
+<script src="~/js/delete-category.js"></script>
 
