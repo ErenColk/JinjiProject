@@ -7,6 +7,7 @@ using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Admins;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,7 +118,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
-                Brand brand = mapper.Map<Brand>(updateBrandDto);
+                Brand brand = await brandRepository.GetByIdAsync(updateBrandDto.Id);
+                mapper.Map(updateBrandDto, brand);
                 bool result = await brandRepository.Update(brand);
                 if (result)
                     return new SuccessDataResult<Brand>(brand, Messages.UpdateBrandSuccess);
@@ -125,5 +127,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     return new ErrorDataResult<Brand>(brand, Messages.UpdateBrandRepoError);
             }
         }
+
+		public async Task<DataResult<List<ListBrandDto>>> GetAllByExpression(Expression<Func<Brand, bool>> expression)
+		{
+			var brands = await brandRepository.GetAllByExpression(expression);
+			return new SuccessDataResult<List<ListBrandDto>>(mapper.Map<List<ListBrandDto>>(brands), Messages.BrandListedSuccess);
+		}
+
+        
     }
 }

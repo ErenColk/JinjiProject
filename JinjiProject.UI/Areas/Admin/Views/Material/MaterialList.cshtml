@@ -1,21 +1,21 @@
-﻿@model List<ListBrandDto>
+﻿@model List<ListMaterialDto>
 
 
 <div class="content">
     <div class="container-fluid">
-        <h4 class="page-title">MARKA</h4>
+        <h4 class="page-title">MALZEME</h4>
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Marka İşlemleri</div>
+                        <div class="card-title">Malzeme İşlemleri</div>
                     </div>
                     <div class="card-body">
                         <table class="table mt-4">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Marka Adı</th>
+                                    <th scope="col">Malzeme Adı</th>
                                     <th scope="col">Durumu</th>
                                     <th scope="col">Güncelle</th>
                                     <th scope="col">Detaylar</th>
@@ -35,9 +35,9 @@
                                             <td>@item.Id</td>
                                             <td>@item.Name</td>
                                             <td>@GetEnumDescription.Description(item.Status)</td>
-                                            <td><a href="/Admin/Brand/UpdateBrand/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
-                                            <td><a href="/Admin/Brand/BrandDetails/@item.Id" class="btn btn-outline-primary">Detaylar</a></td>
-                                            <td><a href="/Admin/Brand/SoftDelete/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Admin/Material/UpdateMaterial/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
+                                            <td><a href="/Admin/Material/DetailMaterial/@item.Id" class="btn btn-outline-primary">Detaylar</a></td>
+                                            <td><a href="/Admin/Material/SoftDelete/@item.Id" class="btn btn-outline-danger">Sil</a></td>
                                         </tr>
                                     }
 
@@ -45,8 +45,8 @@
 
                             </tbody>
                         </table>
-                        <a href="/Admin/Brand/CreateBrand" class="btn btn-outline-primary">Yeni Marka Girişi </a>
-                        <a style="margin-left:10px" href="/Admin/Brand/DeletedBrandList" class="btn btn-outline-danger">Silinen Markalar</a>
+                        <a href="/Admin/Material/CreateMaterial" class="btn btn-outline-primary">Yeni Malzeme Girişi </a>
+                        <a style="margin-left:10px" href="/Admin/Material/DeletedMaterialList" class="btn btn-outline-danger">Silinen Malzemeler</a>
                     </div>
                 </div>
             </div>
