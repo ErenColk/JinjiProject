@@ -1,0 +1,43 @@
+﻿
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Veriyi Tamamen Silmek İstediğinize Emin misiniz ?</h5>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                    X
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <table id="kt_modal_delete_category_form">
+                    <tbody>
+                        <tr>
+                            <td><strong>Kategori Adı : </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Açıklama : </strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
+                <a type="button" href="/Admin/Category/HardDelete/" class="btn btn-outline-danger" id="modal-category-delete">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #kt_modal_delete_category_form td {
+        max-width: 350px; /* Hücrenin maksimum genişliği */
+        word-wrap: break-word; /* Uzun içeriği otomatik olarak satıra sığdırır */
+        padding: 5px; /* Yatay ve dikey iç boşluk */
+    }
+</style>

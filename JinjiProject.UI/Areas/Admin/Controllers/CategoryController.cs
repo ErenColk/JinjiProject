@@ -73,13 +73,24 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         }
 
 
+
         [HttpGet]
         public async Task<IActionResult> HardDelete(int id)
         {
 
-            await _categoryService.SoftDeleteCategoryAsync(id);
+            await _categoryService.HardDeleteCategoryAsync(id);
 
             return RedirectToAction(nameof(CategoryList));
+        }
+
+
+        [HttpGet]
+        public async Task<GetCategoryDto> GetCategory(int categoryid)
+        {
+
+            var categoryResult =  await _categoryService.GetCategoryById(categoryid);
+
+            return categoryResult.Data;
         }
 
         [HttpGet]
