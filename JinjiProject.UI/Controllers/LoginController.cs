@@ -58,12 +58,12 @@ namespace JinjiProject.UI.Controllers
             }
 
             TempData["Login"] = "ok";
-            Json(new { success = true });
             return RedirectToAction("Index", "Home", new { Area = userRole[0].ToString() });
         }
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+            TempData["Login"] = null;
             return RedirectToAction("Index");
         }
 

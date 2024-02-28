@@ -44,7 +44,7 @@ namespace JinjiProject.DataAccess.EFCore.Seeds
                 UserName = AdminEmail,
                 NormalizedUserName = AdminEmail.ToUpper(),
                 Email = AdminEmail,
-                NormalizedEmail = AdminEmail.ToUpper(),
+                NormalizedEmail = "ADMIN@JINJIAPP.COM",
                 EmailConfirmed = true,
                 CreatedDate = DateTime.Now,
                 Status = Status.Active 
