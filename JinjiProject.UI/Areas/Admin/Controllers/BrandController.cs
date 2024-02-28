@@ -108,19 +108,13 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		}
 
         [HttpGet]
-        public async Task<IActionResult> BrandDetails(int id)
+        public async Task<DetailBrandDto> GetBrand(int brandid)
         {
-            var brand = await _brandService.GetBrandById(id);
 
-			if(brand.Data == null)
-			{
-				return View();
-			}
-			else
-			{
-				DetailBrandDto detailBrandDto = _mapper.Map<DetailBrandDto>(brand.Data);
-				return View(detailBrandDto);
-			}
+            var brand = await _brandService.GetBrandById(brandid);
+			var brandResult = _mapper.Map<DetailBrandDto>(brand.Data);
+
+            return brandResult;
         }
 
     }
