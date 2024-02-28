@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Materials;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<UpdateMaterialDto, Material>().ReverseMap();
             CreateMap<ListMaterialDto, Material>().ReverseMap();
             CreateMap<GetMaterialDto, Material>().ReverseMap();
+            CreateMap<GetMaterialDto, UpdateMaterialDto>().ReverseMap();
+            CreateMap<ListMaterialDto, DeletedMaterialListDto>().ReverseMap();
+            CreateMap<UpdateMaterialDto, GetMaterialDto>().ReverseMap();
         }
     }
 }

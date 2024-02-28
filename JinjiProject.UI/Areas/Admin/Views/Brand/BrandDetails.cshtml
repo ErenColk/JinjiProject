@@ -1,0 +1,47 @@
+﻿﻿@{
+    ViewData["Title"] = "DetailGenre";
+}
+
+@model DetailBrandDto
+
+<div class="content">
+
+    <div class="container-fluid">
+        <h4 class="page-title">MARKA </h4>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Marka Detayı</div>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td><strong>Marka Adı :</strong></td>
+                                <td>@Model.Name</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Açıklama :</strong></td>
+                                <td>@Model.Description</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Oluşturulma Tarihi :</strong></td>
+                                <td>@Model.CreatedDate.ToShortDateString()</td>
+                            </tr>
+                            @if (Model.ModifiedDate.Year != 0001)
+                            {
+                                <tr>
+                                    <td><strong>Güncellenme Tarihi :</strong></td>
+                                    <td>@Model.ModifiedDate.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="col-md-12" style="margin-bottom:10px">
+                        <a href="/Admin/Brand/BrandList" class="btn btn-outline-danger">Geri Dön </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
