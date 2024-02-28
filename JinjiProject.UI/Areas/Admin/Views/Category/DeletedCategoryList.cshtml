@@ -11,43 +11,49 @@
     <div class="container-fluid">
         <h4 class="page-title">SİLİNEN KATEGORİLER </h4>
         <div class="row">
-            <div class="col">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Kategori İşlemleri</div>
                     </div>
                     <div class="card-body">
-                        <table class="table mt-4">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Kategori Adı</th>
-                                    <th scope="col">Durumu</th>
-                                    <th scope="col">Silinme Zamanı</th>
-                                    <th scope="col">İşlem</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
+                        <div class="table-responsive">
+                            <table class="table mt-4">
+                                <thead>
                                     <tr>
-                                        <td>@item.Id</td>
-                                        <td>@item.Name</td>
-                                        <td>@GetEnumDescription.Description(item.Status)</td>
-                                        <td>@item.DeletedDate</td>
-                                        <td>
-                                            <a type="submit" href="/Admin/Category/AddAgainCategory/@item.Id" class="btn btn-outline-success">Tekrar Ekle</a>
-                                            <button type="button" class="btn btn-outline-danger" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
-                                                Veriyi Sil
-                                            </button>
-                                        </td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Kategori Adı</th>
+                                        <th scope="col">Durumu</th>
+                                        <th scope="col">Silinme Zamanı</th>
+                                        <th scope="col">İşlem</th>
                                     </tr>
-
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td>@item.Name</td>
+                                            <td>@GetEnumDescription.Description(item.Status)</td>
+                                            <td>@item.DeletedDate</td>
+                                            <td>
+                                                <div class="d-grid">
+                                                    <a href="/Admin/Category/AddAgainCategory/@item.Id" class="btn btn-outline-success btn-sm">Tekrar Ekle</a>
+                                                </div>
+                                                <div class="d-grid mt-1">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
+                                                        Veriyi Sil
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                         <a href="/Admin/Category/CategoryList" class="btn btn-outline-primary mt-1">Listeye Geri Dön</a>
                     </div>
+
                 </div>
             </div>
         </div>

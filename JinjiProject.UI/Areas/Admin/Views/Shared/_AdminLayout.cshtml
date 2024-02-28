@@ -63,9 +63,10 @@
 
         <div class="main-panel">
             @RenderBody()
-            <partial name="PartialViews/_AdminFooterPartialView"></partial>
         </div>
+
     </div>
+        <partial name="PartialViews/_AdminFooterPartialView"></partial>
     <!-- Modal -->
     <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -89,7 +90,7 @@
         </div>
     </div>
     <partial name="PartialViews/_AdminScriptPartialView"></partial>
-
+    @await Component.InvokeAsync("Notyf")
 </body>
 
 </html>
