@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <h4 class="page-title">MARKA</h4>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Marka İşlemleri</div>
@@ -36,8 +36,8 @@
                                             <td>@item.Name</td>
                                             <td>@GetEnumDescription.Description(item.Status)</td>
                                             <td><a href="/Admin/Brand/UpdateBrand/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
-                                            <td><a href="/Admin/Brand/DetailBrand/@item.Id" class="btn btn-outline-primary">Detaylar</a></td>
-                                            <td><a href="/Admin/Brand/DeleteBrand/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                            <td><a href="/Admin/Brand/BrandDetails/@item.Id" class="btn btn-outline-primary">Detaylar</a></td>
+                                            <td><a href="/Admin/Brand/SoftDelete/@item.Id" class="btn btn-outline-danger">Sil</a></td>
                                         </tr>
                                     }
 
@@ -46,7 +46,7 @@
                             </tbody>
                         </table>
                         <a href="/Admin/Brand/CreateBrand" class="btn btn-outline-primary">Yeni Marka Girişi </a>
-                        <a style="margin-left:10px" href="/Admin/Brand/DeletedListBrand" class="btn btn-outline-danger">Silinen Markalar</a>
+                        <a style="margin-left:10px" href="/Admin/Brand/DeletedBrandList" class="btn btn-outline-danger">Silinen Markalar</a>
                     </div>
                 </div>
             </div>

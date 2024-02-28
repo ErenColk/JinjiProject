@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "CreateMaterial";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model CreateMaterialDto
+
+<div class="col-md-8" style="margin-top:80px">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Malzeme Ekleme İşlemleri</div>
+        </div>
+        <form method="post">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="malzeme">Malzeme</label>
+                    <input type="text" asp-for="Name" class="form-control" id="malzeme" placeholder="Malzeme Adı Giriniz...">
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="malzeme">Malzeme Açıklaması</label>
+                    <input type="text" asp-for="Description" class="form-control" id="malzeme" placeholder="Açıklamayı Giriniz...">
+                </div>
+            </div>
+            <div class="card-action" style="display:flex; ">
+                <button type="submit" class="btn btn-success">Ekle</button>
+                <a class="btn btn-danger" href="/Admin/Material/MaterialList" style="margin-left:10px">Geri Dön</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> BrandList()
 		{
-			var brandListResult = await _brandService.GetAllBrand();
+			var brandListResult = await _brandService.GetAllByExpression(brand=>brand.Status == Status.Active || brand.Status == Status.Modified);
 			var brandList = _mapper.Map<List<ListBrandDto>>(brandListResult.Data);
 			return View(brandList);
 		}
@@ -55,6 +56,71 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var updateBrand = await _brandService.UpdateBrandAsync(updateBrandDto);
 
             return RedirectToAction(nameof(BrandList));
+        }
+
+		[HttpGet]
+		public async Task<IActionResult> SoftDelete(int id)
+		{
+
+			await _brandService.SoftDeleteBrandAsync(id);
+
+			return RedirectToAction(nameof(BrandList));
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> HardDelete(int id)
+		{
+
+			await _brandService.SoftDeleteBrandAsync(id);
+
+			return RedirectToAction(nameof(BrandList));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> DeletedBrandList()
+		{
+
+			var deletedBrand = await _brandService.GetAllByExpression(x => x.Status == Status.Deleted);
+			List<DeletedBrandListDto> deletedBrandList = _mapper.Map<List<DeletedBrandListDto>>(deletedBrand.Data);
+			return View(deletedBrandList);
+
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> AddAgainBrand(int id)
+		{
+			var brandToAdded = await _brandService.GetBrandById(id);
+
+			if (brandToAdded.Data == null)
+			{
+				return View();
+			}
+			else
+			{
+
+				brandToAdded.Data.Status = Status.Active;
+				UpdateBrandDto updatedToBrand = _mapper.Map<UpdateBrandDto>(brandToAdded.Data);
+				await _brandService.UpdateBrandAsync(updatedToBrand);
+				return RedirectToAction("BrandList", "Brand");
+			}
+		}
+
+        [HttpGet]
+        public async Task<IActionResult> BrandDetails(int id)
+        {
+            var brand = await _brandService.GetBrandById(id);
+
+			if(brand.Data == null)
+			{
+				return View();
+			}
+			else
+			{
+				DetailBrandDto detailBrandDto = _mapper.Map<DetailBrandDto>(brand.Data);
+				return View(detailBrandDto);
+			}
         }
 
     }

@@ -6,6 +6,7 @@ using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Materials;
 using System;
 using System.Collections.Generic;
@@ -118,13 +119,20 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
-                Material material = mapper.Map<Material>(updateMaterialDto);
+                Material material = await materialRepository.GetByIdAsync(updateMaterialDto.Id);
+                mapper.Map(updateMaterialDto, material);
                 bool result = await materialRepository.Update(material);
                 if (result)
                     return new SuccessDataResult<Material>(material, Messages.UpdateMaterialSuccess);
                 else
                     return new ErrorDataResult<Material>(material, Messages.UpdateMaterialRepoError);
             }
+        }
+
+        public async Task<DataResult<List<ListMaterialDto>>> GetAllByExpression(Expression<Func<Material, bool>> expression)
+        {
+            var materials = await materialRepository.GetAllByExpression(expression);
+            return new SuccessDataResult<List<ListMaterialDto>>(mapper.Map<List<ListMaterialDto>>(materials), Messages.MaterialListedSuccess);
         }
     }
 }
