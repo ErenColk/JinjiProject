@@ -13,17 +13,24 @@ namespace JinjiProject.BusinessLayer.Validator.CategoryValidations
 
         public CreateCategoryValidator()
         {
-            RuleFor(category => category.Name).NotEmpty().NotNull().WithMessage("Kategori alanı boş geçilemez.").WithErrorCode("1");
-            RuleFor(category => category.Name).MinimumLength(2).NotNull().WithMessage("Kategori adı en az 2 karakter içermelidir.").WithErrorCode("1");
-            RuleFor(category => category.Name).Must(IsNumber).NotNull().WithMessage("Kategori adı sadece sayı içermemelidir.").WithErrorCode("1");
-            RuleFor(category => category.Description).NotEmpty().NotNull().WithMessage("Kategori açıklama alanı boş geçilemez.").WithErrorCode("2");
-            RuleFor(category => category.Description).MinimumLength(3).NotNull().WithMessage("Kategori açıklaması en az 3 karakter içermelidir.").WithErrorCode("2");
-            RuleFor(category => category.Description).Must(IsNumber).NotNull().WithMessage("Kategori açıklaması sadece sayı içermemelidir.").WithErrorCode("2");
+            RuleFor(category => category.Name).NotEmpty().WithMessage("Kategori adı boş geçilemez.").WithErrorCode("1");
+            RuleFor(category => category.Name).MinimumLength(2).WithMessage("Kategori adı en az 2 karakter içermelidir.").WithErrorCode("1");
+            RuleFor(category => category.Name).Must(IsNumber).WithMessage("Kategori adı sadece sayı içermemelidir.").WithErrorCode("1");
+
+
+            RuleFor(category => category.Description).NotEmpty().WithMessage("Kategori açıklaması boş geçilemez.").WithErrorCode("2");
+            RuleFor(category => category.Description).MinimumLength(3).WithMessage("Kategori açıklaması en az 3 karakter içermelidir.").WithErrorCode("2");
+            RuleFor(category => category.Description).Must(IsNumber).WithMessage("Kategori açıklaması sadece sayı içermemelidir.").WithErrorCode("2");
 
         }
 
        private static bool IsNumber(string description)
         {
+
+            if(description == null)
+            {
+                return true;
+            }
             foreach (var item in description)
             {
                 if (!char.IsDigit(item))

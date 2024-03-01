@@ -23,19 +23,18 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CategoryList()
+        public async Task<IActionResult> CategoryList(bool showWarning = true)
         {
             var categoryListResult = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
             var categoryList = _mapper.Map<List<ListCategoryDto>>(categoryListResult.Data);
 
-            if (categoryList.Count <= 0 || categoryList == null)
+            if ((categoryList.Count <= 0 || categoryList == null) && showWarning)
             {
-                NotifyError("Kategori Listesi Boş");
+                NotifyError(categoryListResult.Message);
             }
-            else
+            else if (showWarning)
             {
-                NotifySuccess("Kategoriler Listelendi");
-
+                NotifySuccess(categoryListResult.Message);
             }
 
             return View(categoryList);
@@ -54,21 +53,35 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             CreateCategoryValidator validations = new CreateCategoryValidator();
             var result = validations.Validate(createCategoryDto);
+
             if (result.IsValid)
             {
                 var createResult = await _categoryService.CreateCategoryAsync(createCategoryDto);
-                NotifySuccess("Kategori başarıyla oluşturuldu");
-                return RedirectToAction(nameof(CategoryList));
+                if (createResult.IsSuccess)
+                {
+                    NotifySuccess(createResult.Message);
+                }
+                else
+                {
+                    NotifyError(createResult.Message);
+
+                }
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
             }
 
-            foreach (var item in validations)
+            foreach (var item in result.Errors)
             {
+                if (item.ErrorCode == "1")
+                {
+                    ViewData["NameError"] += item.ErrorMessage + "\n";
+                }
+                else
+                {
+                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
 
+                }
             }
-
-            return View();
-
-
+            return View(createCategoryDto);
 
         }
 
@@ -96,9 +109,30 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> SoftDelete(int id)
         {
 
-            await _categoryService.SoftDeleteCategoryAsync(id);
+            var softDeleteResult = await _categoryService.SoftDeleteCategoryAsync(id);
 
-            return RedirectToAction(nameof(CategoryList));
+
+            if (softDeleteResult.IsSuccess)
+            {
+                NotifySuccess(softDeleteResult.Message);
+
+
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
+            else
+            {
+                if (softDeleteResult.Data == null)
+                {
+                    NotifyError(softDeleteResult.Message);
+
+                    return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+                }
+                NotifyError(softDeleteResult.Message);
+
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
+
+
         }
 
 
@@ -123,11 +157,22 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeletedCategoryList()
+        public async Task<IActionResult> DeletedCategoryList(bool showWarning = true)
         {
 
             var deletedCategory = await _categoryService.GetAllByExpression(x => x.Status == Status.Deleted);
             List<DeletedCategoryListDto> deletedCategoryList = _mapper.Map<List<DeletedCategoryListDto>>(deletedCategory.Data);
+
+
+            if ((deletedCategoryList.Count <= 0 || deletedCategoryList == null) && showWarning)
+            {
+                NotifyError("Silinen Kategori Listesi Boş");
+            }
+            else if (showWarning)
+            {
+                NotifySuccess("Silinen Kategoriler Listelendi");
+
+            }
             return View(deletedCategoryList);
 
         }
@@ -148,7 +193,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 categoryToAdded.Data.Status = Status.Active;
                 UpdateCategoryDto updatedToCategory = _mapper.Map<UpdateCategoryDto>(categoryToAdded.Data);
                 await _categoryService.UpdateCategoryAsync(updatedToCategory);
-                return RedirectToAction("DeletedCategoryList", "Category");
+                return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
             }
         }
 

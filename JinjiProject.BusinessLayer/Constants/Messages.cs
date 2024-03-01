@@ -51,11 +51,9 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateMaterialSuccess = "Malzeme başarıyla güncellendi.";
         public const string UpdateMaterialRepoError = "Malzeme veritabanı sebebiyle güncellenemedi.";
         public const string CreateCategoryError = "Kategori yüklenirken hata oluştu.";
-        public const string CreateCategorySuccess = "Kategori başarıyla oluşturuldu";
-        public const string CreateCategoryRepoError = "Kategori oluştururken sunucu tarafında hata oluştu.";
+       
         public const string CategoryNotFound = "Kategori bulunamadı";
         public const string CategoryFoundSuccess = "Kategori başarıyla bulundu.";
-        public const string CategoryListedSuccess = "Kategori listesi başarıyla yüklendi.";
         public const string CategoryFilteredError = "Kategori bulunamadı.";
         public const string CategoryFilteredSuccess = "Kategori başarıyla bulundu.";
         public const string CategoryDeletedSuccess = "Kategori silme işlemi başarılı.";
@@ -80,6 +78,13 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateProductSuccess = "Ürün güncelleme işlemi başarılı.";
         public const string UpdateProductRepoError = "Ürün güncellerken sunucu tarafında hata oluştu.";
 
+
+
+
+        public const string CreateCategorySuccess = "Kategori başarıyla oluşturuldu";
+        public const string CreateCategoryRepoError = "Kategori oluştururken sunucu tarafında hata oluştu.";
+        public const string CategoryListedSuccess = "Kategoriler Listelendi";
+        public const string CategoryListedEmpty= "Kategori Listesi Boş";
 
 
 
