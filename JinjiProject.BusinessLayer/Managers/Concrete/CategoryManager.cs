@@ -21,7 +21,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoryManager(ICategoryRepository CategoryRepository,IMapper mapper)
+        public CategoryManager(ICategoryRepository CategoryRepository, IMapper mapper)
         {
             _categoryRepository = CategoryRepository;
             _mapper = mapper;
@@ -53,7 +53,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(await _categoryRepository.GetByIdAsync(id));
-                return   new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
+                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
             }
 
 
@@ -121,8 +121,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
-                Category category =  await _categoryRepository.GetByIdAsync(updateCategoryDto.Id);
-                _mapper.Map(updateCategoryDto,category);
+                Category category = await _categoryRepository.GetByIdAsync(updateCategoryDto.Id);
+                _mapper.Map(updateCategoryDto, category);
                 bool result = await _categoryRepository.Update(category);
                 if (result)
                     return new SuccessDataResult<Category>(category, Messages.UpdateCategorySuccess);
@@ -133,8 +133,19 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<List<ListCategoryDto>>> GetAllByExpression(Expression<Func<Category, bool>> expression)
         {
+
             var categories = await _categoryRepository.GetAllByExpression(expression);
-            return new SuccessDataResult<List<ListCategoryDto>>(_mapper.Map<List<ListCategoryDto>>(categories), Messages.CategoryListedSuccess);
+
+            if (categories.Count() <= 0 || categories == null)
+            {
+                return new ErrorDataResult<List<ListCategoryDto>>(Messages.CategoryListedEmpty);
+
+            }
+            else
+            {
+                return new SuccessDataResult<List<ListCategoryDto>>(_mapper.Map<List<ListCategoryDto>>(categories), Messages.CategoryListedSuccess);
+
+            }
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿
-
-
-async function loadCategoryData(id) {
+﻿async function loadCategoryData(id) {
     const table = document.getElementById('kt_modal_delete_category_form');
 
     const deletebutton = document.getElementById('modal-category-delete');
@@ -27,7 +24,7 @@ async function loadCategoryData(id) {
 
 
 function getCategory(categoryid) {
-    console.log(categoryid)
+
     return $.ajax({
         url: '/Admin/Category/GetCategory',
         data: { categoryid: categoryid }
