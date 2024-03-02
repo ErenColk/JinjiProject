@@ -109,8 +109,8 @@
 
 [type="radio"] {
   &:not(:checked), &:checked {
-    position: absolute;
-    left: -9999px;
+    position:inherit;
+    left: 0;
   }
   &:not(:checked) + .form-radio-sign, &:checked + .form-radio-sign {
     position: relative;

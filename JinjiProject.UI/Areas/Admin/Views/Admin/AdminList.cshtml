@@ -1,0 +1,79 @@
+﻿@using JinjiProject.Dtos.Admins
+
+@{
+    ViewData["Title"] = "AdminList";
+}
+
+@model IEnumerable<ListAdminDto>
+
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Admin</h4>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="card-title">Admin İşlemleri</div>
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Admin Ekle
+                        </button>
+                    </div>
+
+                    <div class="card-body">                   
+                        <div class="table-responsive">
+                            <table class="table mt-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Fotoğraf</th>
+                                        <th scope="col">Adı</th>
+                                        <th scope="col">Soyadı</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Durumu</th>
+                                        <th scope="col">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td><img class="img-fluid" style="max-width: 75px; border-radius:50%;" src="@item.ImagePath" /></td>
+                                                <td>@item.FirstName</td>
+                                                <td>@item.LastName</td>
+                                                <td>@item.Email</td>
+                                                <td>@GetEnumDescription.Description(item.Status)</td>
+                                                <td class="text-end">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Seçenekler
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <li><a class="dropdown-item" href="#">Güncelle</a></li>
+                                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Admin" asp-action="SoftDelete" asp-route-id="@item.Id">Sil</a></li>
+                                                    </ul>
+                                                </div>
+                                                </td>                                               
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <a style="margin-left:10px" href="/Admin/Admin/DeletedAdminList" class="btn btn-outline-danger">Silinen Adminler</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="~/Areas/Admin/Views/Admin/_CreateAdminPartialView.cshtml" model="new CreateAdminDto()" />

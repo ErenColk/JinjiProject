@@ -82,7 +82,7 @@ namespace JinjiProject.DataAccess.EFCore.Seeds
                     continue;
                 }
 
-                await context.Roles.AddAsync(new IdentityRole(roles[i]));
+                await context.Roles.AddAsync(new IdentityRole() { Name = roles[i] ,NormalizedName = roles[i].ToUpper()});
             }
             context.SaveChanges();
         }
