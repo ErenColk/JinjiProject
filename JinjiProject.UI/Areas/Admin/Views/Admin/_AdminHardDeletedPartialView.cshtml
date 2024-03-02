@@ -1,39 +1,31 @@
 ﻿
-
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Marka Detayı</h5>
+                <h6 class="modal-title" id="exampleModalLabel">Admin veritabanından silinecektir.Veriyi Tamamen Silmek İstediğinize Emin misiniz ? </h6>
                 <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
                     X
                 </button>
 
             </div>
             <div class="modal-body">
-                <table id="kt_modal_detail_brand_form">
+                <table id="kt_modal_delete_admin_form">
                     <tbody>
                         <tr>
-                            <td><strong>Marka Adı : </strong></td>
+                            <td><strong>Adı Soyadı : </strong></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td><strong>Açıklama : </strong></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Oluşturulma Tarihi : </strong></td>
-                            <td></td>
-                        </tr> 
-                        <tr>
-                            <td><strong>Güncellenme Tarihi : </strong></td>
+                            <td><strong>Email Adresi : </strong></td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>                
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
+                <a type="button" href="/Admin/Admin/HardDelete/" class="btn btn-outline-danger" id="modal-admin-delete">Sil</a>
             </div>
         </div>
     </div>
@@ -41,7 +33,7 @@
 
 
 <style>
-    #kt_modal_detail_brand_form td {
+    #kt_modal_delete_admin_form td {
         max-width: 350px; /* Hücrenin maksimum genişliği */
         word-wrap: break-word; /* Uzun içeriği otomatik olarak satıra sığdırır */
         padding: 5px; /* Yatay ve dikey iç boşluk */

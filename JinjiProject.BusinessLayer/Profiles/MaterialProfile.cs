@@ -22,6 +22,7 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<GetMaterialDto, UpdateMaterialDto>().ReverseMap();
             CreateMap<ListMaterialDto, DeletedMaterialListDto>().ReverseMap();
             CreateMap<UpdateMaterialDto, GetMaterialDto>().ReverseMap();
+            CreateMap<DetailMaterialDto, GetMaterialDto>().ReverseMap();
         }
     }
 }
