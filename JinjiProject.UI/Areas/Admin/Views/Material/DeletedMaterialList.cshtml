@@ -37,14 +37,14 @@
                                             <td>@GetEnumDescription.Description(item.Status)</td>
                                             <td>@item.DeletedDate</td>
                                             <td>
-                                                <div class="d-grid">
-                                                    <a href="/Admin/Material/AddAgainMaterial/@item.Id" class="btn btn-outline-success">Tekrar Ekle</a>
-                                                </div>
-                                                <div class="d-grid mt-1">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadMaterialData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
-                                                        Veriyi Sil
-                                                    </button>
-                                                </div>
+                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                    Seçenekler
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                    <a class="dropdown-item text-success " href="/Admin/Material/AddAgainMaterial/@item.Id">Tekrar Ekle</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" onclick="loadMaterialData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">Veriyi Sil</a>
+                                                </ul>
                                             </td>
                                         </tr>
                                     }
