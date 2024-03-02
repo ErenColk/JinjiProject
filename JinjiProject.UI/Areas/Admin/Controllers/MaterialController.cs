@@ -2,6 +2,7 @@
 using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Materials;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,7 +73,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> HardDelete(int id)
         {
 
-            await _materialService.SoftDeleteMaterialAsync(id);
+            await _materialService.HardDeleteMaterialAsync(id);
 
             return RedirectToAction(nameof(MaterialList));
         }
@@ -105,6 +106,25 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 await _materialService.UpdateMaterialAsync(updatedToMaterial);
                 return RedirectToAction("MaterialList", "Material");
             }
+        }
+
+        [HttpGet]
+        public async Task<DetailMaterialDto> GetDetailMaterial(int materialid)
+        {
+
+            var material = await _materialService.GetMaterialById(materialid);
+            var materialResult = _mapper.Map<DetailMaterialDto>(material.Data);
+
+            return materialResult;
+        }
+
+        [HttpGet]
+        public async Task<GetMaterialDto> GetMaterial(int materialid)
+        {
+
+            var materialResult = await _materialService.GetMaterialById(materialid);
+
+            return materialResult.Data;
         }
     }
 }

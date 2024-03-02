@@ -4,6 +4,7 @@ using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.BusinessLayer.Validator.CategoryValidations;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
+using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.UI.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -152,7 +153,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<DetailCategoryDto> GetDetailCategory(int categoryid)
+        {
 
+            var category = await _categoryService.GetCategoryById(categoryid);
+            var categoryResult = _mapper.Map<DetailCategoryDto>(category.Data);
+
+            return categoryResult;
+        }
 
 
 
