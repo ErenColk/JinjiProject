@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JinjiProject.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,6 @@ namespace JinjiProject.Dtos.Products
         public int Stock { get; set; }
         public string ImagePath { get; set; }
         public int? Capacity { get; set; }
+        public Status Status{ get; set; }
     }
 }
