@@ -17,10 +17,14 @@
                 <div class="form-group">
                     <label for="kategori">Kategori</label>
                     <input type="text" asp-for="Name" class="form-control" id="kategori" placeholder="Kategori Adı Giriniz...">
+                    <span class="text-danger">@ViewData["NameError"]</span>
+
                 </div>
                 <div class="form-group">
                     <label for="kategori">Açıklama</label>
                     <input type="text" asp-for="Description" class="form-control" id="kategori" placeholder="Açıklamayı Giriniz...">
+                    <span class="text-danger">@ViewData["DescriptionError"]</span>
+
                 </div>
             </div>
             <div class="card-action" style="display:flex; ">

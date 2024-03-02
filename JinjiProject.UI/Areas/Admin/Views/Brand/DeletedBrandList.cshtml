@@ -41,8 +41,9 @@
                                                     <a href="/Admin/Brand/AddAgainBrand/@item.Id" class="btn btn-outline-success">Tekrar Ekle</a>
                                                 </div>
                                                 <div class="d-grid mt-1">
-                                                    <a href="/Admin/Brand/DeleteBrand/@item.Id" class="btn btn-outline-danger">Veriyi Sil</a>
-
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadBrandData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
+                                                        Veriyi Sil
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -59,7 +60,8 @@
     </div>
 </div>
 
-
+<partial name="~/Areas/Admin/Views/Brand/_BrandHardDeletedPartialView.cshtml" />
+<script src="~/js/delete-brand.js"></script>
 
 
 

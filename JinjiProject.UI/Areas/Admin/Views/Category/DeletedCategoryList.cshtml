@@ -11,10 +11,10 @@
     <div class="container-fluid">
         <h4 class="page-title">SİLİNEN KATEGORİLER </h4>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Kategori İşlemleri</div>
+                        <div class="card-title">Silinen Kategori İşlemleri</div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -31,22 +31,25 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
+                                   
+                                        <tr class="dropdown-row">
                                             <td>@item.Id</td>
                                             <td>@item.Name</td>
                                             <td>@GetEnumDescription.Description(item.Status)</td>
                                             <td>@item.DeletedDate</td>
                                             <td>
-                                                <div class="d-grid">
-                                                    <a href="/Admin/Category/AddAgainCategory/@item.Id" class="btn btn-outline-success btn-sm">Tekrar Ekle</a>
-                                                </div>
-                                                <div class="d-grid mt-1">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
-                                                        Veriyi Sil
-                                                    </button>
-                                                </div>
+                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                    Seçenekler
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                    <a class="dropdown-item text-success " href="/Admin/Category/AddAgainCategory/@item.Id">Tekrar Ekle</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" onclick="loadCategoryHardDeleteData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#hardDeleteModal" data-id="@item.Id">Veriyi Sil</a>
+                                                </ul>
                                             </td>
                                         </tr>
+
+
                                     }
                                 </tbody>
                             </table>
@@ -61,5 +64,10 @@
 </div>
 
 <partial name="~/Areas/Admin/Views/Category/_CategoryHardDeletedPartialView.cshtml" />
-<script src="~/js/delete-category.js"></script>
 
+<style>
+    .dropdown-item:hover {
+      
+        cursor: pointer;
+    }
+</style>
