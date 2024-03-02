@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace JinjiProject.Dtos.Products
         public int Price { get; set; }
         public int Stock { get; set; }
         public string ImagePath { get; set; }
+        public IFormFile UploadPath { get; set; }
+
         public int? Capacity { get; set; }
     }
 }
