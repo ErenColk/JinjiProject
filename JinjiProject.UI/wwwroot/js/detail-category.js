@@ -1,12 +1,10 @@
-﻿async function loadCategoryHardDeleteData(id) {
-    const table = document.getElementById('kt_modal_delete_category_form');
+﻿
+async function loadCategoryDetailsData(id) {
+    //TABLE NULL GELİYOR ONU DÜZELT
 
-    const deletebutton = document.getElementById('modal-category-delete');
-    await deletebutton.setAttribute('href', '');
-    await deletebutton.setAttribute('href', '/Admin/Category/HardDelete/' + id);
-
-
-    const rows = table.getElementsByTagName('tr');
+    const table = await document.getElementById('kt_modal_details_category_form');
+    console.log(table)
+    const rows = await table.getElementsByTagName('tr');
 
     const categoryNameRow = rows[0];
     const categoryDescriptionRow = rows[1];
@@ -19,7 +17,6 @@
     categoryNameCell.textContent = category.name;
     categoryDescriptionCell.textContent = category.description;
 }
-
 
 function getCategory(categoryid) {
 

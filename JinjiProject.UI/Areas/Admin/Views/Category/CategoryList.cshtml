@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <h4 class="page-title">KATEGORİ</h4>
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Kategori İşlemleri</div>
@@ -39,8 +39,9 @@
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                                                         <a class="dropdown-item " href="/Admin/Category/UpdateCategory/@item.Id">Güncelle</a>
-                                                        <a class="dropdown-item " href="/Admin/Category/DetailCategory/@item.Id">Detaylar</a>
-                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item text-danger" onclick="loadCategoryDetailsData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#detailsModal" data-id="@item.Id">Detaylar</a>
+@*                                                         <a class="dropdown-item " href="/Admin/Category/DetailCategory/@item.Id">Detaylar</a>
+ *@                                                        <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item text-danger" href="/Admin/Category/SoftDelete/@item.Id">Sil</a>
                                                     </ul>
                                                 </td>

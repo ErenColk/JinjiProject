@@ -53,7 +53,11 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(await _categoryRepository.GetByIdAsync(id));
-                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
+                if (getCategoryDto == null)
+                {
+					return new ErrorDataResult<GetCategoryDto>(Messages.CategoryNotFound);
+				}
+				return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
             }
 
 

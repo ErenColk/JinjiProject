@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <h4 class="page-title">SİLİNEN KATEGORİLER </h4>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Silinen Kategori İşlemleri</div>
@@ -44,7 +44,7 @@
                                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                                                     <a class="dropdown-item text-success " href="/Admin/Category/AddAgainCategory/@item.Id">Tekrar Ekle</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-danger" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">Veriyi Sil</a>
+                                                    <a class="dropdown-item text-danger" onclick="loadCategoryHardDeleteData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#hardDeleteModal" data-id="@item.Id">Veriyi Sil</a>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -64,7 +64,6 @@
 </div>
 
 <partial name="~/Areas/Admin/Views/Category/_CategoryHardDeletedPartialView.cshtml" />
-<script src="~/js/delete-category.js"></script>
 
 <style>
     .dropdown-item:hover {
