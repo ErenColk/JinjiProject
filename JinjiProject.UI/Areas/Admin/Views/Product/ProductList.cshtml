@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "ProductList";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<ListProductDto>
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">ÜRÜNLER</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Ürün İşlemleri</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mt-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Ürün Fotoğrafı</th>
+                                        <th scope="col">Ürün Adı</th>
+                                        <th scope="col">Renk</th>
+                                        <th scope="col">Fiyat</th>
+                                        <th scope="col">Stok Durumu</th>
+                                        <th scope="col">Hacmi</th>
+                                        <th scope="col">Eklenme Tarihi</th>
+                                        <th scope="col">Durumu</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="dropdown-row">
+                                                <td>@item.Id</td>
+                                                <td>@item.ImagePath</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Color</td>
+                                                <td>@item.Price</td>
+                                                <td>@item.Stock</td>
+                                                <td>@item.Capacity</td>
+                                                <td>@item.CreatedDate</td>
+                                                <td>@GetEnumDescription.Description(item.Status)</td>
+                                                <td>
+                                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                        Seçenekler
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                        <a class="dropdown-item " href="/Admin/Product/UpdateProduct/@item.Id">Güncelle</a>
+                                                        <a class="dropdown-item " href="/Admin/Product/DetailProduct/@item.Id">Detaylar</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item text-danger" href="/Admin/Product/SoftDelete/@item.Id">Sil</a>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <a href="/Admin/Product/CreateProduct" class="btn btn-outline-primary">Yeni Ürün Girişi </a>
+                            <a style="margin-left:10px" href="/Admin/Product/DeletedProductList" class="btn btn-outline-danger">Silinen Ürünler</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
