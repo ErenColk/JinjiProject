@@ -4,6 +4,7 @@ using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
 using JinjiProject.Core.Utilities.Results.Concrete;
+using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Admins;
 using JinjiProject.Dtos.Categories;
@@ -158,6 +159,22 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 List<ListProductDto> listProductDto = _mapper.Map<List<ListProductDto>>(products);
                 return new SuccessDataResult<List<ListProductDto>>(listProductDto, Messages.ProductFilteredSuccess);
             }
+        }
+
+        public async Task<DataResult<List<ListProductDto>>> GetAllByExpression(Expression<Func<Product, bool>> expression)
+        {
+            var products = await _productRepository.GetAllByExpression(expression);
+
+            if (products.Count() <= 0 || products == null)
+            {
+                return new ErrorDataResult<List<ListProductDto>>(Messages.ProductListedEmpty);
+            }
+            else
+            {
+                return new SuccessDataResult<List<ListProductDto>>(_mapper.Map<List<ListProductDto>>(products), Messages.ProductListedSuccess);
+
+            }
+
         }
     }
 }

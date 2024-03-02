@@ -17,9 +17,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Malzeme Adı</th>
                                     <th scope="col">Durumu</th>
-                                    <th scope="col">Güncelle</th>
-                                    <th scope="col">Detaylar</th>
-                                    <th scope="col">Sil</th>
+                                    <th scope="col">İşlem</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,21 +34,15 @@
                                             <td>@item.Name</td>
                                             <td>@GetEnumDescription.Description(item.Status)</td>
                                             <td>
-                                                <div class="d-grid">
-                                                    <a href="/Admin/Material/UpdateMaterial/@item.Id" class="btn btn-outline-success btn-sm">Güncelle</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-grid">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadMaterialData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
-                                                        Detaylar
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-grid">
-                                                    <a href="/Admin/Material/SoftDelete/@item.Id" class="btn btn-outline-danger">Sil</a>
-                                                </div>
+                                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                    Seçenekler
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                    <a class="dropdown-item" href="/Admin/Material/UpdateMaterial/@item.Id">Güncelle</a>
+                                                    <a class="dropdown-item text-success" onclick="loadMaterialData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">Detaylar</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item text-danger" href="/Admin/Material/SoftDelete/@item.Id">Sil</a>
+                                                </ul>
                                             </td>
                                         </tr>
                                     }

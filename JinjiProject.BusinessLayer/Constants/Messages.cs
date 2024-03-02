@@ -67,7 +67,6 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string CreateProductRepoError = "Ürün oluştururken sunucu tarafında hata oluştu.";
         public const string ProductNotFound = "Ürün bulunamadı";
         public const string ProductFoundSuccess = "Ürün başarıyla bulundu.";
-        public const string ProductListedSuccess = "Ürün listesi başarıyla yüklendi.";
         public const string ProductFilteredError = "Ürün bulunamadı.";
         public const string ProductFilteredSuccess = "Ürün başarıyla bulundu.";
         public const string ProductDeletedSuccess = "Ürün silme işlemi başarılı.";
@@ -77,6 +76,8 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateProductRepoError = "Ürün güncellerken sunucu tarafında hata oluştu.";
 
 
+        public const string ProductListedEmpty = "Ürün Listesi Boş";
+        public const string ProductListedSuccess = "Ürün listesi başarıyla yüklendi.";
 
 
         public const string CreateCategorySuccess = "Kategori başarıyla oluşturuldu";

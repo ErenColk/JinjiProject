@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JinjiProject.Dtos.Products
 {
-    public class ListProductDto
+    public class DeletedProductListDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -18,8 +18,6 @@ namespace JinjiProject.Dtos.Products
         public string ImagePath { get; set; }
         public int? Capacity { get; set; }
         public DateTime DeletedDate { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
         public Status Status { get; set; }
     }
 }
