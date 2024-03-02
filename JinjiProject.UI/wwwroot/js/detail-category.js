@@ -1,3 +1,4 @@
+
 ﻿async function loadCategoryData(id) {
     const table = document.getElementById('kt_modal_detail_category_form');
 
@@ -15,10 +16,12 @@
     const categoryCreatedDateCell = categoryCreatedDateRow.cells[1];
     const categoryModifiedDateCell = categoryModifiedDateRow.cells[1];
 
+
     const category = await getCategory(id);
 
     categoryNameCell.textContent = category.name;
     categoryDescriptionCell.textContent = category.description;
+
     categoryCreatedDateCell.textContent = new Date(category.createdDate).toLocaleDateString();
 
     categoryModifiedDate = await new Date(category.modifiedDate).getFullYear();

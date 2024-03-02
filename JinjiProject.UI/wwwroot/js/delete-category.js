@@ -1,15 +1,10 @@
-﻿
-
-
-async function loadCategoryData(id) {
+﻿async function loadCategoryHardDeleteData(id) {
     const table = document.getElementById('kt_modal_delete_category_form');
 
     const deletebutton = document.getElementById('modal-category-delete');
     await deletebutton.setAttribute('href', '');
     await deletebutton.setAttribute('href', '/Admin/Category/HardDelete/' + id);
 
-    const deletebuttonhref2 = deletebutton.getAttribute('href');
-    console.log(deletebuttonhref2)
 
     const rows = table.getElementsByTagName('tr');
 
@@ -27,7 +22,7 @@ async function loadCategoryData(id) {
 
 
 function getCategory(categoryid) {
-    console.log(categoryid)
+
     return $.ajax({
         url: '/Admin/Category/GetCategory',
         data: { categoryid: categoryid }
