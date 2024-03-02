@@ -72,7 +72,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		public async Task<IActionResult> HardDelete(int id)
 		{
 
-			await _brandService.SoftDeleteBrandAsync(id);
+			await _brandService.HardDeleteBrandAsync(id);
 
 			return RedirectToAction(nameof(BrandList));
 		}
@@ -108,13 +108,22 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		}
 
         [HttpGet]
-        public async Task<DetailBrandDto> GetBrand(int brandid)
+        public async Task<DetailBrandDto> GetDetailBrand(int brandid)
         {
 
             var brand = await _brandService.GetBrandById(brandid);
 			var brandResult = _mapper.Map<DetailBrandDto>(brand.Data);
 
             return brandResult;
+        }
+
+        [HttpGet]
+        public async Task<GetBrandDto> GetBrand(int brandid)
+        {
+
+            var brandResult = await _brandService.GetBrandById(brandid);
+
+            return brandResult.Data;
         }
 
     }

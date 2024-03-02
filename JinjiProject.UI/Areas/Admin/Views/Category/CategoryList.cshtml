@@ -34,16 +34,23 @@
                                                 <td>@item.Name</td>
                                                 <td>@GetEnumDescription.Description(item.Status)</td>
                                                 <td>
-                                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                                        Seçenekler
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                                                        <a class="dropdown-item " href="/Admin/Category/UpdateCategory/@item.Id">Güncelle</a>
-                                                        <a class="dropdown-item text-danger" onclick="loadCategoryDetailsData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#detailsModal" data-id="@item.Id">Detaylar</a>
-@*                                                         <a class="dropdown-item " href="/Admin/Category/DetailCategory/@item.Id">Detaylar</a>
- *@                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item text-danger" href="/Admin/Category/SoftDelete/@item.Id">Sil</a>
-                                                    </ul>
+
+                                                    <div class="d-grid">
+                                                        <a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-outline-success btn-sm">Güncelle</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-grid">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">
+                                                            Detaylar
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-grid">
+                                                        <a href="/Admin/Category/SoftDelete/@item.Id" class="btn btn-outline-danger">Sil</a>
+                                                    </div>
+
                                                 </td>
                                             </tr>
 
@@ -59,3 +66,10 @@
             </div>
         </div>
     </div>
+
+</div>
+
+    <partial name="~/Areas/Admin/Views/Category/_CategoryDetailPartialView.cshtml" />
+    <script src="~/js/detail-category.js"></script>
+
+
