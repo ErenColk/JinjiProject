@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <h4 class="page-title">Admin</h4>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="card-title">Admin İşlemleri</div>
@@ -19,8 +19,17 @@
                             Admin Ekle
                         </button>
                     </div>
-
-                    <div class="card-body">                   
+                    @{
+                        if (ViewBag.Errors != null)
+                        {
+                            <div class="bg-danger text-white">
+                                <ul>
+                                    @Html.Raw(ViewBag.Errors)
+                                </ul>
+                            </div>
+                        }
+                    }
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table mt-4">
                                 <thead>
@@ -51,16 +60,16 @@
                                                 <td>@item.Email</td>
                                                 <td>@GetEnumDescription.Description(item.Status)</td>
                                                 <td class="text-end">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Seçenekler
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <li><a class="dropdown-item" href="#">Güncelle</a></li>
-                                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Admin" asp-action="SoftDelete" asp-route-id="@item.Id">Sil</a></li>
-                                                    </ul>
-                                                </div>
-                                                </td>                                               
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Seçenekler
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Admin" asp-action="UpdateAdmin" asp-route-id="@item.Id">Güncelle</a></li>
+                                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Admin" asp-action="SoftDelete" asp-route-id="@item.Id">Sil</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         }
                                     }

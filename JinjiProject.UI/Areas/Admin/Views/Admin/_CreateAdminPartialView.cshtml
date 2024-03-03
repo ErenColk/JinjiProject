@@ -2,6 +2,40 @@
 @using JinjiProject.Dtos.Admins
 
 @model CreateAdminDto
+<style>
+    /* Modal boyutunu ayarla */
+    .modal-dialog {
+        max-width: 800px; /* İstediğiniz genişliği ayarlayabilirsiniz */
+    }
+
+    /* Form yapısını düzenle */
+    .modal-body {
+        padding: 20px;
+    }
+
+    /* Form inputlarına stil ekle */
+    .form-control {
+        margin-bottom: 15px;
+    }
+
+    /* Radio butonlarını yan yana sırala */
+    .form-radio-inline {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    /* Radio butonlarını düzenle */
+    .form-radio-input {
+        position: relative;
+        left: 0;
+    }
+
+    /* Radio buton label'larını düzenle */
+    .form-radio-label {
+        margin-left: 5px;
+    }
+
+</style>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -13,45 +47,50 @@
 
             </div>
             <div class="modal-body">
-                <form asp-area="Admin" asp-controller="Admin" asp-action="CreateAdmin" method="post" enctype="multipart/form-data">
+                 <form asp-area="Admin" asp-controller="Admin" asp-action="CreateAdmin" method="post" enctype="multipart/form-data">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="marka">Ad</label>
-                            <input asp-for="FirstName" type="text" class="form-control" placeholder="Adınızı Giriniz...">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="marka">Ad</label>
+                                <input asp-for="FirstName" type="text" class="form-control" placeholder="Adınızı Giriniz...">
+                            </div>
+                           <div class="col-lg-6">
+                                <label for="soyad">Soyad</label>
+                                <input asp-for="LastName" type="text" class="form-control" id="soyad" placeholder="Soyadınızı Giriniz...">
+                           </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="soyad">Soyad</label>
-                            <input asp-for="LastName" type="text" class="form-control" id="soyad" placeholder="Soyadınızı Giriniz...">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label asp-for="BirthDate">Doğum Tarihi</label>
+                                <input asp-for="BirthDate" type="date" class="form-control">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="email">Email</label>
+                                <input asp-for="Email" type="text" class="form-control" id="email" placeholder="Email Giriniz...">
+                            </div>
+                            
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="BirthDate">Doğum Tarihi</label>
-                            <input asp-for="BirthDate" type="date" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input asp-for="Email" type="text" class="form-control" id="email" placeholder="Email Giriniz...">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="foto">Fotoğraf</label>
-                            <input asp-for="UploadPath" type="file" class="form-control" id="foto">
-                        </div>
-
-                        <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="foto">Fotoğraf</label>
+                                <input asp-for="UploadPath" type="file" class="form-control" id="foto">
+                            </div>
+                            <div class="col-lg-6">
                                 <label>Cinsiyet</label>
-                            <div class=" form-group row ">
-                                <div class="form-radio-inline">
-                                    <input asp-for="Gender" type="radio" class="form-radio-input" id="erkek" name="gender" value="@Gender.Man" style="left: 0; position:relative;">
-                                    <label class="form-radio-label" for="erkek">Erkek</label>
+                                <div class=" form-group row ">
+                                    <div class="form-radio-inline">
+                                        <input asp-for="Gender" type="radio" class="form-radio-input" id="erkek" name="gender" value="@Gender.Man" style="left: 0; position:relative;">
+                                        <label class="form-radio-label" for="erkek">Erkek</label>
+                                    </div>
+                                    <div class="form-radio form-radio-inline">
+                                        <input asp-for="Gender" type="radio" class="form-radio-input" id="kadin" name="gender" value="@Gender.Woman" style="left: 0; position:relative;">
+                                        <label class="form-radio-label" for="kadin">Kadın</label>
+                                    </div>
                                 </div>
-                                <div class="form-radio form-radio-inline">
-                                    <input asp-for="Gender" type="radio" class="form-radio-input" id="kadin" name="gender" value="@Gender.Woman" style="left: 0; position:relative;">
-                                    <label class="form-radio-label" for="kadin">Kadın</label>
-                                </div>
-                            </div>                         
+                            </div>
+                            
                         </div>
 
                     </div>
@@ -59,8 +98,7 @@
                         <button type="submit" class="btn btn-success">Ekle</button>
                         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
                     </div>
-                </form>
-
+                </form>               
             </div>
         </div>
     </div>
