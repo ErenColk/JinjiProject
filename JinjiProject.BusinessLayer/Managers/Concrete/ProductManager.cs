@@ -140,12 +140,22 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
-                Product Product = _mapper.Map<Product>(updateProductDto);
-                bool result = await _productRepository.Update(Product);
+                Product product = await _productRepository.GetByIdAsync(updateProductDto.Id);
+
+                if (updateProductDto.UploadPath != null)
+                {
+                    using var image = Image.Load(updateProductDto.UploadPath.OpenReadStream());
+                    Guid guid = Guid.NewGuid();
+                    image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}");
+                    updateProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}";
+                }
+
+                product = _mapper.Map(updateProductDto, product);
+                bool result = await _productRepository.Update(product);
                 if (result)
-                    return new SuccessDataResult<Product>(Product, Messages.UpdateProductSuccess);
+                    return new SuccessDataResult<Product>(product, Messages.UpdateProductSuccess);
                 else
-                    return new ErrorDataResult<Product>(Product, Messages.UpdateProductRepoError);
+                    return new ErrorDataResult<Product>(product, Messages.UpdateProductRepoError);
             }
         }
 
