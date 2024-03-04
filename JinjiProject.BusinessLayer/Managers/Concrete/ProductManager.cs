@@ -53,7 +53,9 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}");
                     createProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}";
                 }
+
                 Product Product = _mapper.Map<Product>(createProductDto);
+
                 bool result = await _productRepository.Create(Product);
                 if (result)
                     return new SuccessDataResult<Product>(Product, Messages.CreateProductSuccess);
