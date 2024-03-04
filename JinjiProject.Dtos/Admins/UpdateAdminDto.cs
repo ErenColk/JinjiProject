@@ -17,6 +17,7 @@ namespace JinjiProject.Dtos.Admins
         public string? ImagePath { get; set; }
         public string Email { get; set; }
         public Gender Gender { get; set; }
+        public Status Status { get; set; }
         public IFormFile UploadPath { get; set; }
     }
 }

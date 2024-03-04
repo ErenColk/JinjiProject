@@ -78,16 +78,16 @@
                                 <input asp-for="UploadPath" type="file" class="form-control" id="foto">
                             </div>
                             <div class="col-lg-6">
-                                <label>Cinsiyet</label>
-                                <div class=" form-group row ">
-                                    <div class="form-radio-inline">
-                                        <input asp-for="Gender" type="radio" class="form-radio-input" id="erkek" name="gender" value="@Gender.Man" style="left: 0; position:relative;">
-                                        <label class="form-radio-label" for="erkek">Erkek</label>
-                                    </div>
-                                    <div class="form-radio form-radio-inline">
-                                        <input asp-for="Gender" type="radio" class="form-radio-input" id="kadin" name="gender" value="@Gender.Woman" style="left: 0; position:relative;">
-                                        <label class="form-radio-label" for="kadin">Kadın</label>
-                                    </div>
+                                <div class="form-check">
+                                    <label>Cinsiyet</label><br />
+                                    <label class="form-radio-label">
+                                        <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Man">
+                                        <span class="form-radio-sign">Erkek</span>
+                                    </label>
+                                    <label class="form-radio-label ml-3">
+                                        <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Woman">
+                                        <span class="form-radio-sign">Kadın</span>
+                                    </label>
                                 </div>
                             </div>
                             
@@ -95,7 +95,7 @@
 
                     </div>
                     <div class="card-action row justify-content-end">
-                        <button type="submit" class="btn btn-success">Ekle</button>
+                        <button type="submit" class="btn btn-success" style="margin-right:10px">Ekle</button>
                         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
                     </div>
                 </form>               

@@ -17,11 +17,13 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
     {
         private readonly IAdminService adminService;
         private readonly IMapper mapper;
+        private readonly UserManager<AppUser> userManager;
 
-        public AdminController(IAdminService adminService,IMapper mapper)
+        public AdminController(IAdminService adminService,IMapper mapper,UserManager<AppUser> userManager)
         {
             this.adminService = adminService;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
         [HttpGet]
         public async Task<IActionResult> AdminList()
@@ -97,6 +99,30 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             {
                 UpdateAdminDto updateAdmin = mapper.Map<UpdateAdminDto>(updateAdminResult.Data);
                 NotifyError(updateAdminResult.Message);
+                return RedirectToAction(nameof(AdminList));
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddAgainAdmin(int id)
+        {
+            var adminToAdded = await adminService.GetAdminById(id);
+
+            if (adminToAdded.Data == null)
+            {
+                NotifyError(adminToAdded.Message);
+                return RedirectToAction(nameof(AdminList));
+            }
+            else
+            {
+
+                adminToAdded.Data.Status = Status.Active;
+                UpdateAdminDto updatedToAdmin = mapper.Map<UpdateAdminDto>(adminToAdded.Data);
+
+                var adminToUpdated = await adminService.UpdateAdminAsync(updatedToAdmin,true);
+
+                NotifySuccess("Admin yeniden eklendi.");
+
                 return RedirectToAction(nameof(AdminList));
             }
         }

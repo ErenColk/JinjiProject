@@ -6,65 +6,100 @@
 }
 @model UpdateAdminDto
 
-<div class="col-md-8" style="margin-top:80px">
+<div class="col-md-12" style="margin-top:80px">
     <div class="card">
         <div class="card-header">
             <div class="card-title">Admin Güncelleme İşlemleri</div>
         </div>
         <form asp-area="Admin" asp-controller="Admin" asp-action="UpdateAdmin" method="post" enctype="multipart/form-data">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label for="marka">Ad</label>
-                        <input asp-for="FirstName" type="text" class="form-control" placeholder="Adınızı Giriniz...">
-                        <span class="text-danger">@ViewData["FirstName"]</span>
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="soyad">Soyad</label>
-                        <input asp-for="LastName" type="text" class="form-control" id="soyad" placeholder="Soyadınızı Giriniz...">
-                        <span class="text-danger">@ViewData["LastName"]</span>
-                    </div>
-                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
 
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label asp-for="BirthDate">Doğum Tarihi</label>
-                        <input asp-for="BirthDate" type="date" class="form-control">
-                        <span class="text-danger">@ViewData["BirthDate"]</span>
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="email">Email</label>
-                        <input asp-for="Email" type="text" class="form-control" id="email" placeholder="Email Giriniz...">
-                        <span class="text-danger">@ViewData["Email"]</span>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label for="foto">Fotoğraf</label>
-                        <input asp-for="UploadPath" type="file" class="form-control" id="foto">
-                        <span class="text-danger">@ViewData["UploadPath"]</span>
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Cinsiyet</label>
-                        <div class=" form-group row ">
-                            <div class="form-radio-inline">
-                                <input asp-for="Gender" type="radio" class="form-radio-input" id="erkek" name="gender" value="@Gender.Man" style="left: 0; position:relative;">
-                                <label class="form-radio-label" for="erkek">Erkek</label>
-                            </div>
-                            <div class="form-radio form-radio-inline">
-                                <input asp-for="Gender" type="radio" class="form-radio-input" id="kadin" name="gender" value="@Gender.Woman" style="left: 0; position:relative;">
-                                <label class="form-radio-label" for="kadin">Kadın</label>
-                            </div>
-                            <span class="text-danger">@ViewData["Gender"]</span>
+                            <label for="marka">Ad</label>
+                            <input asp-for="FirstName" type="text" class="form-control" placeholder="Adınızı Giriniz.">
+                            <span class="form-text text-muted">@ViewData["FirstName"]</span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="soyad">Soyad</label>
+                            <input asp-for="LastName" type="text" class="form-control" id="soyad" placeholder="Soyadınızı Giriniz.">
+                            <span class="form-text text-muted">@ViewData["LastName"]</span>
                         </div>
                     </div>
-
                 </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label asp-for="BirthDate">Doğum Tarihi</label>
+                            <input asp-for="BirthDate" type="date" class="form-control">
+                            <span class="text-danger">@ViewData["BirthDate"]</span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="email">Email</label>
+                            <input asp-for="Email" type="text" class="form-control" id="email" placeholder="Email Giriniz...">
+                            <span class="text-danger">@ViewData["Email"]</span>
+                        </div>
+
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Eski Fotoğraf</label>
+                                    <img class="img-fluid form-control" style="max-width: 100px; border-radius:50%; border-style:none;" src="@Model.ImagePath" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="foto">Yeni Fotoğraf</label>
+                                    <input asp-for="UploadPath" type="file" class="form-control" id="foto">
+                                    <span class="text-danger">@ViewData["UploadPath"]</span>
+                                </div>
+                            </div>                     
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-check">
+                                <label>Cinsiyet</label><br />
+                                <label class="form-radio-label">
+                                    @{
+                                        if(Model.Gender == Gender.Man)
+                                        {
+                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Man" checked>
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Man">
+                                        }
+                                    }
+                                    <span class="form-radio-sign">Erkek</span>
+                                </label>
+                                <label class="form-radio-label ml-3">
+                                    @{
+                                        if (Model.Gender == Gender.Woman)
+                                        {
+                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Woman" checked>
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Woman">
+                                        }
+                                    }
+                                   
+                                    <span class="form-radio-sign">Kadın</span>
+                                </label>                              
+                                <span class="text-danger">@ViewData["Gender"]</span>
+                            </div>
+                        </div>
+                        <input asp-for="Status" hidden/>
+                    </div>
+                </div>
+               
 
             </div>
             <div class="card-action row justify-content-end">
+                <a class="btn btn-danger" href="/Admin/Admin/AdminList" style="margin-right:10px">Geri Dön</a>
                 <button type="submit" class="btn btn-success">Güncelle</button>
             </div>
         </form>

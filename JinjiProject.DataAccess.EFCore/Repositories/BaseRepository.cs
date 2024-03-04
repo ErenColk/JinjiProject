@@ -41,7 +41,8 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
 
         public async Task<IEnumerable<T>> GetAllByExpression(Expression<Func<T, bool>> expression)
         {
-            return await _table.Where(expression).ToListAsync();
+            var admins = await _table.Where(expression).ToListAsync();
+            return admins;
         }
 
         public async Task<T> GetByIdAsync(int id)

@@ -14,7 +14,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
     public interface IAdminService
     {
         public Task<DataResult<Admin>> CreateAdminAsync(CreateAdminDto createAdminDto);
-        public Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto);
+        public Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto,bool addAgain = false);
         public Task<DataResult<Admin>> SoftDeleteAdminAsync(int id);
         public Task<DataResult<Admin>> HardDeleteAdminAsync(int id);
         public Task<DataResult<List<ListAdminDto>>> GetAllAdmin();
