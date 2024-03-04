@@ -6,9 +6,12 @@ using JinjiProject.Core.Enums;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.DataAccess.Interface.Repositories;
+using JinjiProject.Dtos.Admins;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Products;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +46,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
+                if (createProductDto.UploadPath != null)
+                {
+                    using var image = Image.Load(createProductDto.UploadPath.OpenReadStream());
+                    Guid guid = Guid.NewGuid();
+                    image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}");
+                    createProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}";
+                }
                 Product Product = _mapper.Map<Product>(createProductDto);
                 bool result = await _productRepository.Create(Product);
                 if (result)
