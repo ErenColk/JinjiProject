@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using JinjiProject.BusinessLayer.Helpers.SelectItemProducts;
 using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.BusinessLayer.Validator.ProductValidations;
+using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Products;
 using JinjiProject.UI.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
@@ -13,11 +16,17 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
     {
 
         private readonly IProductService _productService;
+        private readonly IBrandService _brandService;
+        private readonly ICategoryService _categoryService;
+        private readonly IMaterialService _materialService;
         private readonly IMapper _mapper;
 
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService,IBrandService brandService,ICategoryService categoryService,IMaterialService materialService, IMapper mapper)
         {
-            _productService = productService;
+             _productService = productService;
+            _brandService = brandService;
+            _categoryService = categoryService;
+            _materialService = materialService;
             _mapper = mapper;
         }
 
@@ -38,6 +47,24 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             return View(productList);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> CreateProduct()
+        {
+
+            var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
+          
+
+            ViewBag.Brands  = await BrandItems.GetBrands(listBrandDto.Data);
+            ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+            ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
+            ViewBag.Size = await SizeItems.GetSize();
+            return View();
+        }
+  
 
 
         [HttpPost]

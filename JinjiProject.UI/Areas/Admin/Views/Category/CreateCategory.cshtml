@@ -9,20 +9,20 @@
 <div class="col-md-8" style="margin-top:80px">
     <div class="card">
         <div class="card-header">
-            <div class="card-title">Kategori Ekleme İşlemleri</div>
+            <div class="card-title">Ürün Ekleme İşlemleri</div>
         </div>
-        <form method="post">
+        <form asp-area="Admin" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
             <div class="card-body">
                 <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <input type="text" asp-for="Name" class="form-control" id="kategori" placeholder="Kategori Adı Giriniz...">
+                    <label for="name">Ürün Adı : </label>
+                    <input name="name" type="text" asp-for="Name" class="form-control" id="productName" placeholder="Kategori Adı Giriniz...">
                     <span  class="text-danger">@ViewData["NameError"]</span>
                 </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="kategori">Kategori Açıklaması</label>
-                    <input type="text" asp-for="Description" class="form-control" id="kategori" placeholder="Açıklamayı Giriniz...">
+                    <label for="description">Kategori Açıklaması : </label>
+                    <input name="description" type="text" asp-for="Description" class="form-control" id="kategori" placeholder="Açıklamayı Giriniz...">
                     <span  class="text-danger">@ViewData["DescriptionError"]</span>
                 </div>
             </div>
