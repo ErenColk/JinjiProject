@@ -47,7 +47,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     Email = createAdminDto.Email,
                     UserName = "user" + createAdminDto.Email,
                     CreatedDate = DateTime.Now,
-                    Status = Status.Active
+                    Status = Status.Active,
+                    LockoutEnabled = false,
                 };
                 IdentityResult identityResult = await userManager.CreateAsync(appUser, "newPassword+0");
                 if (identityResult.Succeeded)
@@ -150,13 +151,18 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 bool result = await adminRepository.SoftDelete(adminDto);
                 if (result)
+                {
+                    AppUser user = await userManager.FindByIdAsync(adminDto.AppUserId);
+                    user.LockoutEnabled = true;
+                    await userManager.UpdateAsync(user);
                     return new SuccessDataResult<Admin>(Messages.AdminDeletedSuccess);
+                }
                 else
                     return new ErrorDataResult<Admin>(Messages.AdminDeletedRepoError);
             }
         }
 
-        public async Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto)
+        public async Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto, bool addAgain = false)
         {
             if (updateAdminDto == null)
             {
@@ -164,10 +170,20 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
-                Admin admin = mapper.Map<Admin>(updateAdminDto);
+                Admin admin = await adminRepository.GetByIdAsync(updateAdminDto.Id);
+                updateAdminDto.Status = Status.Active;
+                admin = mapper.Map(updateAdminDto,admin);
                 bool result = await adminRepository.Update(admin);
                 if (result)
+                {
+                    if(addAgain == true)
+                    {
+                        AppUser user = await userManager.FindByIdAsync(admin.AppUserId);
+                        user.LockoutEnabled = false;
+                        await userManager.UpdateAsync(user);
+                    }
                     return new SuccessDataResult<Admin>(admin, Messages.UpdateAdminSuccess);
+                }
                 else
                     return new ErrorDataResult<Admin>(admin, Messages.UpdateAdminRepoError);
             }

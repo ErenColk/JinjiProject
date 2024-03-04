@@ -41,6 +41,11 @@ namespace JinjiProject.UI.Controllers
                 NotifyError("Email veya şifre hatalı");
                 return View(loginVM);
             }
+            if(user.LockoutEnabled == true)
+            {
+                NotifyError("Kullanıcı pasifize edilmiş");
+                return View(loginVM);
+            }
 
             var checkPass = await signInManager.PasswordSignInAsync(user, loginVM.Password, loginVM.RememberMe, false);
 
