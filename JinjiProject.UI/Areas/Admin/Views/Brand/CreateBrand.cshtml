@@ -15,12 +15,14 @@
                 <div class="form-group">
                     <label for="marka">Marka</label>
                     <input type="text" asp-for="Name" class="form-control" id="marka" placeholder="Marka Adı Giriniz...">
+                    <span class="text-danger">@ViewData["NameError"]</span>
                 </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
                     <label for="marka">Marka Açıklaması</label>
                     <input type="text" asp-for="Description" class="form-control" id="marka" placeholder="Açıklamayı Giriniz...">
+                    <span class="text-danger">@ViewData["DescriptionError"]</span>
                 </div>
             </div>
             <div class="card-action" style="display:flex; ">

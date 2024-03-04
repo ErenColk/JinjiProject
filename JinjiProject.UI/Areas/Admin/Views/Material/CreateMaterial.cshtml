@@ -15,12 +15,14 @@
                 <div class="form-group">
                     <label for="malzeme">Malzeme</label>
                     <input type="text" asp-for="Name" class="form-control" id="malzeme" placeholder="Malzeme Adı Giriniz...">
+                    <span class="text-danger">@ViewData["NameError"]</span>
                 </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
                     <label for="malzeme">Malzeme Açıklaması</label>
                     <input type="text" asp-for="Description" class="form-control" id="malzeme" placeholder="Açıklamayı Giriniz...">
+                    <span class="text-danger">@ViewData["DescriptionError"]</span>
                 </div>
             </div>
             <div class="card-action" style="display:flex; ">

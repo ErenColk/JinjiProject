@@ -188,10 +188,28 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		public async Task<IActionResult> HardDelete(int id)
 		{
 
-			await _categoryService.HardDeleteCategoryAsync(id);
+            var hardDeleteResult = await _categoryService.HardDeleteCategoryAsync(id);
 
-			return RedirectToAction(nameof(CategoryList));
-		}
+            if (hardDeleteResult.IsSuccess)
+            {
+                NotifySuccess(hardDeleteResult.Message);
+
+
+                return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
+            }
+            else
+            {
+                if (hardDeleteResult.Data == null)
+                {
+                    NotifyError(hardDeleteResult.Message);
+
+                    return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
+                }
+                NotifyError(hardDeleteResult.Message);
+
+                return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
+            }
+        }
 
 
 		[HttpGet]

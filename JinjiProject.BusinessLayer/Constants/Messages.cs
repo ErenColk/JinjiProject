@@ -56,6 +56,8 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string CategoryFilteredSuccess = "Kategori başarıyla bulundu.";
         public const string CategoryDeletedSuccess = "Kategori silme işlemi başarılı.";
         public const string CategoryDeletedRepoError = "Kategori silme işlemi başarısız.";
+        public const string CategoryHardDeletedSuccess = "Kategori tamamen silinmiştir.";
+        public const string CategoryHardDeletedRepoError = "Kategori silme işlemi başarısız.";
         public const string UpdateCategoryError = "Kategori güncelleme işlemi başarısız.";
         public const string UpdateCategorySuccess = "Kategori güncelleme işlemi başarılı.";
         public const string UpdateCategoryRepoError = "Kategori güncellerken sunucu tarafında hata oluştu.";
