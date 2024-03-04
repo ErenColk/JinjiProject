@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateProduct";
+}
+
+@model UpdateProductDto
+
+<div class="col-md-12" style="margin-top:80px">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Ürün Ekleme İşlemleri</div>
+        </div>
+        <form asp-area="Admin" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <div class="form-group text-muted">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">ÜRÜN ADI</span>
+                                <input asp-for="Name" type="text" class="form-control " id="product-name" placeholder="Ürün Adını Giriniz...">
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">RENK</span>
+                                <input asp-for="Color" type="text" class="form-control" id="product-color" placeholder="Ürün Rengini Giriniz...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">ÜRÜN FİYATI </span>
+                                <div class="input-group">
+                                    <input asp-for="Price" type="text" class="form-control" oninput="formatPrice()" id="product-price" placeholder="Ürün Fiyatını Giriniz...">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">₺</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">BOYUT</span>
+                                <select asp-for="SizeId" asp-items="@ViewBag.Size" class="form-control" id="product-size">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">STOK</span>
+                                <div class="input-group">
+                                    <input asp-for="Stock" type="number" class="form-control " id="product-stock" placeholder="Ürün Stoğunu Giriniz...">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Adet</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">HACİM</span>
+                                <div class="input-group d-flex">
+                                    @{
+                                        if(Model.Capacity != null)
+                                        {
+                                            <input type="checkbox" data-result="true" onchange="showCapacity()" data-toggle="toggle" data-onstyle="success" checked>
+
+                                            @* <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round"> *@
+
+                                            <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: block; margin-left:10px">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" data-result="false" onchange="showCapacity()" data-toggle="toggle" data-onstyle="success">
+
+                                            @* <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round"> *@
+
+                                            <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: none; margin-left:10px">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
+                                            </div>
+                                        }
+                                    }
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="text-muted font-weight-bold">MALZEME</span>
+                                <select asp-for="MaterialId" data-control="select2" asp-items="@ViewBag.Materials" class="form-control" id="product-material">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="text-muted font-weight-bold">KATEGORİ</span>
+                                <select asp-for="CategoryId" data-control="select2" asp-items="@ViewBag.Categories" class="form-control" id="product-category">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="text-muted font-weight-bold">MARKA</span>
+                                <select asp-for="BrandId" data-control="select2"
+                                        asp-items="@ViewBag.Brands" class="form-control" id="product-category">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">AÇIKLAMA</span>
+                                    <textarea asp-for="Description" class="form-control" id="product-comment" placeholder="Ürünün Açıklamasını Giriniz...">
+                                                </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">ÜRÜN FOTOĞRAFI</span>
+                                    <input asp-for="UploadPath" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event)">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <small id="image-preview-label" style="display: none;" for="image-preview">Yüklenen Ürün Fotoğrafı</small>
+                            </div>
+                            <div class="col-md-4">
+                                <img src="@Model.ImagePath" class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px;">
+                                <small id="image-preview-label" for="image-preview" style="display:block;">Eski Ürün Fotoğrafı</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action d-flex justify-content-end  ">
+                    <button type="submit" class="btn btn-outline-success mr-2">Kaydet</button>
+                    <button asp-area="Admin" asp-action="ProductList" asp-controller="Product" class="btn btn-outline-primary">Geri Dön</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('image-preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+            document.getElementById('image-preview-label').style.display = 'block';
+
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+    function showCapacity() {
+        var capacity = document.getElementById('product-capacity');
+        var lt = document.getElementById('product-lt');
+
+        var inputElement = document.querySelector('input[data-result]');
+        var dataResultValue = inputElement.getAttribute('data-result');
+
+        if (dataResultValue == "false") {
+            capacity.style.display = 'block';
+            lt.style.display = 'block';
+            inputElement.setAttribute('data-result', 'true');
+        } else {
+            inputElement.setAttribute('data-result', 'false');
+            capacity.style.display = 'none';
+            lt.style.display = 'none';
+        }
+    }
+
+
+</script>
+
+<style>
+    #image-preview {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+</style>
+

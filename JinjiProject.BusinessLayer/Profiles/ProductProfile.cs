@@ -17,6 +17,8 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<CreateProductDto, Product>()
            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => GetSizeByValue(Convert.ToInt32(src.SizeId)))).ReverseMap();
             CreateMap<UpdateProductDto, Product>().ReverseMap();
+            CreateMap<UpdateProductDto, GetProductDto>().ReverseMap()
+                .ForMember(dest => dest.Size, opt => opt.MapFrom(src => GetSizeByValue(Convert.ToInt32(src.SizeId))));
             CreateMap<ListProductDto, Product>().ReverseMap();
             CreateMap<GetProductDto, Product>().ReverseMap();
             CreateMap<GetProductDto, CreateProductDto>().ReverseMap();

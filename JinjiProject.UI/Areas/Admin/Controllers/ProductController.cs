@@ -4,6 +4,9 @@ using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.BusinessLayer.Validator.ProductValidations;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
+using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
+using JinjiProject.Dtos.Materials;
 using JinjiProject.Dtos.Products;
 using JinjiProject.UI.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -113,6 +116,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var updateProductResult = await _productService.GetProductById(id);
             if (updateProductResult.IsSuccess)
             {
+                var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
+                var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+                var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
+
+                ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
+                ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+                ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
+                ViewBag.Size = await SizeItems.GetSize();
+
                 UpdateProductDto updateProduct = _mapper.Map<UpdateProductDto>(updateProductResult.Data);
                 return View(updateProduct);
 
