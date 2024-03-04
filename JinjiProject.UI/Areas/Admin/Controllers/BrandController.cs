@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
 using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.BusinessLayer.Validator.BrandValidations;
+using JinjiProject.BusinessLayer.Validator.CategoryValidations;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.UI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	public class BrandController : Controller
+	public class BrandController : BaseController
 	{
 		private readonly IBrandService _brandService;
 		private readonly IMapper _mapper;
@@ -20,11 +23,21 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> BrandList()
+		public async Task<IActionResult> BrandList(bool showWarning = true)
 		{
 			var brandListResult = await _brandService.GetAllByExpression(brand=>brand.Status == Status.Active || brand.Status == Status.Modified);
 			var brandList = _mapper.Map<List<ListBrandDto>>(brandListResult.Data);
-			return View(brandList);
+
+            if ((brandList.Count <= 0 || brandList == null) && showWarning)
+            {
+                NotifyError(brandListResult.Message);
+            }
+            else if (showWarning)
+            {
+                NotifySuccess(brandListResult.Message);
+            }
+
+            return View(brandList);
 		}
 
         [HttpGet]
@@ -36,35 +49,126 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBrand(CreateBrandDto createBrandDto)
         {
-            var createResult = await _brandService.CreateBrandAsync(createBrandDto); ;
+            CreateBrandValidator validations = new CreateBrandValidator();
+            var result = validations.Validate(createBrandDto);
 
-            return RedirectToAction(nameof(BrandList));
+            if (result.IsValid)
+            {
+                var createBrandResult = await _brandService.CreateBrandAsync(createBrandDto); ;
+                if (createBrandResult.IsSuccess)
+                {
+                    NotifySuccess(createBrandResult.Message);
+                }
+                else
+                {
+                    NotifyError(createBrandResult.Message);
+
+                }
+                return RedirectToAction(nameof(BrandList), new { showWarning = false });
+            }
+
+            foreach (var item in result.Errors)
+            {
+                if (item.ErrorCode == "1")
+                {
+                    ViewData["NameError"] += item.ErrorMessage + "\n";
+                }
+                else
+                {
+                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+
+                }
+            }
+
+            return View(createBrandDto);
         }
 
         [HttpGet]
         public async Task<IActionResult> UpdateBrand(int id)
         { 
             var updateBrandResult = await _brandService.GetBrandById(id);
-            UpdateBrandDto updateBrand = _mapper.Map<UpdateBrandDto>(updateBrandResult.Data);
-            return View(updateBrand);
+            if (updateBrandResult.IsSuccess)
+            {
+                UpdateBrandDto updateBrand = _mapper.Map<UpdateBrandDto>(updateBrandResult.Data);
+                return View(updateBrand);
+
+            }
+            else
+            {
+                UpdateBrandDto updateBrand = _mapper.Map<UpdateBrandDto>(updateBrandResult.Data);
+                NotifyError(updateBrandResult.Message);
+                return RedirectToAction(nameof(BrandList), new { showWarning = false });
+            }
+            
         }
 
 
         [HttpPost]
         public async Task<IActionResult> UpdateBrand(UpdateBrandDto updateBrandDto)
         {
-            var updateBrand = await _brandService.UpdateBrandAsync(updateBrandDto);
+            UpdateBrandValidator updateBrandValidator = new UpdateBrandValidator();
+            var result = updateBrandValidator.Validate(updateBrandDto);
 
-            return RedirectToAction(nameof(BrandList));
+            if (result.IsValid)
+            {
+                var updateBrandResult = await _brandService.UpdateBrandAsync(updateBrandDto);
+
+                if (updateBrandResult.IsSuccess)
+                {
+
+                    NotifySuccess(updateBrandResult.Message);
+
+                }
+                else
+                {
+                    NotifyError(updateBrandResult.Message);
+                }
+
+                return RedirectToAction(nameof(BrandList), new { showWarning = false });
+            }
+
+            foreach (var item in result.Errors)
+            {
+                if (item.ErrorCode == "1")
+                {
+                    ViewData["NameError"] += item.ErrorMessage + "\n";
+                }
+                else
+                {
+                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+
+                }
+            }
+
+            return View(updateBrandDto);
         }
 
 		[HttpGet]
 		public async Task<IActionResult> SoftDelete(int id)
 		{
 
-			await _brandService.SoftDeleteBrandAsync(id);
+			var softDeleteResult = await _brandService.SoftDeleteBrandAsync(id);
 
-			return RedirectToAction(nameof(BrandList));
+            if (softDeleteResult.IsSuccess)
+            {
+                NotifySuccess(softDeleteResult.Message);
+
+
+                return RedirectToAction(nameof(BrandList), new { showWarning = false });
+            }
+            else
+            {
+                if (softDeleteResult.Data == null)
+                {
+                    NotifyError(softDeleteResult.Message);
+
+                    return RedirectToAction(nameof(BrandList), new { showWarning = false });
+                }
+                NotifyError(softDeleteResult.Message);
+
+                return RedirectToAction(nameof(BrandList), new { showWarning = false });
+            }
+
 		}
 
 
@@ -72,18 +176,47 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		public async Task<IActionResult> HardDelete(int id)
 		{
 
-			await _brandService.HardDeleteBrandAsync(id);
+			var hardDeleteResult = await _brandService.HardDeleteBrandAsync(id);
 
-			return RedirectToAction(nameof(BrandList));
-		}
+            if (hardDeleteResult.IsSuccess)
+            {
+                NotifySuccess(hardDeleteResult.Message);
+
+
+                return RedirectToAction(nameof(DeletedBrandList), new { showWarning = false });
+            }
+            else
+            {
+                if (hardDeleteResult.Data == null)
+                {
+                    NotifyError(hardDeleteResult.Message);
+
+                    return RedirectToAction(nameof(DeletedBrandList), new { showWarning = false });
+                }
+                NotifyError(hardDeleteResult.Message);
+
+                return RedirectToAction(nameof(DeletedBrandList), new { showWarning = false });
+            }
+        }
 
 		[HttpGet]
-		public async Task<IActionResult> DeletedBrandList()
+		public async Task<IActionResult> DeletedBrandList(bool showWarning = true)
 		{
 
 			var deletedBrand = await _brandService.GetAllByExpression(x => x.Status == Status.Deleted);
 			List<DeletedBrandListDto> deletedBrandList = _mapper.Map<List<DeletedBrandListDto>>(deletedBrand.Data);
-			return View(deletedBrandList);
+
+            if ((deletedBrandList.Count <= 0 || deletedBrandList == null) && showWarning)
+            {
+                NotifyError("Silinen Marka Listesi Boş");
+            }
+            else if (showWarning)
+            {
+                NotifySuccess("Silinen Markalar Listelendi");
+
+            }
+
+            return View(deletedBrandList);
 
 		}
 
@@ -95,16 +228,20 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 			if (brandToAdded.Data == null)
 			{
-				return View();
-			}
+                NotifyError(brandToAdded.Message);
+                return RedirectToAction(nameof(DeletedBrandList), new { showWarning = false });
+            }
 			else
 			{
 
 				brandToAdded.Data.Status = Status.Active;
 				UpdateBrandDto updatedToBrand = _mapper.Map<UpdateBrandDto>(brandToAdded.Data);
-				await _brandService.UpdateBrandAsync(updatedToBrand);
-				return RedirectToAction("BrandList", "Brand");
-			}
+
+				var brandToUpdated = await _brandService.UpdateBrandAsync(updatedToBrand);
+                NotifySuccess("Marka yeniden eklendi.");
+
+                return RedirectToAction(nameof(DeletedBrandList), new { showWarning = false });
+            }
 		}
 
         [HttpGet]

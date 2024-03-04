@@ -31,16 +31,16 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         {
             if (createMaterialDto == null)
             {
-                return new ErrorDataResult<Material>(Messages.CreateBrandError);
+                return new ErrorDataResult<Material>(Messages.CreateMaterialError);
             }
             else
             {
                 Material material = mapper.Map<Material>(createMaterialDto);
                 bool result = await materialRepository.Create(material);
                 if (result)
-                    return new SuccessDataResult<Material>(material, Messages.CreateBrandSuccess);
+                    return new SuccessDataResult<Material>(material, Messages.CreateMaterialSuccess);
                 else
-                    return new ErrorDataResult<Material>(material, Messages.CreateBrandRepoError);
+                    return new ErrorDataResult<Material>(material, Messages.CreateMaterialError);
 
             }
         }
