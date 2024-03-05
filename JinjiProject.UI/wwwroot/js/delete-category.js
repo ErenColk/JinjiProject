@@ -16,8 +16,8 @@
 
     const category = await getCategory(id);
 
-    categoryNameCell.textContent = category.name;
-    categoryDescriptionCell.textContent = category.description;
+    categoryNameCell.textContent = ":" + " " + category.name;
+    categoryDescriptionCell.textContent = ":" + " " + category.description;
 }
 
 

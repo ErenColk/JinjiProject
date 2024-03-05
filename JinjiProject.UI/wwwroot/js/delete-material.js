@@ -18,8 +18,8 @@
 
     const material = await getMaterial(id);
 
-    materialNameCell.textContent = material.name;
-    materialDescriptionCell.textContent = material.description;
+    materialNameCell.textContent = ":" + " " + material.name;
+    materialDescriptionCell.textContent = ":" + " " + material.description;
 }
 
 

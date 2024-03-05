@@ -18,8 +18,8 @@
 
     const brand = await getBrand(id);
 
-    brandNameCell.textContent = brand.name;
-    brandDescriptionCell.textContent = brand.description;
+    brandNameCell.textContent = ":" + " " + brand.name;
+    brandDescriptionCell.textContent = ":" + " " + brand.description;
 }
 
 
