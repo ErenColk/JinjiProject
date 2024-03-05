@@ -272,7 +272,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 UpdateProductDto updatedToProduct = _mapper.Map<UpdateProductDto>(productToAdded.Data);
 
                 var productToUpdated = await _productService.UpdateProductAsync(updatedToProduct);
-                NotifySuccess("Kategori yeniden eklendi.");
+                NotifySuccess("Ürün yeniden eklendi.");
 
                 return RedirectToAction(nameof(DeletedProductList), new { showWarning = false });
             }
