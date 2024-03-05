@@ -1,25 +1,23 @@
 ﻿
-
-
 <div class="modal fade" id="hardDeleteModal" tabindex="-1" aria-labelledby="hardDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="hardDeleteModalLabel">Kategoriye ait tüm ürünler silinecektir.Veriyi Tamamen Silmek İstediğinize Emin misiniz ? </h6>
+                <h6 class="modal-title" id="hardDeleteModalLabel">Ürüne ait tüm ürünler silinecektir.Veriyi Tamamen Silmek İstediğinize Emin misiniz ? </h6>
                 <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
                     X
                 </button>
 
             </div>
             <div class="modal-body">
-                <table id="kt_modal_delete_category_form">
+                <table id="kt_modal_delete_product_form">
                     <tbody>
                         <tr>
-                            <td><strong>Kategori Adı </strong></td>
+                            <td><strong>Ürün Fotoğrafı : </strong></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td><strong>Açıklama </strong></td>
+                            <td><strong>Ürün Adı : </strong></td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -27,7 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
-                <a type="button" href="/Admin/Category/HardDelete/" class="btn btn-outline-danger" id="modal-category-delete">Sil</a>
+                <a type="button" href="/Admin/Product/HardDelete/" class="btn btn-outline-danger" id="modal-product-delete">Sil</a>
             </div>
         </div>
     </div>
@@ -35,7 +33,7 @@
 
 
 <style>
-    #kt_modal_delete_category_form td {
+    #kt_modal_delete_product_form td {
         max-width: 350px;
         word-wrap: break-word;
         padding: 5px;

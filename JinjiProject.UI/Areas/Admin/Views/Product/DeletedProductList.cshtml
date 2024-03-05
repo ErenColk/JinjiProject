@@ -1,13 +1,13 @@
-﻿@{
-    ViewData["Title"] = "ProductList";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+﻿
+@{
+    ViewData["Title"] = "DeletedProductList";
 }
 
-@model List<ListProductDto>
+@model List<DeletedProductListDto>
 
 <div class="content">
     <div class="container-fluid">
-        <h4 class="page-title">ÜRÜNLER</h4>
+        <h4 class="page-title">Silinen Ürünler</h4>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -48,17 +48,19 @@
                                                 <td>@item.Price</td>
                                                 <td>@item.Stock</td>
                                                 <td>@item.Capacity</td>
-                                                <td>@item.CreatedDate</td>
+                                                <td>@item.DeletedDate</td>
                                                 <td>@GetEnumDescription.Description(item.Status)</td>
                                                 <td>
                                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                                                         Seçenekler
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                                                        <a class="dropdown-item " href="/Admin/Product/UpdateProduct/@item.Id">Güncelle</a>
-                                                        <a class="dropdown-item " id="modalOpener" onclick="loadProductData(@item.Id)" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-id="@item.Id">Detaylar</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item text-danger" href="/Admin/Product/SoftDelete/@item.Id">Sil</a>
+                                                        <li>
+                                                            <a class="dropdown-item " href="/Admin/Product/AddAgainProduct/@item.Id">Tekrar Ekle</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item text-danger" onclick="loadProductHardDeleteData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#hardDeleteModal" data-id="@item.Id">Veriyi Sil</a>
+                                                        </li>
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -67,8 +69,7 @@
                                 </tbody>
                             </table>
 
-                            <a asp-area="Admin" asp-action="CreateProduct" asp-controller="Product" class="btn btn-outline-primary">Yeni Ürün Girişi </a>
-                            <a style="margin-left:10px" href="/Admin/Product/DeletedProductList" class="btn btn-outline-danger">Silinen Ürünler</a>
+                            <a href="/Admin/Product/ProductList" class="btn btn-outline-primary mt-1">Listeye Geri Dön</a>
                         </div>
                     </div>
                 </div>
@@ -77,10 +78,50 @@
     </div>
 </div>
 
-<partial name="~/Areas/Admin/Views/Product/_DetailProductPartialView.cshtml" />
+
+<div class="modal fade" id="hardDeleteModal" tabindex="-1" aria-labelledby="hardDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="hardDeleteModalLabel">Ürüne ait tüm ürünler silinecektir.Veriyi Tamamen Silmek İstediğinize Emin misiniz ? </h6>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                    X
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <table id="kt_modal_delete_product_form">
+                    <tbody>
+                        <tr>
+                            <td><strong>Ürün Fotoğrafı : </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ürün Adı : </strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
+                <a type="button" href="/Admin/Product/HardDelete/" class="btn btn-outline-danger" id="modal-product-delete">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <style>
-    .dropdown-item {
+    #kt_modal_delete_product_form td {
+        max-width: 350px;
+        word-wrap: break-word;
+        padding: 5px;
+    }
+</style>
+
+<style>
+    .dropdown-item:hover {
         cursor: pointer;
     }
 </style>
- 

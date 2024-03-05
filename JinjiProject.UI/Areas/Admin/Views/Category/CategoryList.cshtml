@@ -39,8 +39,8 @@
                                                         Seçenekler
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                                                        <a class="dropdown-item" href="/Admin/Category/UpdateCategory/@item.Id">Güncelle</a>
-                                                        <a class="dropdown-item text-success" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">Detaylar</a>
+                                                        <a class="dropdown-item text-primary" href="/Admin/Category/UpdateCategory/@item.Id">Güncelle</a>
+                                                        <a class="dropdown-item text-primary" onclick="loadCategoryData(@item.Id)" id="modalOpener" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="@item.Id">Detaylar</a>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item text-danger" href="/Admin/Category/SoftDelete/@item.Id">Sil</a>
                                                     </ul>
@@ -64,6 +64,6 @@
 </div>
 
     <partial name="~/Areas/Admin/Views/Category/_CategoryDetailPartialView.cshtml" />
-    <script src="~/js/detail-category.js"></script>
+    
 
 
