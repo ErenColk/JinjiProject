@@ -19,7 +19,8 @@
     // Resim elementi oluştur
     const imgElement = document.createElement('img');
     imgElement.src = product.imagePath; // Ürünün görüntü yolunu ata
-    imgElement.style.maxWidth = '100px'; // Stil ekle - maksimum genişlik
+    imgElement.style.width = '100px'; // Stil ekle - maksimum genişlik
+    imgElement.style.height = '100px';
     imgElement.style.borderRadius = '50%'; // Stil ekle - kenar yarıçapı
     // Ürün fotoğrafı hücresine resmi ekle
     productImageCell.innerHTML = ''; // Önce hücreyi temizle
