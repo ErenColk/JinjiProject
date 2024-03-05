@@ -19,18 +19,18 @@
 
     const category = await getCategory(id);
 
-    categoryNameCell.textContent = category.name;
-    categoryDescriptionCell.textContent = category.description;
+     categoryNameCell.textContent = ":" + " " + category.name;
+     categoryDescriptionCell.textContent = ":" + " " + category.description;
 
-    categoryCreatedDateCell.textContent = new Date(category.createdDate).toLocaleDateString();
+     categoryCreatedDateCell.textContent = ":" + " " + new Date(category.createdDate).toLocaleDateString();
 
-    categoryModifiedDate = await new Date(category.modifiedDate).getFullYear();
-    console.log(categoryModifiedDate);
+     categoryModifiedDate = await new Date(category.modifiedDate).getFullYear();
+    
 
     if (categoryModifiedDate !== 0001) {
-        categoryModifiedDateCell.textContent = new Date(category.modifiedDate).toLocaleDateString();
+        categoryModifiedDateCell.textContent = ":" + " " + new Date(category.modifiedDate).toLocaleDateString();
     } else {
-        categoryModifiedDateCell.textContent = "Henüz güncellenmedi!";
+        categoryModifiedDateCell.textContent = ":" + " " + "Henüz güncellenmedi!";
     }
 }
 
