@@ -31,24 +31,24 @@ async function loadProductData(id) {
 
     const product = await getProduct(id);
 
-    
+
     imgElement.alt = product.name;
     imgElement.src = product.imagePath;
     imgElement.style.width = '100px';
     imgElement.style.height = '150px';
-    imgElement.classList.add('img-thumbnail'); 
+    imgElement.classList.add('img-thumbnail');
 
-    productNameCell.textContent = ":" +"  "+ product.name;
+    productNameCell.textContent = ":" + "  " + product.name;
     productDescriptionCell.textContent = ":" + "   " + product.description;
     productColorCell.textContent = ":" + "   " + product.color;
     productPriceCell.textContent = ":" + "   " + product.price;
-    productStockCell.textContent = ":" + "   " +product.stock;
+    productStockCell.textContent = ":" + "   " + product.stock;
     productCapacityCell.textContent = ":" + "   " + product.capacity;
     productCreatedDateCell.textContent = ":" + "   " + new Date(product.createdDate).toLocaleDateString();
     const productModifiedDate = ":" + "   " + await new Date(product.modifiedDate).getFullYear();
 
     if (productModifiedDate !== 0001) {
-        productModifiedDateCell.textContent = ":" + "   " +new Date(product.modifiedDate).toLocaleDateString();
+        productModifiedDateCell.textContent = ":" + "   " + new Date(product.modifiedDate).toLocaleDateString();
     } else {
         productModifiedDateCell.textContent = ":" + "   " + "Henüz güncellenmedi!";
     }
@@ -101,9 +101,8 @@ function closeModal() {
     if (modalOverlay) {
         // Transition background color before removing the overlay
         modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-        setTimeout(function () {
-            document.body.removeChild(modalOverlay);
-        }, 300); // Wait for the transition to complete before removing the overlay
+        document.body.removeChild(modalOverlay);
+
     }
 
     // Enable scrolling when the modal is closed

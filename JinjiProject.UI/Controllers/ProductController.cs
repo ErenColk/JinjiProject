@@ -30,5 +30,18 @@ namespace JinjiProject.UI.Controllers
                 return View();
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> BagList()
+        {
+
+            return PartialView(nameof(BagList));
+
+        }
+
+
+
+
     }
 }
