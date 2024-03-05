@@ -56,7 +56,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                                                         <a class="dropdown-item " href="/Admin/Product/UpdateProduct/@item.Id">Güncelle</a>
-                                                        <a class="dropdown-item " href="/Admin/Product/DetailProduct/@item.Id">Detaylar</a>
+                                                        <a class="dropdown-item " id="modalOpener" onclick="loadProductData(@item.Id)" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-id="@item.Id">Detaylar</a>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item text-danger" href="/Admin/Product/SoftDelete/@item.Id">Sil</a>
                                                     </ul>
@@ -76,3 +76,11 @@
         </div>
     </div>
 </div>
+
+<partial name="~/Areas/Admin/Views/Product/_DetailProductPartialView.cshtml" />
+<style>
+    .dropdown-item {
+        cursor: pointer;
+    }
+</style>
+ 

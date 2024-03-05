@@ -23,6 +23,8 @@ namespace JinjiProject.Dtos.Products
         public string MaterialId { get; set; }
         public string CategoryId { get; set; }
         public string BrandId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
         public Status Status { get; set; }
     }
 }
