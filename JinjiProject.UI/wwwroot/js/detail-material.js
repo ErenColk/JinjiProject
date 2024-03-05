@@ -17,17 +17,17 @@
 
     const material = await getMaterial(id);
 
-    materialNameCell.textContent = material.name;
-    materialDescriptionCell.textContent = material.description;
-    materialCreatedDateCell.textContent = new Date(material.createdDate).toLocaleDateString();
+    materialNameCell.textContent =":" + " " + material.name;
+    materialDescriptionCell.textContent = ":" + " " + material.description;
+    materialCreatedDateCell.textContent = ":" + " " + new Date(material.createdDate).toLocaleDateString();
 
     materialModifiedDate = await new Date(material.modifiedDate).getFullYear();
-    console.log(materialModifiedDate);
+    
 
     if (materialModifiedDate !== 0001) {
-        materialModifiedDateCell.textContent = new Date(material.modifiedDate).toLocaleDateString();
+        materialModifiedDateCell.textContent = ":" + " " + new Date(material.modifiedDate).toLocaleDateString();
     } else {
-        materialModifiedDateCell.textContent = "Henüz güncellenmedi!";
+        materialModifiedDateCell.textContent = ":" + " " + "Henüz güncellenmedi!";
     }
 }
 

@@ -17,17 +17,17 @@
 
     const brand = await getBrand(id);
 
-    brandNameCell.textContent = brand.name;
-    brandDescriptionCell.textContent = brand.description;
-    brandCreatedDateCell.textContent = new Date(brand.createdDate).toLocaleDateString();
+    brandNameCell.textContent = ":" + " " + brand.name;
+    brandDescriptionCell.textContent = ":" + " " + brand.description;
+    brandCreatedDateCell.textContent = ":" + " " + new Date(brand.createdDate).toLocaleDateString();
    
     brandModifiedDate = await new Date(brand.modifiedDate).getFullYear();
-    console.log(brandModifiedDate);
+    
     
     if (brandModifiedDate !== 0001) {
-        brandModifiedDateCell.textContent = new Date(brand.modifiedDate).toLocaleDateString();
+        brandModifiedDateCell.textContent = ":" + " " + new Date(brand.modifiedDate).toLocaleDateString();
     } else {
-        brandModifiedDateCell.textContent = "Henüz güncellenmedi!";
+        brandModifiedDateCell.textContent = ":" + " " + "Henüz güncellenmedi!";
     }
 }
 
