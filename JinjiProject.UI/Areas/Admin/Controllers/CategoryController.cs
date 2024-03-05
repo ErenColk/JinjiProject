@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
-	[Area("Admin")]
-	public class CategoryController : BaseController
+	public class CategoryController : AdminBaseController
 	{
 		private readonly ICategoryService _categoryService;
 		private readonly IMapper _mapper;

@@ -11,8 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class MaterialController : BaseController
+    public class MaterialController : AdminBaseController
     {
         private readonly IMaterialService _materialService;
         private readonly IMapper _mapper;

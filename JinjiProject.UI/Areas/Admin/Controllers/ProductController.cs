@@ -14,8 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
-        [Area("Admin")]
-    public class ProductController : BaseController
+    public class ProductController : AdminBaseController
     {
 
         private readonly IProductService _productService;

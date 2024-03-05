@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
-	[Area("Admin")]
-	public class BrandController : BaseController
+
+	public class BrandController : AdminBaseController
 	{
 		private readonly IBrandService _brandService;
 		private readonly IMapper _mapper;
