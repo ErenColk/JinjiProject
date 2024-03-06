@@ -1,6 +1,4 @@
-﻿
-@model List<ListProductDto>
-
+﻿@model List<ListProductDto>
 
 
 <section class="section" id="men">
@@ -21,22 +19,22 @@
                     <div class="owl-men-item owl-carousel">
                         @foreach (var item in Model)
                         {
-                            <div class="item" >
-                                <div class="thumb" >
-                                    <div class="hover-content" >
+                            <div class="item ">
+                                <div class="thumb">
+                                    <div class="hover-content">
                                         <ul>
                                             <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
                                             <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
                                             <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
-                                    <div><img src="@item.ImagePath" style="width: 350px; height:360px;" /></div>
+                                    <div><img class="img-thumbnail" src="@item.ImagePath" style="width: 350px; height:400px;" /></div>
 
 
                                 </div>
                                 <div class="down-content">
-                                    <h4>Classic Spring</h4>
-                                    <span>$120.00</span>
+                                    <h4>@item.Name</h4>
+                                    <span>@item.Price₺</span>
                                     <ul class="stars">
                                         <li><i class="fa fa-star"></i></li>
                                         <li><i class="fa fa-star"></i></li>
@@ -46,11 +44,7 @@
                                     </ul>
                                 </div>
                             </div>
-
-
                         }
-                        
-                  
                     </div>
                 </div>
             </div>
@@ -60,7 +54,7 @@
 
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         runOwlCarousel()
     });
 </script>

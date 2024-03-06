@@ -1,0 +1,119 @@
+﻿@model List<ListCategoryDto>
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">KATEGORİ</h4>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Ana Sayfadaki Kategoriler</div>
+                        <small>En Fazla 3 Kategori Ekleyebilirsiniz.</small>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <div id="selectedCategories">
+                            <table class="col-lg-12 text-center">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Kategori Adı
+                                        </th>
+                                        <th>
+                                            Oluşturulma Tarihi
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selectedCategoriesTable">
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-end">
+                            <a href="/Admin/Category/HomePageEdit" class="btn btn-outline-success">Seçimi Tamamla</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Eklenecek kategoriler</div>
+                        <small>En Fazla 3 Kategori Seçebilirsiniz</small>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="col-lg-12 text-center">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Kategori Adı
+                                    </th>
+                                    <th>
+                                        Oluşturulma Tarihi
+                                    </th>
+                                    <th>
+                                        İşlem
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="selectCategoriesTable">
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        @item.CreatedDate
+                                    </td>
+                                    <td><button class="btn btn-outline-success" onclick="addCategory(this)">Ekle</button></td>
+                                </tr>
+                                    
+                                }
+                           
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function addCategory(button) {
+        var row = button.parentNode.parentNode; 
+        var selectedCategoriesTable = document.getElementById("selectedCategoriesTable");
+        var buttonCell = row.querySelector('td:last-child');
+        buttonCell.innerHTML = '';
+        var undoButton = document.createElement('button');
+        undoButton.className = 'btn btn-outline-danger';
+        undoButton.textContent = 'Geri Al';
+        undoButton.onclick = undoCategory;
+        buttonCell.appendChild(undoButton);
+        selectedCategoriesTable.appendChild(row);
+    }
+    function undoCategory() {
+        var deletedRow = this.parentNode.parentNode;
+        var selectCategoriesTable = document.getElementById("selectCategoriesTable");
+        var buttonCell = deletedRow.querySelector('td:last-child');
+        buttonCell.innerHTML = '';
+        var createButton = document.createElement('button');
+        createButton.className = 'btn btn-outline-success';
+        createButton.textContent = 'Ekle';
+        createButton.onclick = function () { addCategory(this); }; 
+        buttonCell.appendChild(createButton);
+        selectCategoriesTable.appendChild(deletedRow);
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
