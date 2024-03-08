@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JinjiProject.BusinessLayer.Helpers;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Products;
@@ -19,7 +20,9 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<Product, UpdateProductDto>().ReverseMap()
                 .ForMember(dest => dest.Size, opt => opt.MapFrom(src => GetSizeByValue(src.SizeId)));
             CreateMap<UpdateProductDto, GetProductDto>().ReverseMap()               ;
-            CreateMap<ListProductDto, Product>().ReverseMap();
+            CreateMap<Product, ListProductDto>()
+                .ForMember(dest => dest.Size,opt => opt.MapFrom(src => GetEnumDescription.Description(src.Size))).ReverseMap();
+
             CreateMap<ListProductDto, DeletedProductListDto>().ReverseMap();
             CreateMap<GetProductDto, Product>().ReverseMap();
             CreateMap<GetProductDto, CreateProductDto>().ReverseMap();
