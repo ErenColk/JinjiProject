@@ -55,9 +55,9 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(await _categoryRepository.GetByIdAsync(id));
                 if (getCategoryDto == null)
                 {
-					return new ErrorDataResult<GetCategoryDto>(Messages.CategoryNotFound);
-				}
-				return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
+                    return new ErrorDataResult<GetCategoryDto>(Messages.CategoryNotFound);
+                }
+                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFoundSuccess);
             }
 
 
@@ -150,6 +150,39 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 return new SuccessDataResult<List<ListCategoryDto>>(_mapper.Map<List<ListCategoryDto>>(categories), Messages.CategoryListedSuccess);
 
             }
+        }
+
+        public async Task<DataResult<List<Category>>> UpdateAllCategoryAsync(List<UpdateCategoryDto> updateCategoryDto)
+        {
+
+            if (updateCategoryDto == null)
+            {
+                return new ErrorDataResult<List<Category>>(Messages.UpdateCategoryError);
+            }
+            else
+            {
+                bool result = false;
+
+               List<Category> categories = new List<Category>();
+                foreach (var item in updateCategoryDto)
+                {
+                    Category category = await _categoryRepository.GetByIdAsync(item.Id);
+                    categories.Add(category);
+                    _mapper.Map(item, category);
+                    result = await _categoryRepository.Update(category);
+                    if (!result)
+                    {
+                        break;
+                    }
+                }
+
+                if (result)
+                    return new SuccessDataResult<List<Category>>(categories,Messages.UpdateListCategorySuccess);
+                else
+                    return new ErrorDataResult<List<Category>>(categories,Messages.UpdateListCategoryRepoError);
+            }
+
+
         }
     }
 }
