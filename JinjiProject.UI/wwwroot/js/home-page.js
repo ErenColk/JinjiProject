@@ -1,8 +1,11 @@
-﻿async function triggerHomePagePartialView() {
+﻿function triggerHomePagePartialView() {
     $.ajax({
         url: '/Product/BagList',
-        method:'GET',
+        type: 'GET',
+
+        success: function (response) {
+            $("#homePage-bag-list").html(response)
+        }
+
     });
-
-
 }

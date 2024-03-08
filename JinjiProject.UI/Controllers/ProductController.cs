@@ -35,8 +35,9 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> BagList()
         {
+            var productList = await productService.GetAllProduct();
 
-            return PartialView(nameof(BagList));
+            return PartialView("_BagListPartialView", productList.Data);
 
         }
 

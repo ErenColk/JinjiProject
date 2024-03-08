@@ -4,7 +4,73 @@
     ViewData["Title"] = "Index";
 }
 @model List<ListProductDto>
+<style>
+    .filtre-menu {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
+    .filter-menu input[type="text"],
+    .filter-menu input[type="number"],
+    .filter-menu input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .filter-item input[type="number"] {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    .filtre-item {
+        margin-bottom: 20px;
+    }
+
+        .filtre-item h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .filtre-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .filtre-item ul li {
+                margin-bottom: 5px;
+            }
+
+        .filtre-item input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .filtre-item select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+        }
+
+    .urunler {
+        margin-left: 50px;
+    }
+
+    /* Range input styles */
+    input[type="range"] {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    output {
+        display: block;
+        text-align: center;
+        margin-top: 5px;
+        font-size: 14px;
+    }
+</style>
 <!-- ***** Main Banner Area Start ***** -->
 <div class="page-heading" id="top">
     <div class="container">
@@ -29,64 +95,84 @@
                     <span>Check out all of our products.</span>
                 </div>
             </div>
+
         </div>
     </div>
-    <div class="container">
+
+    <div class="">
         <div class="row">
-            @*9 tane ürün alıyor sayfa*@
-            @{
-                if(Model != null)
-                {
-                    @foreach (var product in Model)
-                    {
-                        <div class="col-lg-4">
-                            <div class="item">
-                                <div class="thumb">
-                                    <div class="hover-content">
-                                        <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <img src="@product.ImagePath" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <h4>@product.Name</h4>
-                                    <span>@product.Description</span>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
+            <div class="col-lg-2">
+
+
+                <aside class="filtre-menu">
+                    <div class="ml-2">
+                        <div class="filtre-item">
+                            <input type="text" id="search-box" class="form-control" style="width:225px;" placeholder="Aranacak Kelime">
                         </div>
-                    }
-                }
-            }
-           
-            
+                        <div class="filtre-item">
+                            <h3>Fiyat Aralığı</h3>
+                            <input type="number" placeholder="En az" style="width:90px;" id="min-price" name="min-price">
+                            <input type="number" placeholder="En çok" style="width:90px;" id="max-price" name="max-price">
+                            <button class="btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                            </button>
+                            <br />
+                            <input type="radio" id="range-1" name="price-range" value="20-200">
+                            <label for="range-1">20-200</label>
+                            <br />
+                            <input type="radio" id="range-2" name="price-range" value="200-500">
+                            <label for="range-2">200-500</label>
+                        </div>
+                        <div class="filtre-item">
+                            <h3>Boyut</h3>
+                            <input type="radio" id="size-small" name="size" value="small">
+                            <label for="size-small">Small</label>
+                            <br />
+                            <input type="radio" id="size-medium" name="size" value="medium">
+                            <label for="size-medium">Medium</label>
+                            <br />
+                            <input type="radio" id="size-large" name="size" value="large">
+                            <label for="size-large">Large</label>
+                        </div>
+                        <div class="filtre-item">
+                            <h3>Renk</h3>
+                            <input type="radio" id="color-red" name="color" value="red">
+                            <label for="color-red">Kırmızı</label>
+                            <br />
+                            <input type="radio" id="color-blue" name="color" value="blue">
+                            <label for="color-blue">Mavi</label>
+                            <br />
+                            <input type="radio" id="color-black" name="color" value="black">
+                            <label for="color-black">Siyah</label>
+                        </div>
+                        <div class="filtre-item">
+                            <input type="radio" id="material-1" name="material" value="material-1">
+                            <label for="material-1">Malzeme 1</label>
+                            <br />
+                            <input type="radio" id="material-2" name="material" value="material-2">
+                            <label for="material-2">Malzeme 2</label>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            @*9 tane ürün alıyor sayfa*@
+
+
+            <div class="col-lg-10">
+                <div class="mr-5">
+                    <div class="row" id="product-list">
+
+                       
+                    </div>
+                </div>
+
+            </div>
             <div class="col-lg-12">
                 <div class="pagination">
-                    <ul>
-                        <li>
-                            <a href="#">1</a>
-                        </li>
-                        <li class="active">
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">></a>
-                        </li>
+                    <ul id="pagination-list">
+                       
                     </ul>
                 </div>
             </div>
@@ -95,3 +181,9 @@
 </section>
 <!-- ***** Products Area Ends ***** -->
 
+<script>
+    // Model verilerini JavaScript nesnelerine dönüştürme
+    var productList = [];
+    productList = @Html.Raw(Json.Serialize(Model));
+</script>
+<script src="~/js/product-list-bycategoryname.js"></script>
