@@ -66,6 +66,7 @@ namespace JinjiProject.BusinessLayer.Constants
 
         public const string UpdateListCategorySuccess = "Kategorilerden bazıları ana sayfaya eklendi";
         public const string UpdateListCategoryRepoError = "Kategorilerden bazıları ana sayfaya eklenemedi.";
+        public const string NoCategoriesToUpdateError = "Güncellenecek kategori bulunamadı.";
 
 
         public const string CreateProductError = "Ürün yüklenirken hata oluştu.";

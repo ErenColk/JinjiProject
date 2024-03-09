@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Castle.Core.Internal;
 using JinjiProject.BusinessLayer.Constants;
 using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.Core.Entities.Concrete;
@@ -152,37 +153,64 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
         }
 
-        public async Task<DataResult<List<Category>>> UpdateAllCategoryAsync(List<UpdateCategoryDto> updateCategoryDto)
+        public async Task<DataResult<IEnumerable<Category>>> UpdateAllCategoryAsync(List<UpdateCategoryDto> updateCategoryDto)
         {
-
             if (updateCategoryDto == null)
             {
-                return new ErrorDataResult<List<Category>>(Messages.UpdateCategoryError);
+                return new ErrorDataResult<IEnumerable<Category>>(Messages.UpdateCategoryError);
             }
-            else
-            {
-                bool result = false;
 
-               List<Category> categories = new List<Category>();
-                foreach (var item in updateCategoryDto)
+            var updatedCategoryIds = updateCategoryDto.Select(dto => dto.Id).ToList();
+            var categoriesToUpdate = await _categoryRepository.GetAllByExpression(category => updatedCategoryIds.Contains(category.Id));
+
+
+            if (categoriesToUpdate == null || !categoriesToUpdate.Any())
+            {
+                return new ErrorDataResult<IEnumerable<Category>>(Messages.NoCategoriesToUpdateError);
+            }
+
+            foreach (var item in updateCategoryDto)
+            {
+                var categoryToUpdate = categoriesToUpdate.FirstOrDefault(c => c.Id == item.Id);
+                if (categoryToUpdate != null)
                 {
-                    Category category = await _categoryRepository.GetByIdAsync(item.Id);
-                    categories.Add(category);
-                    _mapper.Map(item, category);
-                    result = await _categoryRepository.Update(category);
+                    _mapper.Map(item, categoryToUpdate);
+                    bool result = await _categoryRepository.Update(categoryToUpdate);
                     if (!result)
                     {
-                        break;
+                        return new ErrorDataResult<IEnumerable<Category>>(Messages.UpdateListCategoryRepoError);
+                    }
+                }
+            }
+
+
+            var categoriesToResetUpdate = await _categoryRepository.GetAllByExpression(category => !updatedCategoryIds.Contains(category.Id));
+
+            foreach(var item in categoriesToResetUpdate)
+            {
+                Category categoryToUpdate = new();
+                if (categoryToUpdate != null)
+                {
+                    item.Order = null;
+                    item.IsOnHomePage = false;
+                    _mapper.Map(item, categoryToUpdate);
+                    bool result = await _categoryRepository.Update(categoryToUpdate);
+                    if (!result)
+                    {
+                        return new ErrorDataResult<IEnumerable<Category>>(Messages.UpdateListCategoryRepoError);
                     }
                 }
 
-                if (result)
-                    return new SuccessDataResult<List<Category>>(categories,Messages.UpdateListCategorySuccess);
-                else
-                    return new ErrorDataResult<List<Category>>(categories,Messages.UpdateListCategoryRepoError);
+
             }
 
-
+            return new SuccessDataResult<IEnumerable<Category>>(categoriesToUpdate, Messages.UpdateListCategorySuccess);
         }
+
+
+
+
+
+
     }
 }
