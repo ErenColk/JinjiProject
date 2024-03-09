@@ -87,10 +87,10 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 		[HttpGet]
 		public async Task<IActionResult> HomePageEdit()
-		{//TODOO DÜZENLECEK
-
+		{    
+			//TODOO DÜZENLECEK
 			var categoryResult = await _categoryService.GetAllCategory();
-            List<ListHomePageCategory> categoryDtos = _mapper.Map<List<ListHomePageCategory>>(categoryResult.Data);
+            List<ListHomePageCategory> categoryDtos = _mapper.Map<List<ListHomePageCategory>>(categoryResult.Data.OrderBy(category => category.Order));
 
 			return View(categoryDtos);
 		}
@@ -102,19 +102,20 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             var updateCategoryResult = await _categoryService.UpdateAllCategoryAsync(categories);
 
-            if (updateCategoryResult.IsSuccess)
-            {
+			if (updateCategoryResult.IsSuccess)
+			{
 
-                NotifySuccess(updateCategoryResult.Message);
+				NotifySuccess(updateCategoryResult.Message);
+			}
+			else
+			{
+				NotifyError(updateCategoryResult.Message);
+				return View(listCategoryDto);
+			}
 
-            }
-            else
-            {
-                NotifyError(updateCategoryResult.Message);
-            }
 
-            return Json(new { redirectToUrl = Url.Action(nameof(CategoryList), new { showWarning = false }) });
-        }
+			return Ok();
+		}
 
         [HttpGet]
 		public async Task<IActionResult> UpdateCategory(int id)
@@ -136,7 +137,6 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 
 		}
-
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
