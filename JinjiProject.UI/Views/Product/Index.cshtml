@@ -204,4 +204,9 @@
     var productList = [];
     productList = @Html.Raw(Json.Serialize(Model));
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        runOwlCarousel();
+    });
+</script>
 <script src="~/js/product-list-bycategoryname.js"></script>
