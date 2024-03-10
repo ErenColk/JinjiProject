@@ -1,4 +1,5 @@
 ﻿using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Dtos.Products;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +36,7 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> BagList()
         {
-            var productList = await productService.GetAllProduct();
+            var productList = await productService.GetAllProduct();  
 
             return PartialView("_BagListPartialView", productList.Data);
 

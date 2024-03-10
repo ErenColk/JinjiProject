@@ -59,9 +59,14 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string CategoryHardDeletedSuccess = "Kategori tamamen silinmiştir.";
         public const string CategoryHardDeletedRepoError = "Kategori silme işlemi başarısız.";
         public const string UpdateCategoryError = "Kategori güncelleme işlemi başarısız.";
+
+
         public const string UpdateCategorySuccess = "Kategori güncelleme işlemi başarılı.";
         public const string UpdateCategoryRepoError = "Kategori güncellerken sunucu tarafında hata oluştu.";
 
+        public const string UpdateListCategorySuccess = "Kategorilerden bazıları ana sayfaya eklendi";
+        public const string UpdateListCategoryRepoError = "Kategorilerden bazıları ana sayfaya eklenemedi.";
+        public const string NoCategoriesToUpdateError = "Güncellenecek kategori bulunamadı.";
 
 
         public const string CreateProductError = "Ürün yüklenirken hata oluştu.";

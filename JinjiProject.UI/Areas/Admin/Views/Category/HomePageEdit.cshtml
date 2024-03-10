@@ -1,0 +1,334 @@
+﻿@model List<ListHomePageCategory>
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">KATEGORİ</h4>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Ana Sayfadaki Kategoriler</div>
+                        <small>En Fazla 3 Kategori Ekleyebilirsiniz.</small>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <form id="categoryForm" onsubmit="submitForm(); return false;">
+                            <div id="selectedCategories">
+                                <table class="col-lg-12 text-center">
+                                    <thead>
+
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                Kategori Adı
+                                            </th>
+                                            <th>
+                                                Oluşturulma Tarihi
+                                            </th>
+                                            <th>
+                                                İşlem
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="selectedCategoriesTable">
+                                        @foreach (var item in Model.Select((value, index) => new { Index = index +1 , Value = value }))
+                                        {
+                                            if (item.Value.IsOnHomePage == true)
+                                            {
+
+                                                <tr>
+                                                    <td>
+
+                                                        @item.Index
+                                                    </td>
+                                                    <td>
+                                                        @item.Value.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.Value.CreatedDate
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.Id" />
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.Order" />
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.Description" />
+                                                    </td>
+                                                    <td><button class="btn btn-outline-danger" onclick="undoCategory(this)">Geri Al</button></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr />
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-outline-success">Seçimi Tamamla</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Eklenecek kategoriler</div>
+                        <small>En Fazla 3 Kategori Seçebilirsiniz</small>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="col-lg-12 text-center">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Kategori Adı
+                                    </th>
+                                    <th>
+                                        Oluşturulma Tarihi
+                                    </th>
+                                    <th>
+                                        İşlem
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="selectCategoriesTable">
+                                @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                {
+                                    if (item.Value.IsOnHomePage == false || item.Value.IsOnHomePage == null)
+                                    {
+                                        <tr>
+                                            <td>
+
+                                                @item.Index
+                                            </td>
+                                            <td>
+                                                @item.Value.Name
+                                            </td>
+                                            <td>
+                                                @item.Value.CreatedDate
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.Id" />
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.Order" />
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.Description" />
+                                            </td>
+                                            <td><button class="btn btn-outline-success" onclick="addCategory(this)">Ekle</button></td>
+                                        </tr>
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function submitForm() {
+        console.log("form çalıştı");
+        debugger;
+
+
+        var selectedTableBody = document.getElementById("selectedCategoriesTable");
+        var rowList = selectedTableBody.querySelectorAll('tr');
+
+
+        if (rowList.length < 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Üzgünüz...',
+                text: 'En az 3 kategori eklemelisiniz!',
+                confirmButtonText: 'Tamam'
+            });
+            return false;
+        }
+
+
+        rowList.forEach(function (row) {
+            var categoryId = parseInt(row.querySelector('[name$="Id"]').value);
+            var description = row.querySelector('[name$="Description"]').value;
+
+            var order = parseInt(row.cells[0].innerText);
+
+            var category = {
+                Id: categoryId,
+                IsOnHomePage: true,
+                Order: order,
+                Description: description,
+                Name: row.cells[1].innerText,
+                CreatedDate: new Date(row.cells[2].innerText),
+            };
+            selectedCategories.push(category);
+            console.log(JSON.stringify(selectedCategories))
+            // var cells = row.querySelectorAll('td');
+            // cells.forEach(function (cell) {
+                
+            // });
+        });
+
+
+        var selectedCategoriesData = JSON.stringify(selectedCategories);
+
+        var gelenAjax = $.ajax({
+            url: '/Admin/Category/HomePageEdit',
+            type: 'POST',
+            contentType: 'application/json',
+            data: selectedCategoriesData,
+            success: function (data) {
+
+                console.log(data);
+                window.location.href = '/Admin/Category/CategoryList';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('There has been a problem with your fetch operation:', errorThrown);
+            }
+        });
+
+        console.log(gelenAjax);
+    }
+
+
+
+    let selectedCategories = [];
+
+    function addCategory(button) {
+        var row = button.parentNode.parentNode;
+        var selectedTableBody = document.getElementById("selectedCategoriesTable");
+        var rowList = selectedTableBody.querySelectorAll('tr');
+
+        //swal fire hata mesajı
+        if (rowList.length >= 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Üzgünüz...',
+                text: 'Maksimum kategori sayısına ulaşıldı!',
+                confirmButtonText: 'Tamam'
+            });
+            return false;
+        }
+        console.log(row)
+
+        // buton ekler geri al
+        var selectedCategoriesTable = document.getElementById("selectedCategoriesTable");
+        var buttonCell = row.querySelector('td:last-child');
+        buttonCell.innerHTML = '';
+        var undoButton = document.createElement('button');
+        undoButton.className = 'btn btn-outline-danger';
+        undoButton.textContent = 'Geri Al';
+       
+        undoButton.onclick = function () { undoCategory(this); };;
+        buttonCell.appendChild(undoButton);
+        selectedCategoriesTable.appendChild(row);
+
+
+
+        resetIndicesSelected();
+        resetIndicesSelect();
+
+        var categoryId = parseInt(row.querySelector('[name$="Id"]').value);
+        var description = row.querySelector('[name$="Description"]').value;
+
+        var order = parseInt(row.cells[0].innerText);
+
+        var category = {
+            Id: categoryId,
+            IsOnHomePage: true,
+            Order: order,
+            Description: description,
+            Name: row.cells[1].innerText,
+            CreatedDate: new Date(row.cells[2].innerText),
+        };
+
+    }
+    function undoCategory(button) {
+
+
+
+        var deletedRow = button.parentNode.parentNode;
+        var selectCategoriesTable = document.getElementById("selectCategoriesTable");
+        var buttonCell = deletedRow.querySelector('td:last-child');
+        buttonCell.innerHTML = '';
+        var createButton = document.createElement('button');
+        createButton.className = 'btn btn-outline-success';
+        createButton.textContent = 'Ekle';
+        createButton.onclick = function () { addCategory(this); };
+        buttonCell.appendChild(createButton);
+        selectCategoriesTable.appendChild(deletedRow);
+
+
+        var categoryId = parseInt(deletedRow.querySelector('[name$="Id"]').value);
+
+        console.log(categoryId)
+
+        selectedCategories = selectedCategories.filter(function (category) {
+            return category.Id !== categoryId;
+        });
+
+
+        resetIndicesSelect();
+        resetIndicesSelected();
+    }
+
+  
+
+    function resetIndicesSelect() {
+        var rows = document.querySelectorAll('#selectCategoriesTable tr');
+        rows.forEach((row, index) => {
+            var cells = row.getElementsByTagName('td');
+            cells[0].innerText = index + 1;
+        });
+    }
+    function resetIndicesSelected() {
+        var rows = document.querySelectorAll('#selectedCategoriesTable tr');
+        rows.forEach((row, index) => {
+            var cells = row.getElementsByTagName('td');
+            cells[0].innerText = index + 1;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        resetIndicesSelect();
+        resetIndicesSelected();
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

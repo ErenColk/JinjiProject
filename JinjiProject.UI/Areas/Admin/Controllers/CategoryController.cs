@@ -85,9 +85,39 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 		}
 
-
-
 		[HttpGet]
+		public async Task<IActionResult> HomePageEdit()
+		{    
+			//TODOO DÜZENLECEK
+			var categoryResult = await _categoryService.GetAllCategory();
+            List<ListHomePageCategory> categoryDtos = _mapper.Map<List<ListHomePageCategory>>(categoryResult.Data.OrderBy(category => category.Order));
+
+			return View(categoryDtos);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> HomePageEdit([FromBody] List<ListHomePageCategory> listCategoryDto)
+        {
+            List<UpdateCategoryDto> categories= _mapper.Map<List<UpdateCategoryDto>>(listCategoryDto);
+
+            var updateCategoryResult = await _categoryService.UpdateAllCategoryAsync(categories);
+
+			if (updateCategoryResult.IsSuccess)
+			{
+
+				NotifySuccess(updateCategoryResult.Message);
+			}
+			else
+			{
+				NotifyError(updateCategoryResult.Message);
+				return View(listCategoryDto);
+			}
+
+
+			return Ok();
+		}
+
+        [HttpGet]
 		public async Task<IActionResult> UpdateCategory(int id)
 		{
 			var updateCategoryResult = await _categoryService.GetCategoryById(id);
@@ -107,7 +137,6 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 
 		}
-
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
@@ -180,6 +209,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 
 		}
+
 
 
 

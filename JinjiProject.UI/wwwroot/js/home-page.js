@@ -1,11 +1,14 @@
 ﻿function triggerHomePagePartialView() {
-    $.ajax({
-        url: '/Product/BagList',
-        type: 'GET',
+	$.ajax({
+		url: '/Product/BagList',
+		type: 'GET',
 
-        success: function (response) {
-            $("#homePage-bag-list").html(response)
-        }
+		success: function (response) {
+			$("#homePage-bag-list").html(response)
+		}
 
-    });
+	});
+
+	runOwlCarousel();
 }
+
