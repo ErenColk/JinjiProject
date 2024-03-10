@@ -18,7 +18,7 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string category = null)
         {
-            var products = await productService.GetFilteredProductsAsync(product => product.Genre.Name == category && product.Status != Core.Enums.Status.Deleted);
+            var products = await productService.GetFilteredProductsAsync(product => product.Genre.Category.Name == category && product.Status != Core.Enums.Status.Deleted);
             if (products.IsSuccess)
             {
                 if (products.Data.Count > 0)
@@ -44,8 +44,25 @@ namespace JinjiProject.UI.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<object> GetSizeNames()
+        {
+            var sizeNames = Enum.GetNames(typeof(Core.Enums.Size));
+            return sizeNames;
+        }
 
-
+        [HttpGet]
+        public async Task<object> GetColorNames()
+        {
+            var products = await productService.GetAllByExpression(x => x.Status != Core.Enums.Status.Deleted);
+            List<string> colorNames = new List<string>();
+            foreach (var item in products.Data)
+            {
+                colorNames.Add(item.Color);
+            }
+            var distinctColorNames = colorNames.Distinct();
+            return distinctColorNames;
+        }
 
     }
 }
