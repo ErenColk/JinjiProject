@@ -7,6 +7,8 @@ using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.UI.Controllers;
+using JinjiProject.UI.Models.CategoryVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
@@ -305,7 +307,16 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             return categoryResult;
         }
 
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<List<CategoryNameVM>> GetActiveCategoryNames()
+		{
+			var categories = await _categoryService.GetAllByExpression(x => x.Status != Status.Deleted);
 
+			var categoryNames = _mapper.Map<List<CategoryNameVM>>(categories.Data);
+
+			return categoryNames;
+		}
 
 
 	}
