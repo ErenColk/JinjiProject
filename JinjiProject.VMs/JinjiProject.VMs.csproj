@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JinjiProject.DataAccessLayer\JinjiProject.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\JinjiProject.VMs\JinjiProject.VMs.csproj" />
+    <ProjectReference Include="..\JinjiProject.Core\JinjiProject.Core.csproj" />
   </ItemGroup>
 
 </Project>

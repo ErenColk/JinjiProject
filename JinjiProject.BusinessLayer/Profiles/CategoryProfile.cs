@@ -2,6 +2,7 @@
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.VMs.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace JinjiProject.BusinessLayer.Profiles
         public CategoryProfile()
         {
             CreateMap<CreateCategoryDto, Category>().ReverseMap();
+            CreateMap<ListCategoryHomePageVM, Category>().ReverseMap();
             CreateMap< UpdateCategoryDto, Category>()
     .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
     .ReverseMap(); ;
