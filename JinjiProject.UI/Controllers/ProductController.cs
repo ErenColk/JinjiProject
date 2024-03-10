@@ -8,10 +8,12 @@ namespace JinjiProject.UI.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService productService;
+        private readonly ICategoryService _categoryService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService,ICategoryService categoryService)
         {
             this.productService = productService;
+            _categoryService = categoryService;
         }
         [HttpGet]
         public async Task<IActionResult> Index(string category = null)
@@ -36,9 +38,9 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> BagList()
         {
-            var productList = await productService.GetAllProduct();  
-
-            return PartialView("_BagListPartialView", productList.Data);
+            var productList = await productService.GetAllProduct();
+            var categoryList = await _categoryService.GetListCategoryIncludeOrderBy(category => category.IsOnHomePage == true);
+            return PartialView("_BagListPartialView", categoryList.Data);
 
         }
 

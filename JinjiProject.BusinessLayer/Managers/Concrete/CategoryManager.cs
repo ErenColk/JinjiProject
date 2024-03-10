@@ -8,6 +8,7 @@ using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Admins;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.VMs.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,10 +208,12 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             return new SuccessDataResult<IEnumerable<Category>>(categoriesToUpdate, Messages.UpdateListCategorySuccess);
         }
 
+        public async Task<DataResult<List<ListCategoryHomePageVM>>> GetListCategoryIncludeOrderBy(Expression<Func<Category, bool>> expression)
+        {
+            var categories = await _categoryRepository.GetListCategoryIncludeOrderBy(expression);
 
+            return new SuccessDataResult<List<ListCategoryHomePageVM>>(_mapper.Map<List<ListCategoryHomePageVM>>(categories), Messages.CategoryListedSuccess);
 
-
-
-
+        }
     }
 }
