@@ -23,6 +23,8 @@ namespace JinjiProject.UI.Controllers
             {
                 if (products.Data.Count > 0)
                 {
+                    ViewBag.CategoryName = category;
+                    ViewBag.Genre = products.Data.First().GenreName;
                     return View(products.Data);
                 }
                 else
@@ -43,6 +45,21 @@ namespace JinjiProject.UI.Controllers
             return PartialView("_BagListPartialView", categoryList.Data);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            var product = await productService.GetProductById(id);
+            if (product.IsSuccess)
+            {
+                return View(product.Data);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet]
         public async Task<object> GetSizeNames()

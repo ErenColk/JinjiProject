@@ -69,9 +69,7 @@ function fillProducts(products) {
                     <div class="thumb">
                         <div class="hover-content">
                             <ul>
-                                <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a href="/Product/ProductDetails/${product.id}"><i class="fa fa-eye"></i></a></li>
                             </ul>
                         </div>
                         <img src="${product.imagePath}" style="height:320px" alt="">
@@ -80,7 +78,7 @@ function fillProducts(products) {
                         <h4>${product.name}</h4>
                         <span>${product.description}</span>
                         <ul class="stars">
-                            <li>${product.price} Tl</i></li>
+                            <li>${product.price} ₺</i></li>
                         </ul>
                     </div>
                 </div>`;
