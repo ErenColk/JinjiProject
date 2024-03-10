@@ -28,7 +28,9 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Template\" />
     <Folder Include="wwwroot\images\adminPhotos\" />
+    <Folder Include="wwwroot\images\genrePhotos\" />
     <Folder Include="wwwroot\images\productPhotos\" />
     <Folder Include="wwwroot\js\Custom\View\Category\" />
   </ItemGroup>
