@@ -16,8 +16,10 @@ namespace JinjiProject.BusinessLayer.Profiles
         public CategoryProfile()
         {
             CreateMap<CreateCategoryDto, Category>().ReverseMap();
-            CreateMap<ListCategoryHomePageVM, Category>().ReverseMap();
-            CreateMap< UpdateCategoryDto, Category>()
+            CreateMap< Category,ListCategoryHomePageVM > ()
+      .ForMember(dest => dest.Products , opt=> opt.MapFrom(x=> x.Genres.SelectMany(genre => genre.Products)))
+      .ReverseMap();
+            CreateMap<UpdateCategoryDto, Category>()
     .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
     .ReverseMap(); ;
             CreateMap<ListCategoryDto, Category>().ReverseMap();

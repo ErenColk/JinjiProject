@@ -19,16 +19,19 @@ namespace JinjiProject.Core.Entities.Concrete
         public int Stock { get; set; }
         public string ImagePath { get; set; }
         public int? Capacity { get; set; }
+        public float? Height { get; set; }
+        public float? Width { get; set; }
+        public float? Length { get; set; }
 
         [NotMapped]
         public IFormFile UploadPath { get; set; }
         public Size? Size { get; set; }
 
         public int MaterialId { get; set; }
-        public int CategoryId{ get; set; }
+        public int GenreId{ get; set; }
         public int BrandId { get; set; }
         public virtual Material Material { get; set; }
-        public virtual Category Category { get; set; }
+        public virtual Genre Genre { get; set; }
         public virtual Brand Brand { get; set; }
     }
 }
