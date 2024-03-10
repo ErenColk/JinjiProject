@@ -29,7 +29,6 @@ function updatePagination(totalPages, products) {
 updatePagination(totalPages, productList);
 showPage(1, productList);
 updateActiveClass(1);
-
 // Sayfada toplam 9 ürün olmasını sağlar.
 function showPage(pageNumber, products) {
     // Başlangıç ve bitiş indeksleri hesapla
@@ -45,6 +44,7 @@ function showPage(pageNumber, products) {
     // Ürünleri listele
     console.log('productOnPage', productsOnPage)
     fillProducts(productsOnPage);
+    
 }
 
 // Pagination numaralarının aktif olanını göstermeye yarar.
