@@ -95,8 +95,23 @@ namespace JinjiProject.BusinessLayer.Constants
 		public const string CategoryFoundSuccess = "Kategori başarıyla bulundu.";
 
 
+        public const string CreateGenreSuccess = "Kategori türü başarıyla oluşturuldu.";
+        public const string CreateGenreError = "Kategori türü oluşturulamadı.";
+        public const string CreateGenreRepoError = "Kategori türü veritabanına eklenirken hata oluştu.";
+        public const string GenreNotFound = "Kategori türü bulunamadı.";
+        public const string GenreFoundSuccess = "Kategori türü başarıyla bulundu.";
+        public const string GenreListedSuccess = "Kategori türü başarıyla listelendi.";
+        public const string GenreFilteredError = "Kategori türü bulunamadı.";
+        public const string GenreFilteredSuccess = "Kategori türü başarıyla bulundu.";
+        public const string GenreDeletedSuccess = "Kategori türü başarıyla silindi.";
+        public const string GenreDeletedRepoError = "Kategori türü veritabanı sebebiyle silinemedi.";
+        public const string UpdateGenreError = "Kategori türü güncellenemedi.";
+        public const string UpdateGenreSuccess = "Kategori türü başarıyla güncellendi.";
+        public const string UpdateGenreRepoError = "Kategori türü veritabanı sebebiyle güncellenemedi.";
 
 
 
-	}
+
+
+    }
 }
