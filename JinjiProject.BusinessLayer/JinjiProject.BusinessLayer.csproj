@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\JinjiProject.DataAccess.EFCore\JinjiProject.DataAccess.EFCore.csproj" />
     <ProjectReference Include="..\JinjiProject.Dtos\JinjiProject.Dtos.csproj" />
+    <ProjectReference Include="..\JinjiProject.VMs\JinjiProject.VMs.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.VMs.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
         public Task<DataResult<IEnumerable<Category>>> UpdateAllCategoryAsync(List<UpdateCategoryDto> updateCategoryDto);
         public Task<DataResult<Category>> SoftDeleteCategoryAsync(int id);
         public Task<DataResult<List<ListCategoryDto>>> GetAllByExpression(Expression<Func<Category, bool>> expression);
+        public Task<DataResult<List<ListCategoryHomePageVM>>> GetListCategoryIncludeOrderBy(Expression<Func<Category, bool>> expression);
 
         public Task<DataResult<Category>> HardDeleteCategoryAsync(int id);
         public Task<DataResult<List<ListCategoryDto>>> GetAllCategory();
