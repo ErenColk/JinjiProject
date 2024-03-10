@@ -58,7 +58,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
             var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
             var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
-          
+           
 
             ViewBag.Brands  = await BrandItems.GetBrands(listBrandDto.Data);
             ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
@@ -277,5 +277,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 return RedirectToAction(nameof(DeletedProductList), new { showWarning = false });
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AddGenreList(int id)
+        {
+
+            return Ok();
+        }
+
+
     }
 }

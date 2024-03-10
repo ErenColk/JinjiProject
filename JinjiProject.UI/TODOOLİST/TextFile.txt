@@ -1,4 +1,0 @@
-﻿*Listelerdeki yeni ekleme butonu rengi yeşil olacak.
-*Seçenekler kısmındaki detay butonları mavi olacak.
-*Seçenekler kısmınkdai detaylara gelince pointer çıkmıyor düzeltilecek
-*Hrefler tag helpera döndürülecek

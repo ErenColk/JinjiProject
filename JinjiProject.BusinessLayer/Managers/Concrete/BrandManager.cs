@@ -67,12 +67,12 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             var brandDto = await brandRepository.GetFilteredFirstOrDefault(expression);
             if (brandDto == null)
             {
-                return new ErrorDataResult<GetBrandDto>(Messages.AdminFilteredError);
+                return new ErrorDataResult<GetBrandDto>(Messages.BrandFilteredError);
             }
             else
             {
                 GetBrandDto getBrandDto = mapper.Map<GetBrandDto>(brandDto);
-                return new SuccessDataResult<GetBrandDto>(getBrandDto, Messages.AdminFilteredSuccess);
+                return new SuccessDataResult<GetBrandDto>(getBrandDto, Messages.BrandFilteredSuccess);
             }
         }
 

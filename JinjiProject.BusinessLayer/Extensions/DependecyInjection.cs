@@ -22,6 +22,8 @@ namespace JinjiProject.BusinessLayer.Extensions
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<IBrandService, BrandManager>();
             services.AddScoped<IMaterialService, MaterialManager>();
+            services.AddScoped<IGenreService, GenreManager>();
+
 
             return services;
         }
