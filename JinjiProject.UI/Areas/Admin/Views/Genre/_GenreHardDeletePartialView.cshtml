@@ -1,0 +1,40 @@
+﻿<div class="modal fade" id="hardDeleteModal" tabindex="-1" aria-labelledby="hardDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="hardDeleteModalLabel">Kategori türüne ait tüm ürünler silinecektir.Veriyi Tamamen Silmek İstediğinize Emin misiniz ? </h6>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                    X
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <table id="kt_modal_delete_genre_form">
+                    <tbody>
+                        <tr>
+                            <td><strong>Kategori Türü Fotoğrafı : </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kategori Türü Adı : </strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Kapat</button>
+                <a type="button" href="/Admin/Genre/HardDelete/" class="btn btn-outline-danger" id="modal-genre-delete">Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #kt_modal_delete_genre_form td {
+        max-width: 350px;
+        word-wrap: break-word;
+        padding: 5px;
+    }
+</style>
