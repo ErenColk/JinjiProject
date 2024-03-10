@@ -24,7 +24,7 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
         public async Task<List<Category>> GetListCategoryIncludeOrderBy(Expression<Func<Category, bool>> expression)
         {
             IQueryable<Category> categories = _appDbContext.Categories.AsQueryable();
-            categories = categories.Include(category => category.Products);
+            categories = categories.Include(category => category.Genres).ThenInclude(genre => genre.Products);
 
             var orderedCategories = categories.Where(expression).OrderBy(category => category.Order);
 
