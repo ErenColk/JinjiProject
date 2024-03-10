@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "CreateGenre";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model CreateGenreDto
+
+<div class="col-md-12" style="margin-top:80px">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Kategori Türü Ekleme İşlemleri</div>
+        </div>
+        <form asp-area="Admin" asp-controller="Genre" asp-action="CreateGenre" method="post" enctype="multipart/form-data">
+            <div class="col-md-12">
+                <div class="card-body">
+                    <div class="form-group text-muted">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">KATEGORİ TÜRÜ ADI</span>
+                                <input asp-for="Name" type="text" class="form-control " id="genre-name" placeholder="Kategori Türünün Adını Giriniz...">
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">KATEGORİ</span>
+                                <select asp-for="CategoryId" data-control="select2" asp-items="@ViewBag.Categories" class="form-control" id="genre-category">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>                            
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">AÇIKLAMA</span>
+                                    <textarea asp-for="Description" class="form-control" id="genre-comment" placeholder="Kategori Türünün Açıklamasını Giriniz...">
+                                                </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">KATEGORİ TÜRÜ FOTOĞRAFI</span>
+                                    <input asp-for="UploadPath" type="file" class="form-control-file" id="genre-photo" onchange="previewImage(event)">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" id="image-preview" src="#" alt="Kategori Türü Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <small id="image-preview-label" style="display: none;" for="image-preview">Yüklenen Kategori Türü Fotoğrafı</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-action d-flex justify-content-end  ">
+                    <button type="submit" class="btn btn-outline-success mr-2">Kaydet</button>
+                    <a asp-area="Admin" asp-action="GenreList" asp-controller="Genre" class="btn btn-outline-primary">Geri Dön</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('image-preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+            document.getElementById('image-preview-label').style.display = 'block';
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+    //function showCapacity(id) {
+    //    var capacity = document.getElementById(id);
+    //    var lt = document.getElementById('product-lt');
+
+    //    var inputElement = document.getElementById('input-capacity-toggle');
+    //    var dataResultValue = inputElement.getAttribute('data-result');
+
+    //    if (dataResultValue == "false") {
+    //        capacity.style.display = 'block';
+    //        lt.style.display = 'block';
+    //        inputElement.setAttribute('data-result', 'true');
+    //    } else {
+    //        inputElement.setAttribute('data-result', 'false');
+    //        capacity.style.display = 'none';
+    //        lt.style.display = 'none';
+    //    }
+    //}
+
+    //function showDimensions(className) {
+    //    var elements = document.getElementsByClassName(className);
+    //    for (var i = 0; i < elements.length; i++) {
+    //        if (elements[i].style.display === "none") {
+    //            elements[i].style.display = "block";
+    //        } else {
+    //            elements[i].style.display = "none";
+    //        }
+    //    }
+    //}
+
+
+    //function showSize(id) {
+    //    var size = document.getElementById(id);
+
+    //    var inputElement = document.getElementById('input-size-toggle');
+    //    var dataResultValue = inputElement.getAttribute('data-result');
+
+    //    if (dataResultValue == "false") {
+    //        size.style.display = 'block';
+    //        inputElement.setAttribute('data-result', 'true');
+    //    } else {
+    //        inputElement.setAttribute('data-result', 'false');
+    //        size.style.display = 'none';
+    //    }
+    //}
+
+
+</script>
+
+<style>
+    #image-preview {
+        max-width: 100%;
+        max-height: 200px;
+    }
+</style>

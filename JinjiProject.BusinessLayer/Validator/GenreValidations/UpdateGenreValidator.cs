@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace JinjiProject.BusinessLayer.Validator.GenreValidations
 {
-    public class CreateGenreValidator : AbstractValidator<CreateGenreDto>
+    public class UpdateGenreValidator : AbstractValidator<UpdateGenreDto>
     {
-        public CreateGenreValidator()
+        public UpdateGenreValidator()
         {
             RuleFor(genre => genre.Name).NotEmpty().WithMessage("Kategori türünün adı boş geçilemez.").WithErrorCode("1");
             RuleFor(genre => genre.Name).MinimumLength(2).WithMessage("Kategori türünün adı en az 2 karakter içermelidir.").WithErrorCode("1");
