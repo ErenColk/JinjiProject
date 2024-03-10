@@ -17,6 +17,7 @@ namespace JinjiProject.Dtos.Products
         public int Stock { get; set; }
         public string ImagePath { get; set; }
         public int? Capacity { get; set; }
+        public string Size { get; set; }
         public DateTime DeletedDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
