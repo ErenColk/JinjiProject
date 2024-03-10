@@ -107,10 +107,21 @@ function filterProductsByKeyword(keyword) {
 
 // Arama kutusundaki değer değiştiğinde filtrelemeyi tetikle
 const searchInput = document.getElementById('search-box');
-searchInput.addEventListener('input', function (event) {
-    const keyword = event.target.value;
-    console.log("calisti", keyword)
-    filterProductsByKeyword(keyword);
+searchInput.addEventListener('input', function () {
+    var clearButton = this.nextElementSibling;
+    if (this.value.length > 0) {
+        clearButton.style.display = 'inline-block';
+    } else {
+        clearButton.style.display = 'none';
+    }
+});
+
+// X simgesine tıklandığında içeriği temizle
+var clearButton = document.getElementById('clear-search');
+clearButton.addEventListener('click', function () {
+    searchInput.value = '';
+    this.style.display = 'none';
+    updateFilter();
 });
 
 // Fiyata göre filtreleme
@@ -119,7 +130,7 @@ const maxPriceInput = document.getElementById('max-price');
 const searchPriceButton = document.getElementById('search-price');
 const range1Radio = document.getElementById('range-1');
 const range2Radio = document.getElementById('range-2');
-const clearButton = document.getElementById('clear-filter');
+const clearPriceButton = document.getElementById('clear-price-filter');
 
 // Fiyat aralığına göre filtreleme işlevi
 function filterProductsByPrice(minPrice, maxPrice) {
@@ -136,7 +147,7 @@ function filterProductsByPrice(minPrice, maxPrice) {
     updateActiveClass(1);
 
     // Temizle düğmesini görünür hale getir
-    clearButton.style.display = 'inline-block';
+    clearPriceButton.style.display = 'inline-block';
 }
 
 searchPriceButton.addEventListener('click', function () {
@@ -169,29 +180,138 @@ range2Radio.addEventListener('change', function () {
 });
 
 // Temizle düğmesi işlevi
-clearButton.addEventListener('click', function () {
+clearPriceButton.addEventListener('click', function () {
     minPriceInput.value = '';
     maxPriceInput.value = '';
-    filterProductsByPrice();
+    updateFilter();
 
     // Temizle düğmesini gizle
-    clearButton.style.display = 'none';
+    clearPriceButton.style.display = 'none';
 
     // Seçili radio düğmesini temizle
     range1Radio.checked = false;
     range2Radio.checked = false;
 });
+// Boyuta göre filtreleme işlevi
+function filterProductsBySize(size) {
+    size = size || 'yok'
+    var filteredProducts = []
+    if (size === 'yok') {
+        filteredProducts = productList;
+    }
+    else {
+        console.log(productList)
+         filteredProducts = productList.filter(product => {
+            return product.size === size;
+        });
+    }
 
+    
+
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    updatePagination(totalPages, filteredProducts);
+    showPage(1, filteredProducts);
+    updateActiveClass(1);
+    clearSizeButton.style.display = 'inline-block';
+}
+
+// Boyut radio düğmelerine tıklanınca filtreleme işlevini çağırma
+const sizeSmallRadio = document.getElementById('size-small');
+const sizeMediumRadio = document.getElementById('size-medium');
+const sizeLargeRadio = document.getElementById('size-large');
+const clearSizeButton = document.getElementById('clear-size-filter');
+//sizeSmallRadio.addEventListener('change', function () {
+//    if (sizeSmallRadio.checked) {
+//        filterProductsBySize('Small');
+//    }
+//});
+
+//sizeMediumRadio.addEventListener('change', function () {
+//    if (sizeMediumRadio.checked) {
+//        filterProductsBySize('Medium');
+//    }
+//});
+
+//sizeLargeRadio.addEventListener('change', function () {
+//    if (sizeLargeRadio.checked) {
+//        filterProductsBySize('Large');
+//    }
+//});
+clearSizeButton.addEventListener('click', function () {
+
+    // Temizle düğmesini gizle
+    clearSizeButton.style.display = 'none';
+
+    // Seçili radio düğmesini temizle
+    sizeSmallRadio.checked = false;
+    sizeMediumRadio.checked = false;
+    sizeLargeRadio.checked = false;
+    updateFilter();
+});
+const clearColorButton = document.getElementById('clear-color-filter');
+clearColorButton.addEventListener('click', function () {
+
+    // Temizle düğmesini gizle
+    clearColorButton.style.display = 'none';
+
+    // Seçili radio düğmesini temizle
+    colorBlackRadio.checked = false;
+    colorBlueRadio.checked = false;
+    colorRedRadio.checked = false;
+    updateFilter();
+});
 // Arama kutusundaki değer değiştiğinde ve fiyat aralığı güncellendiğinde filtrelemeyi tetikle
+const colorRedRadio = document.getElementById('color-red');
+const colorBlueRadio = document.getElementById('color-blue');
+const colorBlackRadio = document.getElementById('color-black');
 function updateFilter() {
     const keyword = searchInput.value.toLowerCase();
     const minPrice = parseFloat(minPriceInput.value) || 0;
     const maxPrice = parseFloat(maxPriceInput.value) || Number.MAX_SAFE_INTEGER;
+    const smallSize = sizeSmallRadio.checked;
+    const mediumSize = sizeMediumRadio.checked;
+    const largeSize = sizeLargeRadio.checked;
+    const colorBlue = colorBlueRadio.checked;
+    const colorRed = colorRedRadio.checked;
+    const colorBlack = colorBlackRadio.checked;
 
     const filteredProducts = productList.filter(product => {
         const nameMatches = product.name.toLowerCase().includes(keyword);
         const priceInRange = product.price >= minPrice && product.price <= maxPrice;
-        return nameMatches && priceInRange;
+        if (!smallSize && !mediumSize && !largeSize && !colorBlack && !colorRed && !colorBlue) {
+            return nameMatches && priceInRange;
+        }
+        else {
+           
+
+            if (!colorBlue && !colorRed && !colorBlack) {
+                const sizeMatches = (smallSize && product.size === 'Small') ||
+                    (mediumSize && product.size === 'Medium') ||
+                    (largeSize && product.size === 'Large');
+                clearSizeButton.style.display = 'inline-block';
+                return nameMatches && priceInRange && sizeMatches;
+            }
+            else if (!smallSize && !mediumSize && !largeSize) {
+                const colorMatches = (colorBlue && product.color === 'mavi') ||
+                    (colorRed && product.color === 'kırmızı') ||
+                    (colorBlack && product.color === 'siyah');
+                clearColorButton.style.display = 'inline-block';
+                return nameMatches && priceInRange && colorMatches;
+            }
+            else {
+                const sizeMatches = (smallSize && product.size === 'Small') ||
+                    (mediumSize && product.size === 'Medium') ||
+                    (largeSize && product.size === 'Large');
+                clearSizeButton.style.display = 'inline-block';
+
+                const colorMatches = (colorBlue && product.color === 'mavi') ||
+                    (colorRed && product.color === 'kırmızı') ||
+                    (colorBlack && product.color === 'siyah');
+                clearColorButton.style.display = 'inline-block';
+                return nameMatches && priceInRange && sizeMatches && colorMatches;
+            }
+           
+        }
     });
 
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -200,7 +320,14 @@ function updateFilter() {
     updateActiveClass(1);
 }
 
+
 searchInput.addEventListener('input', updateFilter);
 searchPriceButton.addEventListener('click', updateFilter);
 range1Radio.addEventListener('change', updateFilter);
 range2Radio.addEventListener('change', updateFilter);
+sizeSmallRadio.addEventListener('change', updateFilter);
+sizeMediumRadio.addEventListener('change', updateFilter);
+sizeLargeRadio.addEventListener('change', updateFilter);
+colorRedRadio.addEventListener('change', updateFilter);
+colorBlueRadio.addEventListener('change', updateFilter);
+colorBlackRadio.addEventListener('change', updateFilter);
