@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JinjiProject.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240310094635_init")]
+    [Migration("20240310114821_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,6 +227,54 @@ namespace JinjiProject.DataAccessLayer.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("JinjiProject.Core.Entities.Concrete.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsOnHomePage")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Genres");
+                });
+
             modelBuilder.Entity("JinjiProject.Core.Entities.Concrete.Material", b =>
                 {
                     b.Property<int>("Id")
@@ -274,9 +322,6 @@ namespace JinjiProject.DataAccessLayer.Migrations
                     b.Property<int?>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -291,9 +336,18 @@ namespace JinjiProject.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("Height")
+                        .HasColumnType("real");
+
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("Length")
+                        .HasColumnType("real");
 
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
@@ -317,11 +371,14 @@ namespace JinjiProject.DataAccessLayer.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
+                    b.Property<float?>("Width")
+                        .HasColumnType("real");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("GenreId");
 
                     b.HasIndex("MaterialId");
 
@@ -472,6 +529,17 @@ namespace JinjiProject.DataAccessLayer.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("JinjiProject.Core.Entities.Concrete.Genre", b =>
+                {
+                    b.HasOne("JinjiProject.Core.Entities.Concrete.Category", "Category")
+                        .WithMany("Genres")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("JinjiProject.Core.Entities.Concrete.Product", b =>
                 {
                     b.HasOne("JinjiProject.Core.Entities.Concrete.Brand", "Brand")
@@ -480,9 +548,9 @@ namespace JinjiProject.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("JinjiProject.Core.Entities.Concrete.Category", "Category")
+                    b.HasOne("JinjiProject.Core.Entities.Concrete.Genre", "Genre")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -494,7 +562,7 @@ namespace JinjiProject.DataAccessLayer.Migrations
 
                     b.Navigation("Brand");
 
-                    b.Navigation("Category");
+                    b.Navigation("Genre");
 
                     b.Navigation("Material");
                 });
@@ -561,6 +629,11 @@ namespace JinjiProject.DataAccessLayer.Migrations
                 });
 
             modelBuilder.Entity("JinjiProject.Core.Entities.Concrete.Category", b =>
+                {
+                    b.Navigation("Genres");
+                });
+
+            modelBuilder.Entity("JinjiProject.Core.Entities.Concrete.Genre", b =>
                 {
                     b.Navigation("Products");
                 });

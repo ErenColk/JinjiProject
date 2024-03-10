@@ -18,7 +18,7 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string category = null)
         {
-            var products = await productService.GetFilteredProductsAsync(product => product.Category.Name == category && product.Status != Core.Enums.Status.Deleted);
+            var products = await productService.GetFilteredProductsAsync(product => product.Genre.Name == category && product.Status != Core.Enums.Status.Deleted);
             if (products.IsSuccess)
             {
                 if (products.Data.Count > 0)

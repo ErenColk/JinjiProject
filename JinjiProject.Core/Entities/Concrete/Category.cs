@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace JinjiProject.Core.Entities.Concrete
 {
-	public class Category : BaseEntity
-	{
-		public Category()
-		{
-			Products = new List<Product>();
-		}
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public bool? IsOnHomePage { get; set; }
-		public int? Order { get; set; }
-		public virtual List<Product> Products { get; set; }
-	}
+    public class Category : BaseEntity
+    {
+        public Category()
+        {
+            Genres = new List<Genre>();
+        }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public bool? IsOnHomePage { get; set; }
+        public int? Order { get; set; }
+
+        public virtual List<Genre> Genres { get; set; }
+    }
 }
