@@ -165,7 +165,8 @@ function runOwlCarousel() {
 
 
 		// Page loading animation
-		$(window).on('load', function () {
+		function loadingAnimation() {
+			// Parallax efekti için kontrol
 			if ($('.cover').length) {
 				$('.cover').parallax({
 					imageSrc: $('.cover').data('image'),
@@ -173,14 +174,11 @@ function runOwlCarousel() {
 				});
 			}
 
-			$("#preloader").animate({
-				'opacity': '0'
-			}, 600, function () {
-				setTimeout(function () {
-					$("#preloader").css("visibility", "hidden").fadeOut();
-				}, 300);
-			});
-		});
+			// Sayfa yüklendiðinde preloader'ý gizle
+			$("#preloader").fadeOut(600);
+		}
+
+		$(window).on('load', loadingAnimation());
 
 
 		// Window Resize Mobile Menu Fix
