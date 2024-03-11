@@ -6,15 +6,15 @@
 
 @model CreateCategoryDto
 
-<div class="col-md-8" style="margin-top:80px">
+<div class="col-md-12" style="margin-top:80px; min-height: 815px;">
     <div class="card">
         <div class="card-header">
-            <div class="card-title">Ürün Ekleme İşlemleri</div>
+            <div class="card-title">Kategori Ekleme İşlemleri</div>
         </div>
         <form asp-area="Admin" asp-controller="Category" asp-action="CreateCategory" method="post" enctype="multipart/form-data">
             <div class="card-body">
                 <div class="form-group">
-                    <label for="name">Ürün Adı : </label>
+                    <label for="name">Kategori Adı : </label>
                     <input name="name" type="text" asp-for="Name" class="form-control" id="productName" placeholder="Kategori Adı Giriniz...">
                     <span  class="text-danger">@ViewData["NameError"]</span>
                 </div>
