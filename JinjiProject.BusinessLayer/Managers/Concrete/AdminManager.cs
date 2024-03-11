@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using JinjiProject.Core.Enums;
 using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.Core.Utilities.Results.Abstract;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -94,7 +95,17 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 return new SuccessDataResult<GetAdminDto>(getAdminDto,Messages.AdminFoundSuccess);
             }
         }
+        public async Task<IDataResult<GetAdminDto>> GetByIdentityIdAsync(string identityId)
+        {
+            var admin = await adminRepository.GetByIdentityIdAsync(identityId);
 
+            if (admin is null)
+            {
+                return new ErrorDataResult<GetAdminDto>(Messages.AdminNotFound);
+            }
+
+            return new SuccessDataResult<GetAdminDto>(mapper.Map<GetAdminDto>(admin), Messages.AdminFoundSuccess);
+        }
         public async Task<DataResult<List<ListAdminDto>>> GetAllAdmin()
         {
             var admins = await adminRepository.GetAllAsync();

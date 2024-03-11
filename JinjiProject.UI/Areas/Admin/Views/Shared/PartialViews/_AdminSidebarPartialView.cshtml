@@ -1,40 +1,7 @@
-﻿<div class="sidebar">
+﻿@using JinjiProject.UI.Extensions
+@inject IServiceProvider ServiceProvider
+<div class="sidebar">
 	<div class="scrollbar-inner sidebar-wrapper">
-		<div class="user">
-			<div class="photo">
-				<img src="~/AdminTemplate/assets/img/profile.jpg">
-			</div>
-			<div class="info">
-				<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-					<span>
-						Eren ÇOLAK
-						<span class="user-level">Admin</span>
-						<span class="caret"></span>
-					</span>
-				</a>
-				<div class="clearfix"></div>
-
-				<div class="collapse in" id="collapseExample" aria-expanded="true" style="">
-					<ul class="nav">
-						<li>
-							<a href="#profile">
-								<span class="link-collapse">Profilim</span>
-							</a>
-						</li>
-						<li>
-							<a href="#edit">
-								<span class="link-collapse">Profili Düzenle</span>
-							</a>
-						</li>
-						<li>
-							<a href="#settings">
-								<span class="link-collapse">Ayarlar</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
 		<ul class="nav">
 			<li class="nav-item active">
 				<a href="/Admin/Admin/AdminList">

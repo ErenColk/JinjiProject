@@ -1,4 +1,5 @@
 ﻿using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Utilities.Results.Abstract;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.Dtos.Admins;
 using JinjiProject.Dtos.Categories;
@@ -17,6 +18,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
         public Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto,bool addAgain = false);
         public Task<DataResult<Admin>> SoftDeleteAdminAsync(int id);
         public Task<DataResult<Admin>> HardDeleteAdminAsync(int id);
+        Task<IDataResult<GetAdminDto>> GetByIdentityIdAsync(string identityId);
         public Task<DataResult<List<ListAdminDto>>> GetAllAdmin();
         public Task<DataResult<List<ListAdminDto>>> GetAllByExpression(Expression<Func<Admin, bool>> expression);
         public Task<DataResult<GetAdminDto>> GetAdminById(int id);
