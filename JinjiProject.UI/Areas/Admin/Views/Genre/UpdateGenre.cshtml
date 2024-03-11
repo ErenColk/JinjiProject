@@ -4,7 +4,7 @@
 
 @model UpdateGenreDto
 
-<div class="col-md-12" style="margin-top:80px">
+<div class="col-md-12" style="margin-top:80px; min-height: 815px;">
     <div class="card">
         <div class="card-header">
             <div class="card-title">Kategori Türü Ekleme İşlemleri</div>
@@ -14,22 +14,16 @@
                 <div class="card-body">
                     <div class="form-group text-muted">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">KATEGORİ TÜRÜ ADI</span>
                                 <input asp-for="Name" type="text" class="form-control " id="genre-name" placeholder="Kategori Türü Adını Giriniz...">
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">KATEGORİ</span>
                                 <select asp-for="CategoryId" data-control="select2" asp-items="@ViewBag.Categories" class="form-control" id="genre-category">
                                     <option value="" selected>-- Seçiniz --</option>
                                 </select>
                             </div>
-                            
                         </div>
                     </div>
                     <div class="form-group">
