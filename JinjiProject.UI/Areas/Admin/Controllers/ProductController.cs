@@ -22,14 +22,16 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IMaterialService _materialService;
         private readonly IMapper _mapper;
+        private readonly IGenreService _genreService;
 
-        public ProductController(IProductService productService,IBrandService brandService,ICategoryService categoryService,IMaterialService materialService, IMapper mapper)
+        public ProductController(IProductService productService,IBrandService brandService,ICategoryService categoryService,IMaterialService materialService, IMapper mapper,IGenreService genreService)
         {
              _productService = productService;
             _brandService = brandService;
             _categoryService = categoryService;
             _materialService = materialService;
             _mapper = mapper;
+            _genreService = genreService;
         }
 
         [HttpGet]
@@ -119,6 +121,9 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
                 var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
 
+                var selectedCategory = await _categoryService.GetCategoryFilteredInclude(category => category.Genres.Any(genre => genre.CategoryId == category.Id));
+                updateProductResult.Data.CategoryId =  selectedCategory.Data.Id.ToString();
+
                 ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
                 ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
                 ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
@@ -130,12 +135,9 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             }
             else
             {
-                UpdateProductDto updateProduct = _mapper.Map<UpdateProductDto>(updateProductResult.Data);
                 NotifyError(updateProductResult.Message);
                 return RedirectToAction(nameof(ProductList), new { showWarning = false });
             }
-
-
 
         }
 
@@ -280,10 +282,14 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> AddGenreList(int id)
-        {
+        public async Task<SelectList> AddGenreList(int id)
+                    {
 
-            return Ok();
+
+            var deneme = await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == id);
+
+            return  new SelectList((await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == id)).Data, "Id", "Name");
+
         }
 
 

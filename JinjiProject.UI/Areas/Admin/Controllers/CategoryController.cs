@@ -131,7 +131,6 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 			}
 			else
 			{
-				UpdateCategoryDto updateCategory = _mapper.Map<UpdateCategoryDto>(updateCategoryResult.Data);
 				NotifyError(updateCategoryResult.Message);
 				return RedirectToAction(nameof(CategoryList), new { showWarning = false });
 			}

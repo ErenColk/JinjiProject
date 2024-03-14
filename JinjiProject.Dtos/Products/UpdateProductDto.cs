@@ -18,11 +18,17 @@ namespace JinjiProject.Dtos.Products
         public int Stock { get; set; }
         public Size Size { get; set; }
         public int SizeId { get; set; }
+        public float? Height { get; set; }
+        public float? Width { get; set; }
+        public float? Length { get; set; }
         public string ImagePath { get; set; }
         public IFormFile UploadPath { get; set; }
         public int? Capacity { get; set; }
         public string MaterialId { get; set; }
         public string CategoryId { get; set; }
         public string BrandId { get; set; }
+        public string GenreId { get; set; }
+
+
     }
 }
