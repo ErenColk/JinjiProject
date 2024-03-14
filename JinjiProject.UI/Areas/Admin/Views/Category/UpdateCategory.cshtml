@@ -6,16 +6,16 @@
 
 @model UpdateCategoryDto
 
-<div class="col-md-8" style="margin-top:80px">
+<div class="col-md-12" style="margin-top:80px; min-height: 815px;">
     <div class="card">
         <div class="card-header">
-            <div class="card-title">Kategori Ekleme İşlemleri</div>
+            <div class="card-title">Kategori Güncelleme İşlemleri</div>
         </div>
         <form method="post">
             <input type="hidden" asp-for="Id" />
             <div class="card-body">
                 <div class="form-group">
-                    <label for="kategori">Kategori</label>
+                    <label for="kategori">Kategori Adı</label>
                     <input type="text" asp-for="Name" class="form-control" id="kategori" placeholder="Kategori Adı Giriniz...">
                     <span class="text-danger">@ViewData["NameError"]</span>
 

@@ -13,7 +13,6 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
     public class AdminRepository : BaseRepository<Admin> , IAdminRepository
     {
         private readonly AppDbContext appDbContext;
-        protected DbSet<Admin> _adminTable;
 
         public AdminRepository(AppDbContext appDbContext) : base(appDbContext)
         {
@@ -22,7 +21,7 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
 
         public async Task<Admin?> GetByIdentityIdAsync(string identityId)
         {
-            return await _adminTable.Where(x => x.AppUserId == identityId).FirstOrDefaultAsync();
+            return await appDbContext.Admins.Where(x => x.AppUserId == identityId).FirstOrDefaultAsync();
         }
     }
 }

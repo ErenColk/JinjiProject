@@ -44,7 +44,7 @@ function showPage(pageNumber, products) {
     // Ürünleri listele
     console.log('productOnPage', productsOnPage)
     fillProducts(productsOnPage);
-    
+
 }
 
 // Pagination numaralarının aktif olanını göstermeye yarar.
@@ -69,9 +69,7 @@ function fillProducts(products) {
                     <div class="thumb">
                         <div class="hover-content">
                             <ul>
-                                <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a href="/Product/ProductDetails/${product.id}"><i class="fa fa-eye"></i></a></li>
                             </ul>
                         </div>
                         <img src="${product.imagePath}" style="height:320px" alt="">
@@ -80,7 +78,7 @@ function fillProducts(products) {
                         <h4>${product.name}</h4>
                         <span>${product.description}</span>
                         <ul class="stars">
-                            <li>${product.price} Tl</i></li>
+                            <li>${product.price} ₺</i></li>
                         </ul>
                     </div>
                 </div>`;
@@ -130,6 +128,8 @@ const maxPriceInput = document.getElementById('max-price');
 const searchPriceButton = document.getElementById('search-price');
 const range1Radio = document.getElementById('range-1');
 const range2Radio = document.getElementById('range-2');
+const range3Radio = document.getElementById('range-3');
+const range4Radio = document.getElementById('range-4');
 const clearPriceButton = document.getElementById('clear-price-filter');
 
 // Fiyat aralığına göre filtreleme işlevi
@@ -168,8 +168,29 @@ range1Radio.addEventListener('change', function () {
     filterProductsByPrice(minPrice, maxPrice);
 });
 
+
 range2Radio.addEventListener('change', function () {
     const rangeValues = range2Radio.value.split('-');
+    minPriceInput.value = rangeValues[0];
+    maxPriceInput.value = rangeValues[1];
+
+    const minPrice = parseFloat(minPriceInput.value);
+    const maxPrice = parseFloat(maxPriceInput.value);
+
+    filterProductsByPrice(minPrice, maxPrice);
+});
+range3Radio.addEventListener('change', function () {
+    const rangeValues = range3Radio.value.split('-');
+    minPriceInput.value = rangeValues[0];
+    maxPriceInput.value = rangeValues[1];
+
+    const minPrice = parseFloat(minPriceInput.value);
+    const maxPrice = parseFloat(maxPriceInput.value);
+
+    filterProductsByPrice(minPrice, maxPrice);
+});
+range4Radio.addEventListener('change', function () {
+    const rangeValues = range4Radio.value.split('-');
     minPriceInput.value = rangeValues[0];
     maxPriceInput.value = rangeValues[1];
 
@@ -191,127 +212,86 @@ clearPriceButton.addEventListener('click', function () {
     // Seçili radio düğmesini temizle
     range1Radio.checked = false;
     range2Radio.checked = false;
+    range3Radio.checked = false;
+    range4Radio.checked = false;
 });
-// Boyuta göre filtreleme işlevi
-function filterProductsBySize(size) {
-    size = size || 'yok'
-    var filteredProducts = []
-    if (size === 'yok') {
-        filteredProducts = productList;
-    }
-    else {
-        console.log(productList)
-         filteredProducts = productList.filter(product => {
-            return product.size === size;
-        });
-    }
 
-    
 
-    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-    updatePagination(totalPages, filteredProducts);
-    showPage(1, filteredProducts);
-    updateActiveClass(1);
-    clearSizeButton.style.display = 'inline-block';
-}
+var sizeFiltreItem = document.getElementById('filter-size');
+var colorFiltreItem = document.getElementById('filter-color');
 
-// Boyut radio düğmelerine tıklanınca filtreleme işlevini çağırma
-const sizeSmallRadio = document.getElementById('size-small');
-const sizeMediumRadio = document.getElementById('size-medium');
-const sizeLargeRadio = document.getElementById('size-large');
+fillFilterMaterial();
+fillFilterColor();
+
+
 const clearSizeButton = document.getElementById('clear-size-filter');
-//sizeSmallRadio.addEventListener('change', function () {
-//    if (sizeSmallRadio.checked) {
-//        filterProductsBySize('Small');
-//    }
-//});
 
-//sizeMediumRadio.addEventListener('change', function () {
-//    if (sizeMediumRadio.checked) {
-//        filterProductsBySize('Medium');
-//    }
-//});
-
-//sizeLargeRadio.addEventListener('change', function () {
-//    if (sizeLargeRadio.checked) {
-//        filterProductsBySize('Large');
-//    }
-//});
 clearSizeButton.addEventListener('click', function () {
 
     // Temizle düğmesini gizle
     clearSizeButton.style.display = 'none';
 
-    // Seçili radio düğmesini temizle
-    sizeSmallRadio.checked = false;
-    sizeMediumRadio.checked = false;
-    sizeLargeRadio.checked = false;
+    var sizeRadioInputs = sizeFiltreItem.querySelectorAll('input[type="radio"]');
+    sizeRadioInputs.forEach(radio => {
+        radio.checked = false;
+    });
     updateFilter();
 });
+
 const clearColorButton = document.getElementById('clear-color-filter');
+
 clearColorButton.addEventListener('click', function () {
 
     // Temizle düğmesini gizle
     clearColorButton.style.display = 'none';
 
-    // Seçili radio düğmesini temizle
-    colorBlackRadio.checked = false;
-    colorBlueRadio.checked = false;
-    colorRedRadio.checked = false;
+    var colorRadioInputs = colorFiltreItem.querySelectorAll('input[type="radio"]');
+    colorRadioInputs.forEach(radio => {
+        radio.checked = false;
+    });
     updateFilter();
 });
-// Arama kutusundaki değer değiştiğinde ve fiyat aralığı güncellendiğinde filtrelemeyi tetikle
-const colorRedRadio = document.getElementById('color-red');
-const colorBlueRadio = document.getElementById('color-blue');
-const colorBlackRadio = document.getElementById('color-black');
+
 function updateFilter() {
+    var sizeRadioInputs = sizeFiltreItem.querySelectorAll('input[type="radio"]');
+    var colorRadioInputs = colorFiltreItem.querySelectorAll('input[type="radio"]');
+    const selectedSizes = [];
+    const selectedColors = [];
+    sizeRadioInputs.forEach(radio => {
+        if (radio.checked) {
+            selectedSizes.push(radio.value);
+        }
+    });
+    colorRadioInputs.forEach(radio => {
+        if (radio.checked) {
+            selectedColors.push(radio.value);
+        }
+    });
+
+
     const keyword = searchInput.value.toLowerCase();
     const minPrice = parseFloat(minPriceInput.value) || 0;
     const maxPrice = parseFloat(maxPriceInput.value) || Number.MAX_SAFE_INTEGER;
-    const smallSize = sizeSmallRadio.checked;
-    const mediumSize = sizeMediumRadio.checked;
-    const largeSize = sizeLargeRadio.checked;
-    const colorBlue = colorBlueRadio.checked;
-    const colorRed = colorRedRadio.checked;
-    const colorBlack = colorBlackRadio.checked;
 
     const filteredProducts = productList.filter(product => {
         const nameMatches = product.name.toLowerCase().includes(keyword);
         const priceInRange = product.price >= minPrice && product.price <= maxPrice;
-        if (!smallSize && !mediumSize && !largeSize && !colorBlack && !colorRed && !colorBlue) {
-            return nameMatches && priceInRange;
+        let sizeMatches = true;
+        let colorMatches = true;
+        if (minPrice != 0 && maxPrice != Number.MAX_SAFE_INTEGER) {
+            clearPriceButton.style.display = 'inline-block';
         }
-        else {
-           
-
-            if (!colorBlue && !colorRed && !colorBlack) {
-                const sizeMatches = (smallSize && product.size === 'Small') ||
-                    (mediumSize && product.size === 'Medium') ||
-                    (largeSize && product.size === 'Large');
-                clearSizeButton.style.display = 'inline-block';
-                return nameMatches && priceInRange && sizeMatches;
-            }
-            else if (!smallSize && !mediumSize && !largeSize) {
-                const colorMatches = (colorBlue && product.color === 'mavi') ||
-                    (colorRed && product.color === 'kırmızı') ||
-                    (colorBlack && product.color === 'siyah');
-                clearColorButton.style.display = 'inline-block';
-                return nameMatches && priceInRange && colorMatches;
-            }
-            else {
-                const sizeMatches = (smallSize && product.size === 'Small') ||
-                    (mediumSize && product.size === 'Medium') ||
-                    (largeSize && product.size === 'Large');
-                clearSizeButton.style.display = 'inline-block';
-
-                const colorMatches = (colorBlue && product.color === 'mavi') ||
-                    (colorRed && product.color === 'kırmızı') ||
-                    (colorBlack && product.color === 'siyah');
-                clearColorButton.style.display = 'inline-block';
-                return nameMatches && priceInRange && sizeMatches && colorMatches;
-            }
-           
+        if (selectedSizes.length > 0) {
+            sizeMatches = selectedSizes.includes(product.size);
+            clearSizeButton.style.display = 'inline-block';
         }
+
+        if (selectedColors.length > 0) {
+            colorMatches = selectedColors.includes(product.color);
+            clearColorButton.style.display = 'inline-block';
+        }
+
+        return nameMatches && priceInRange && sizeMatches && colorMatches;
     });
 
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -325,9 +305,98 @@ searchInput.addEventListener('input', updateFilter);
 searchPriceButton.addEventListener('click', updateFilter);
 range1Radio.addEventListener('change', updateFilter);
 range2Radio.addEventListener('change', updateFilter);
-sizeSmallRadio.addEventListener('change', updateFilter);
-sizeMediumRadio.addEventListener('change', updateFilter);
-sizeLargeRadio.addEventListener('change', updateFilter);
-colorRedRadio.addEventListener('change', updateFilter);
-colorBlueRadio.addEventListener('change', updateFilter);
-colorBlackRadio.addEventListener('change', updateFilter);
+range3Radio.addEventListener('change', updateFilter);
+range4Radio.addEventListener('change', updateFilter);
+
+
+
+async function fillFilterMaterial() {
+    try {
+        // Kategori isimlerini almak için bir fonksiyon çağırıyorsunuz, bu yüzden async kullanmalısınız.
+        var sizeNames = await getCategoryNames();
+
+        // Oluşturulan elementleri saklayacak bir fragment oluşturun
+        const fragment = document.createDocumentFragment();
+
+        // Her bir kategori için bir radio düğmesi ve etiket oluşturun ve fragmente ekleyin
+        sizeNames.forEach((name, index) => {
+            const radioInput = document.createElement('input');
+            radioInput.type = 'radio';
+            radioInput.name = 'material';
+            radioInput.id = `size-${name}`;
+            radioInput.value = name;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `size-${name}`);
+            label.textContent = sizeNames[index];
+
+            const br = document.createElement('br');
+
+            fragment.appendChild(radioInput);
+            fragment.appendChild(label);
+            fragment.appendChild(br);
+        });
+
+        // Fragmenti filtre öğesine ekleyin
+        sizeFiltreItem.appendChild(fragment);
+
+        // Olay dinleyicilerini ekleyin
+        sizeNames.forEach(name => {
+            const radio = document.getElementById(`size-${name}`);
+            radio.addEventListener('change', updateFilter);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function fillFilterColor() {
+    try {
+        var colorNames = await getColorNames();
+
+        // Oluşturulan elementleri saklayacak bir fragment oluşturun
+        const fragment = document.createDocumentFragment();
+
+        // Renkleri ekleyin
+        colorNames.forEach((name, index) => {
+            const radioInput = document.createElement('input');
+            radioInput.type = 'radio';
+            radioInput.name = 'color';
+            radioInput.id = `color-${name}`;
+            radioInput.value = name;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `color-${name}`);
+            label.textContent = colorNames[index];
+
+            const br = document.createElement('br');
+
+            fragment.appendChild(radioInput);
+            fragment.appendChild(label);
+            fragment.appendChild(br);
+        });
+
+        colorFiltreItem.appendChild(fragment);
+
+        // Olay dinleyicilerini ekleyin
+        colorNames.forEach(name => {
+            const radio = document.getElementById(`color-${name}`);
+            radio.addEventListener('change', updateFilter);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function getColorNames() {
+    return $.ajax({
+        url: '/Product/GetColorNames',
+    });
+}
+async function getCategoryNames() {
+    return $.ajax({
+        url: '/Product/GetSizeNames',
+    });
+}

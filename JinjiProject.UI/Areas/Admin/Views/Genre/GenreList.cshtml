@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "GenreList";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<ListGenreDto>
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">KATEGORİ TÜRLERİ</h4>
+        <div class="row">
+            <div class="col-lg-12" style="min-height: 730px;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Kategori Türü İşlemleri</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mt-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Fotoğrafı</th>
+                                        <th scope="col">Kategori Türü Adı</th>
+                                        <th scope="col">Durumu</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="dropdown-row">
+                                                <td>@item.Id</td>
+                                                <td><img class="img-fluid" style="width: 100px; height:100px; border-radius:50%;" src="@item.ImagePath" /></td>
+                                                <td>@item.Name</td>
+                                                <td>@GetEnumDescription.Description(item.Status)</td>
+                                                <td>
+                                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                        Seçenekler
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                        <a class="dropdown-item " href="/Admin/Genre/UpdateGenre/@item.Id">Güncelle</a>
+                                                        <a class="dropdown-item " id="modalOpener" onclick="loadGenreData(@item.Id)" data-bs-toggle="modal" data-bs-target="#genreDetailModal" data-id="@item.Id">Detaylar</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item text-danger" href="/Admin/Genre/SoftDelete/@item.Id">Sil</a>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                            <a asp-area="Admin" asp-action="CreateGenre" asp-controller="Genre" class="btn btn-outline-primary">Yeni Kategori Türü Girişi </a>
+                            <a style="margin-left:10px" href="/Admin/Genre/DeletedGenreList" class="btn btn-outline-danger">Silinen Kategori Türleri</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="~/Areas/Admin/Views/Genre/_GenreDetailPartialView.cshtml" />
+<script src="~/js/detail-genre.js"></script>
+

@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V3</title>
+	<title>Jinji Admin Panel</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -47,13 +47,14 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" >
-						<input asp-for="Email" class="input100" type="text" placeholder="Email Adresi">
+						<input asp-for="Email" class="input100" type="email" placeholder="Email Adresi">
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input asp-for="Password" class="input100" type="password"  placeholder="Şifre">
+					<div class="wrap-input100 validate-input" data-validate="Enter password" style="position: relative;">
+						<input asp-for="Password" class="input100" type="password" id="password" placeholder="Şifre" style="padding-right: 40px;">
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+						<span class="toggle-password" onclick="togglePasswordVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"><i class="fa fa-eye" style="color:white;"></i></span>
 					</div>
 
 					<div class="contact100-form-checkbox">
@@ -93,5 +94,19 @@
 	<!--===============================================================================================-->
 	<script src="~/loginTemplate/Login_v3/js/main.js"></script> 
 	@await Component.InvokeAsync("Notyf")
+	<script>
+		function togglePasswordVisibility() {
+			var passwordInput = document.getElementById('password');
+			var toggleButton = document.querySelector('.toggle-password');
+
+			if (passwordInput.type === 'password') {
+				passwordInput.type = 'text';
+				toggleButton.innerHTML = '<i class="fa fa-eye-slash" style="color:white;"></i>';
+			} else {
+				passwordInput.type = 'password';
+				toggleButton.innerHTML = '<i class="fa fa-eye" style="color:white;"></i>';
+			}
+		}
+	</script>
 </body>
 </html>

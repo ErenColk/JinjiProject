@@ -161,7 +161,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<List<ListProductDto>>> GetFilteredProductsAsync(Expression<Func<Product, bool>> expression)
         {
-            var products = await _productRepository.GetAllByExpression(expression);
+            var products = await _productRepository.GetAllIncludeByExpression(expression);
             if (products == null)
             {
                 return new ErrorDataResult<List<ListProductDto>>(Messages.ProductFilteredError);
