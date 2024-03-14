@@ -19,6 +19,7 @@ namespace JinjiProject.DataAccess.Interface.Repositories
 
         Task<IEnumerable<T>> GetAllByExpression(Expression<Func<T, bool>> expression);
 
+        Task<T> GetFilteredInclude(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null);
         Task<TResult> GetFilteredFirstOrDefault<TResult>(
             Expression<Func<T, TResult>> select = null,
             Expression<Func<T, bool>> where = null,

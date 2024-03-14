@@ -33,7 +33,7 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync(bool tracking = true)
         {
-            if(tracking)
+            if (tracking)
                 return await _table.AsNoTracking().ToListAsync();
             else
                 return await _table.ToListAsync();
@@ -75,6 +75,26 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
             return result;
         }
 
+        public async Task<T> GetFilteredInclude(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+
+            IQueryable<T> query = _table;
+
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+
+            }
+
+
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<List<TResult>> GetFilteredList<TResult>(Expression<Func<T, TResult>> select = null, Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
             IQueryable<T> query = _table; // SELECT * FROM Post gibi...
@@ -110,7 +130,7 @@ namespace JinjiProject.DataAccess.EFCore.Repositories
         public async Task<bool> SaveChange()
         {
 
-            return await appDbContext.SaveChangesAsync() > 0 ;
+            return await appDbContext.SaveChangesAsync() > 0;
         }
 
         public Task<bool> SoftDelete(T entity)
