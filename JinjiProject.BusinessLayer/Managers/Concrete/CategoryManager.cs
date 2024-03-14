@@ -9,6 +9,7 @@ using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Admins;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.VMs.Categories;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,9 +72,23 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             return new SuccessDataResult<List<ListCategoryDto>>(_mapper.Map<List<ListCategoryDto>>(categories), Messages.CategoryListedSuccess);
         }
 
+
+        public async Task<DataResult<GetCategoryDto>> GetCategoryFilteredInclude(Expression<Func<Category, bool>> expression = null, Func<IQueryable<Category>, IIncludableQueryable<Category, object>> include = null)
+        {
+            var CategoryDto = await _categoryRepository.GetFilteredInclude(expression, null);
+            if (CategoryDto == null)
+            {
+                return new ErrorDataResult<GetCategoryDto>(Messages.CategoryFilteredError);
+            }
+            else
+            {
+                GetCategoryDto getCategoryDto = _mapper.Map<GetCategoryDto>(CategoryDto);
+                return new SuccessDataResult<GetCategoryDto>(getCategoryDto, Messages.CategoryFilteredSuccess);
+            }
+        }
         public async Task<DataResult<GetCategoryDto>> GetFilteredCategory(Expression<Func<Category, bool>> expression)
         {
-            var CategoryDto = await _categoryRepository.GetFilteredFirstOrDefault(expression);
+            var CategoryDto = await _categoryRepository.GetFilteredInclude(expression,null);
             if (CategoryDto == null)
             {
                 return new ErrorDataResult<GetCategoryDto>(Messages.CategoryFilteredError);
@@ -215,5 +230,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             return new SuccessDataResult<List<ListCategoryHomePageVM>>(_mapper.Map<List<ListCategoryHomePageVM>>(categories), Messages.CategoryListedSuccess);
 
         }
+
+      
     }
 }

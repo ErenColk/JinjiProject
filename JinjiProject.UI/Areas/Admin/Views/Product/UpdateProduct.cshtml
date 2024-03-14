@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "UpdateProduct";
 }
 
@@ -13,6 +12,9 @@
         <form asp-area="Admin" asp-controller="Product" asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
             <div class="col-md-12">
                 <div class="card-body">
+
+
+
                     <div class="form-group text-muted">
                         <div class="row">
                             <div class="col-md-6">
@@ -25,9 +27,9 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="row">
-
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">ÜRÜN FİYATI </span>
                                 <div class="input-group">
@@ -37,18 +39,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <div class="col-md-6">
-                                <span class="text-muted font-weight-bold">BOYUT</span>
-                                <select asp-for="SizeId" asp-items="@ViewBag.Size" class="form-control" id="product-size">
-                                    <option value="" selected>-- Seçiniz --</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">STOK</span>
                                 <div class="input-group">
@@ -58,53 +48,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <span class="text-muted font-weight-bold">HACİM</span>
-                                <div class="input-group d-flex">
-                                    @{
-                                        if(Model.Capacity != null)
-                                        {
-                                            <input type="checkbox" data-result="true" onchange="showCapacity()" data-toggle="toggle" data-onstyle="success" checked>
-
-                                            @* <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round"> *@
-
-                                            <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: block; margin-left:10px">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" data-result="false" onchange="showCapacity()" data-toggle="toggle" data-onstyle="success">
-
-                                            @* <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round"> *@
-
-                                            <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: none; margin-left:10px">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
-                                            </div>
-                                        }
-                                    }
-                                   
-                                </div>
-                            </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">MALZEME</span>
                                 <select asp-for="MaterialId" data-control="select2" asp-items="@ViewBag.Materials" class="form-control" id="product-material">
                                     <option value="" selected>-- Seçiniz --</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <span class="text-muted font-weight-bold">KATEGORİ</span>
-                                <select asp-for="CategoryId" data-control="select2" asp-items="@ViewBag.Categories" class="form-control" id="product-category">
-                                    <option value="" selected>-- Seçiniz --</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">MARKA</span>
                                 <select asp-for="BrandId" data-control="select2"
                                         asp-items="@ViewBag.Brands" class="form-control" id="product-category">
@@ -113,6 +68,25 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">KATEGORİ</span>
+                                <select asp-for="CategoryId" data-control="select2" asp-items="@ViewBag.Categories" onchange="onCategoryChange()" class="form-control" id="product-category">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted font-weight-bold">TÜR</span>
+                                <select asp-for="GenreId" data-control="select2"
+                                        class="form-control" id="product-genre">
+                                    <option value="" selected>-- Seçiniz --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-12">
@@ -120,6 +94,100 @@
                                     <span class="text-muted font-weight-bold">AÇIKLAMA</span>
                                     <textarea asp-for="Description" class="form-control" id="product-comment" placeholder="Ürünün Açıklamasını Giriniz...">
                                                 </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-container d-flex">
+                                    <div class="d-flex flex-column ">
+                                        <span class="text-muted font-weight-bold">ÖLÇÜLER</span>
+                                        @if (Model.Width != null)
+                                        {
+                                            <input type="checkbox" data-result="false" onchange="showDimensions('show-dimensions')" id="input-dimensions-toggle" data-toggle="toggle" data-onstyle="success" checked>
+                                        }
+                                    </div>
+                                    <div class="d-flex flex-column col-md-10">
+                                        <div class="input-dimensions ">
+                                            <span class="text-muted font-weight-bold show-dimensions" style="display: none;">GENİŞLİK</span>
+                                            <div class="input-group d-flex">
+                                                <input asp-for="Width" type="text" class="form-control show-dimensions" style="display: none;" id="product-width" placeholder="Ürün Genişliğini Giriniz...">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text show-dimensions" id="product-width-cm" style="display: none;">cm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-dimensions">
+                                            <span class="text-muted font-weight-bold show-dimensions" style="display: none;">UZUNLUK</span>
+                                            <div class="input-group d-flex">
+                                                <input asp-for="Length" type="text" style="display: none;" class="form-control show-dimensions" id="product-length" placeholder="Ürün Uzunluğunu Giriniz...">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text show-dimensions" id="product-length-cm" style="display: none;">cm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-dimensions">
+                                            <span class="text-muted font-weight-bold show-dimensions" style="display: none;">YÜKSEKLİK</span>
+                                            <div class="input-group d-flex">
+                                                <input asp-for="Height" type="text" style="display: none;" class="form-control show-dimensions" id="product-height" placeholder="Ürün Yüksekliğini Giriniz...">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text show-dimensions" id="product-height-cm" style="display: none;">cm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <span class="text-muted font-weight-bold">BOYUT</span>
+                                <div class="input-group d-flex">
+
+                                    @if (Model.Size != null)
+                                    {
+                                        <input type="checkbox" data-result="true" onchange="showSize('product-size')" id="input-size-toggle" data-toggle="toggle" data-onstyle="success" checked>
+                                        <select asp-for="SizeId" asp-items="@ViewBag.Size" class="form-control" id="product-size" style="display: block; margin-left:10px">
+                                            <option value="" selected>-- Seçiniz --</option>
+                                        </select>
+
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" data-result="false" onchange="showSize('product-size')" id="input-size-toggle" data-toggle="toggle" data-onstyle="success" >
+                                        <select asp-for="SizeId" asp-items="@ViewBag.Size" class="form-control" id="product-size" style="display: none; margin-left:10px">
+                                            <option value="" selected>-- Seçiniz --</option>
+                                        </select>
+                                    }
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <span class="text-muted font-weight-bold">HACİM</span>
+                                <div class="input-group d-flex">
+                                    @{
+                                        if (Model.Capacity != null)
+                                        {
+                                            <input type="checkbox" data-result="true" onchange="showCapacity('product-capacity')" id="input-capacity-toggle" data-toggle="toggle" data-onstyle="success" checked>
+                                            <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: block; margin-left:10px">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="product-lt" style="display: block;">Lt</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" data-result="false" onchange="showCapacity('product-capacity')" id="input-capacity-toggle" data-toggle="toggle" data-onstyle="success">
+                                            <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: none; margin-left:10px">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -153,6 +221,14 @@
 </div>
 
 <script>
+
+    window.onload = function () {
+        var dimensionsInput = document.getElementById('input-dimensions-toggle');
+        if (dimensionsInput.checked) {
+            showDimensions('show-dimensions');
+        }
+    };
+
     function previewImage(event) {
         var reader = new FileReader();
         reader.onload = function () {
@@ -165,11 +241,11 @@
         reader.readAsDataURL(event.target.files[0]);
     };
 
-    function showCapacity() {
-        var capacity = document.getElementById('product-capacity');
+    function showCapacity(id) {
+        var capacity = document.getElementById(id);
         var lt = document.getElementById('product-lt');
 
-        var inputElement = document.querySelector('input[data-result]');
+        var inputElement = document.getElementById('input-capacity-toggle');
         var dataResultValue = inputElement.getAttribute('data-result');
 
         if (dataResultValue == "false") {
@@ -180,6 +256,33 @@
             inputElement.setAttribute('data-result', 'false');
             capacity.style.display = 'none';
             lt.style.display = 'none';
+        }
+    }
+
+    function showSize(id) {
+        var size = document.getElementById(id);
+
+        var inputElement = document.getElementById('input-size-toggle');
+        var dataResultValue = inputElement.getAttribute('data-result');
+
+        if (dataResultValue == "false") {
+            size.style.display = 'block';
+            inputElement.setAttribute('data-result', 'true');
+        } else {
+            inputElement.setAttribute('data-result', 'false');
+            size.style.display = 'none';
+        }
+    }
+
+
+    function showDimensions(className) {
+        var elements = document.getElementsByClassName(className);
+        for (var i = 0; i < elements.length; i++) {
+            if (elements[i].style.display === "none") {
+                elements[i].style.display = "block";
+            } else {
+                elements[i].style.display = "none";
+            }
         }
     }
 
