@@ -56,13 +56,18 @@
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 						<span class="toggle-password" onclick="togglePasswordVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"><i class="fa fa-eye" style="color:white;"></i></span>
 					</div>
-
-					<div class="contact100-form-checkbox">
-						<input asp-for="RememberMe" class="input-checkbox100" id="ckb1" type="checkbox">
-						<label class="label-checkbox100" for="ckb1">
-							Beni Hatırla
-						</label>
+					<div class="d-flex justify-content-between">
+						<div class="contact100-form-checkbox">
+							<input asp-for="RememberMe" class="input-checkbox100" id="ckb1" type="checkbox">
+							<label class="label-checkbox100" for="ckb1">
+								Beni Hatırla
+							</label>
+						</div>
+						<div>
+							<a href="/Home/Index" style="color:white;">Ana Sayfaya Dön</a>
+						</div>
 					</div>
+					
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
