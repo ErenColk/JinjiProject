@@ -40,7 +40,6 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> BagList()
         {
-            var productList = await productService.GetAllProduct();
             var categoryList = await _categoryService.GetListCategoryIncludeOrderBy(category => category.IsOnHomePage == true);
             return PartialView("_BagListPartialView", categoryList.Data);
 
