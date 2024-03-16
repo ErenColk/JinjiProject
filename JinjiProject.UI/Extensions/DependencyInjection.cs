@@ -59,6 +59,7 @@ namespace JinjiProject.UI.Extensions
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredUniqueChars = 0;
             })
+                .AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider)
                 .AddEntityFrameworkStores<AppDbContext>();
 
             services.ConfigureApplicationCookie(options =>

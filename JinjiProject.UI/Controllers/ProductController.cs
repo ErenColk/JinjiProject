@@ -1,5 +1,6 @@
 ﻿using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.Dtos.Products;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,30 +17,53 @@ namespace JinjiProject.UI.Controllers
             _categoryService = categoryService;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string category = null)
+        public async Task<IActionResult> Index(string category = null,string genre = null)
         {
-            var products = await productService.GetFilteredProductsAsync(product => product.Genre.Category.Name == category && product.Status != Core.Enums.Status.Deleted);
-            if (products.IsSuccess)
+            if(category == null)
             {
-                if (products.Data.Count > 0)
+                var products = await productService.GetFilteredProductsAsync(product => product.Genre.Name == genre && product.Status != Core.Enums.Status.Deleted);
+                if (products.IsSuccess)
                 {
-                    ViewBag.CategoryName = category;
-                    ViewBag.Genre = products.Data.First().GenreName;
-                    return View(products.Data);
+                    if (products.Data.Count > 0)
+                    {
+                        ViewBag.CategoryName = category;
+                        ViewBag.Genre = products.Data.First().GenreName;
+                        return View(products.Data);
+                    }
+                    else
+                        return View();
                 }
                 else
+                {
                     return View();
+                }
             }
             else
             {
-                return View();
-            }
+                var products = await productService.GetFilteredProductsAsync(product => product.Genre.Category.Name == category && product.Status != Core.Enums.Status.Deleted);
+                if (products.IsSuccess)
+                {
+                    if (products.Data.Count > 0)
+                    {
+                        ViewBag.CategoryName = category;
+                        ViewBag.Genre = products.Data.First().GenreName;
+                        return View(products.Data);
+                    }
+                    else
+                        return View();
+                }
+                else
+                {
+                    return View();
+                }
+            }               
         }
 
 
         [HttpGet]
         public async Task<IActionResult> BagList()
         {
+            //var productList = await productService.GetAllProduct();
             var categoryList = await _categoryService.GetListCategoryIncludeOrderBy(category => category.IsOnHomePage == true);
             return PartialView("_BagListPartialView", categoryList.Data);
 

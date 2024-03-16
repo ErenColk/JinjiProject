@@ -22,6 +22,7 @@ namespace JinjiProject.DataAccess.EFCore.Extensions
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 
             //AdminSeed.SeedAsync(configuration).GetAwaiter().GetResult();
 

@@ -8,12 +8,16 @@ namespace JinjiProject.UI.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+
+        private readonly ISendMailService sendMailService;
         private readonly IGenreService _genreService;
 
-        public HomeController(ILogger<HomeController> logger, IGenreService genreService)
+        public HomeController(ILogger<HomeController> logger, ISendMailService sendMailService,IGenreService genreService)
         {
             _logger = logger;
             _genreService = genreService;
+            this.sendMailService = sendMailService;
+
         }
 
         public IActionResult Index()
