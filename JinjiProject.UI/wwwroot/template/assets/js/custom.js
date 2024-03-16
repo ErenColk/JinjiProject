@@ -6,11 +6,12 @@ function triggerHomePagePartialView() {
 
 		success: function (response) {
 			$("#homePage-bag-list").html(response)
+		},
+		error: function () {
+			runOwlCarousel();
 		}
 
 	});
-
-	runOwlCarousel();
 }
 
 function runOwlCarousel() {
@@ -94,8 +95,8 @@ function runOwlCarousel() {
 		// Scroll animation init
 		window.sr = new scrollReveal();
 
-
-		// Menu Dropdown Toggle
+		console.log($('.menu-trigger').length)
+		//Menu Dropdown Toggle
 		if ($('.menu-trigger').length) {
 			$(".menu-trigger").on('click', function () {
 				$(this).toggleClass('active');
@@ -104,7 +105,7 @@ function runOwlCarousel() {
 		}
 
 
-		// Menu elevator animation
+		//// Menu elevator animation
 		$('.scroll-to-section a[href*=\\#]:not([href=\\#])').on('click', function () {
 			if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
 				var target = $(this.hash);
