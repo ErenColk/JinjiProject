@@ -1,0 +1,53 @@
+﻿
+@model List<ListGenreDto>
+
+<div class="main-banner" id="top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="left-content">
+                    <div class="thumb">
+                        <div class="inner-content">
+                            <h4>We Are Jinji</h4>
+                            <span>Yapım aşamasındayız..</span>
+                            <div class="main-border-button">
+                                <a href="#">Hakkımızda</a>
+                            </div>
+                        </div>
+                        <img src="~/template/assets/images/left-banner-image.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="right-content">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-lg-6">
+                                <div class="right-first-image">
+                                    <div class="thumb">
+                                        <div class="inner-content">
+                                            <h4>@item.Name</h4>
+                                            <span>Kadınlar için en iyi omuz çantaları</span>
+                                        </div>
+                                        <div class="hover-content">
+                                            <div class="inner">
+                                                <h4>@item.Name</h4>
+                                                <p>@item.Description</p>
+                                                <div class="main-border-button">
+                                                    <a href="/Product/Index?genre=@item.Name">Daha fazlası</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <img src="@item.ImagePath">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

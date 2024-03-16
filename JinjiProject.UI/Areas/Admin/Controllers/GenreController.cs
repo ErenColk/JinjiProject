@@ -5,6 +5,7 @@ using JinjiProject.BusinessLayer.Validator.BrandValidations;
 using JinjiProject.BusinessLayer.Validator.GenreValidations;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Genres;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,6 +85,38 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             }
 
             return View(createGenreDto);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> HomePageEditGenre()
+        {
+            //TODOO DÜZENLECEK
+            var genreResult = await _genreService.GetAllGenre();
+            List<ListHomePageGenreDto> genreDtos = _mapper.Map<List<ListHomePageGenreDto>>(genreResult.Data.OrderBy(genre => genre.Order));
+
+            return View(genreDtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HomePageEditGenre([FromBody] List<ListHomePageGenreDto> listGenreDto)
+        {
+            List<UpdateHomePageGenreDto> genres = _mapper.Map<List<UpdateHomePageGenreDto>>(listGenreDto);
+
+            var updateGenreResult = await _genreService.UpdateAllGenreAsync(genres);
+
+            if (updateGenreResult.IsSuccess)
+            {
+
+                NotifySuccess(updateGenreResult.Message);
+            }
+            else
+            {
+                NotifyError(updateGenreResult.Message);
+                return View(listGenreDto);
+            }
+
+
+            return Ok();
         }
 
         [HttpGet]

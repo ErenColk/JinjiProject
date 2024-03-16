@@ -3,112 +3,11 @@
     ViewData["Title"] = "Home Page";
 }
 <!-- ***** Main Banner Area Start ***** -->
-<div class="main-banner" id="top">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="left-content">
-                    <div class="thumb">
-                        <div class="inner-content">
-                            <h4>We Are Jinji</h4>
-                            <span>Yapım aşamasındayız..</span>
-                            <div class="main-border-button">
-                                <a href="#">Hakkımızda</a>
-                            </div>
-                        </div>
-                        <img src="~/template/assets/images/left-banner-image.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="right-content">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                        <h4>Omuz Çantaları</h4>
-                                        <span>Kadınlar için en iyi omuz çantaları</span>
-                                    </div>
-                                    <div class="hover-content">
-                                        <div class="inner">
-                                            <h4>Omuz Çantaları</h4>
-                                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                                            <div class="main-border-button">
-                                                <a href="#">Daha fazlası</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="~/template/assets/images/baner-right-image-01.jpg">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                        <h4>El Çantaları</h4>
-                                        <span>Kadınlar için en iyi el çantaları</span>
-                                    </div>
-                                    <div class="hover-content">
-                                        <div class="inner">
-                                            <h4>El Çantaları</h4>
-                                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                                            <div class="main-border-button">
-                                                <a href="#">Daha fazlası</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="~/template/assets/images/baner-right-image-02.jpg">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                        <h4>Abiye Çantalar</h4>
-                                        <span>Kadınlar için en iyi abiye çantalar</span>
-                                    </div>
-                                    <div class="hover-content">
-                                        <div class="inner">
-                                            <h4>Abiye Çantalar</h4>
-                                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                                            <div class="main-border-button">
-                                                <a href="#">Daha fazlası</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="~/template/assets/images/baner-right-image-03.jpg">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="right-first-image">
-                                <div class="thumb">
-                                    <div class="inner-content">
-                                        <h4>Cüzdanlar</h4>
-                                        <span>Kadınlar için en iyi cüzdanlar</span>
-                                    </div>
-                                    <div class="hover-content">
-                                        <div class="inner">
-                                            <h4>Cüzdanlar</h4>
-                                            <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
-                                            <div class="main-border-button">
-                                                <a href="#">Daha fazlası</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="~/template/assets/images/baner-right-image-04.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<div id="homePage-genrelist">
+
 </div>
+
 <!-- ***** Main Banner Area End ***** -->
 <!-- ***** Men Area Starts ***** -->
 <div id="homePage-bag-list">
@@ -207,5 +106,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         triggerHomePagePartialView();
+        homePageGenrePartialView();
     });
+    
 </script>

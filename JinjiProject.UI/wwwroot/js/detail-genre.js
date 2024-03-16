@@ -1,4 +1,4 @@
-﻿const imgElement = document.getElementById('detail-genre-img');
+﻿const genreImgElement = document.getElementById('detail-genre-img');
 async function loadGenreData(id) {
     const table = document.getElementById('kt_modal_detail_genre_form');
 
@@ -21,14 +21,14 @@ async function loadGenreData(id) {
 
 
 
-    const genre = await getGenre(id);
+    const genre = await getDetailGenre(id);
 
 
-    imgElement.alt = genre.name;
-    imgElement.src = genre.imagePath;
-    imgElement.style.width = '100px';
-    imgElement.style.height = '150px';
-    imgElement.classList.add('img-thumbnail');
+    genreImgElement.alt = genre.name;
+    genreImgElement.src = genre.imagePath;
+    genreImgElement.style.width = '100px';
+    genreImgElement.style.height = '150px';
+    genreImgElement.classList.add('img-thumbnail');
 
     genreNameCell.textContent = ":" + "  " + genre.name;
     genreDescriptionCell.textContent = ":" + "   " + genre.description;
@@ -43,7 +43,7 @@ async function loadGenreData(id) {
 }
 
 // Add an event listener to the image element for mouseover
-imgElement.addEventListener('click', function () {
+genreImgElement.addEventListener('click', function () {
     // Create a modal overlay
     const modalOverlay = document.createElement('div');
     modalOverlay.classList.add('modal-overlay');
@@ -60,14 +60,29 @@ imgElement.addEventListener('click', function () {
     modalOverlay.style.transition = 'background-color 0.3s ease';
 
     // Create an image element inside the modal overlay
-    const enlargedImg = document.createElement('img');
-    enlargedImg.src = imgElement.src;
-    enlargedImg.style.maxWidth = '80%';
-    enlargedImg.style.maxHeight = '80%';
-    enlargedImg.style.transition = 'transform 0.3s ease';
+    const enlargedImgGenre = document.createElement('img');
+    enlargedImgGenre.src = genreImgElement.src;
+    enlargedImgGenre.style.maxWidth = '80%';
+    enlargedImgGenre.style.maxHeight = '80%';
+    enlargedImgGenre.style.transition = 'transform 0.3s ease';
+
+    // Add an event listener to the enlarged image element for mouseout
+    enlargedImgGenre.addEventListener('mouseout', function (event) {
+        // Check if the mouse is outside of the image bounds
+        const bounds = enlargedImgGenre.getBoundingClientRect();
+        if (
+            event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom
+        ) {
+            // If the mouse is outside of the image, close the modal
+            closeModal();
+        }
+    });
 
     // Append the enlarged image to the modal overlay
-    modalOverlay.appendChild(enlargedImg);
+    modalOverlay.appendChild(enlargedImgGenre);
 
     // Append the modal overlay to the document body
     document.body.appendChild(modalOverlay);
@@ -97,23 +112,10 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
-// Add an event listener to the enlarged image element for mouseout
-enlargedImg.addEventListener('mouseout', function (event) {
-    // Check if the mouse is outside of the image bounds
-    const bounds = enlargedImg.getBoundingClientRect();
-    if (
-        event.clientX < bounds.left ||
-        event.clientX > bounds.right ||
-        event.clientY < bounds.top ||
-        event.clientY > bounds.bottom
-    ) {
-        // If the mouse is outside of the image, close the modal
-        closeModal();
-    }
-});
 
 
-function getGenre(genreid) {
+
+async function getDetailGenre(genreid) {
     console.log(genreid)
     return $.ajax({
         url: '/Admin/Genre/GetGenre',

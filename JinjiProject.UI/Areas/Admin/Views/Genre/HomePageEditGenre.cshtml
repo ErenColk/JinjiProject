@@ -1,0 +1,334 @@
+﻿@model List<ListHomePageGenreDto>
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">KATEGORİ TÜRÜ</h4>
+        <div class="row" style="min-height: 730px;">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Ana Sayfadaki Kategori Türleri</div>
+                        <small>En Fazla 3 Kategori Türü Ekleyebilirsiniz.</small>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <form id="genreForm" onsubmit="submitForm(); return false;">
+                            <div id="selectedGenres">
+                                <table class="col-lg-12 text-center">
+                                    <thead>
+
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                Kategori Türü
+                                            </th>
+                                            <th>
+                                                Oluşturulma Tarihi
+                                            </th>
+                                            <th>
+                                                İşlem
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="selectedGenresTable">
+                                        @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                        {
+                                            if (item.Value.IsOnHomePage == true)
+                                            {
+
+                                                <tr>
+                                                    <td>
+
+                                                        @item.Index
+                                                    </td>
+                                                    <td>
+                                                        @item.Value.Name
+                                                    </td>
+                                                    <td>
+                                                        @item.Value.CreatedDate
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.Id" />
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.Order" />
+                                                    </td>
+                                                    <td style="display: none;">
+                                                        <input type="hidden" asp-for="@item.Value.Description" />
+                                                    </td>
+                                                    <td><button class="btn btn-outline-danger" onclick="undoGenre(this)">Geri Al</button></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr />
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-outline-success">Seçimi Tamamla</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Eklenecek kategori türleri</div>
+                        <small>En Fazla 3 Kategori Türü Seçebilirsiniz</small>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="col-lg-12 text-center">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Kategori Türü
+                                    </th>
+                                    <th>
+                                        Oluşturulma Tarihi
+                                    </th>
+                                    <th>
+                                        İşlem
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="selectGenresTable">
+                                @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                {
+                                    if (item.Value.IsOnHomePage == false || item.Value.IsOnHomePage == null)
+                                    {
+                                        <tr>
+                                            <td>
+
+                                                @item.Index
+                                            </td>
+                                            <td>
+                                                @item.Value.Name
+                                            </td>
+                                            <td>
+                                                @item.Value.CreatedDate
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.Id" />
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.Order" />
+                                            </td>
+                                            <td style="display: none;">
+                                                <input type="hidden" asp-for="@item.Value.Description" />
+                                            </td>
+                                            <td><button class="btn btn-outline-success" onclick="addGenre(this)">Ekle</button></td>
+                                        </tr>
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function submitForm() {
+        console.log("form çalıştı");
+        /*debugger;*/
+
+
+        var selectedTableBody = document.getElementById("selectedGenresTable");
+        var rowList = selectedTableBody.querySelectorAll('tr');
+
+
+        if (rowList.length < 4) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Üzgünüz...',
+                text: 'En az 4 kategori türü eklemelisiniz!',
+                confirmButtonText: 'Tamam'
+            });
+            return false;
+        }
+
+
+        rowList.forEach(function (row) {
+            var genreId = parseInt(row.querySelector('[name$="Id"]').value);
+            var description = row.querySelector('[name$="Description"]').value;
+
+            var order = parseInt(row.cells[0].innerText);
+
+            var genre = {
+                Id: genreId,
+                IsOnHomePage: true,
+                Order: order,
+                Description: description,
+                Name: row.cells[1].innerText,
+                CreatedDate: new Date(row.cells[2].innerText),
+            };
+            selectedGenres.push(genre);
+            console.log(JSON.stringify(selectedGenres))
+            // var cells = row.querySelectorAll('td');
+            // cells.forEach(function (cell) {
+
+            // });
+        });
+
+
+        var selectedGenresData = JSON.stringify(selectedGenres);
+
+        var gelenAjax = $.ajax({
+            url: '/Admin/Genre/HomePageEditGenre',
+            type: 'POST',
+            contentType: 'application/json',
+            data: selectedGenresData,
+            success: function (data) {
+
+                console.log(data);
+                window.location.href = '/Admin/Genre/GenreList';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('There has been a problem with your fetch operation:', errorThrown);
+            }
+        });
+
+        console.log(gelenAjax);
+    }
+
+
+
+    let selectedGenres = [];
+
+    function addGenre(button) {
+        var row = button.parentNode.parentNode;
+        var selectedTableBody = document.getElementById("selectedGenresTable");
+        var rowList = selectedTableBody.querySelectorAll('tr');
+
+        //swal fire hata mesajı
+        if (rowList.length >= 4) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Üzgünüz...',
+                text: 'Maksimum kategori türü sayısına ulaşıldı!',
+                confirmButtonText: 'Tamam'
+            });
+            return false;
+        }
+        console.log(row)
+
+        // buton ekler geri al
+        var selectedGenresTable = document.getElementById("selectedGenresTable");
+        var buttonCell = row.querySelector('td:last-child');
+        buttonCell.innerHTML = '';
+        var undoButton = document.createElement('button');
+        undoButton.className = 'btn btn-outline-danger';
+        undoButton.textContent = 'Geri Al';
+
+        undoButton.onclick = function () { undoGenre(this); };;
+        buttonCell.appendChild(undoButton);
+        selectedGenresTable.appendChild(row);
+
+
+
+        resetIndicesSelected();
+        resetIndicesSelect();
+
+        var genreId = parseInt(row.querySelector('[name$="Id"]').value);
+        var description = row.querySelector('[name$="Description"]').value;
+
+        var order = parseInt(row.cells[0].innerText);
+
+        var genre = {
+            Id: genreId,
+            IsOnHomePage: true,
+            Order: order,
+            Description: description,
+            Name: row.cells[1].innerText,
+            CreatedDate: new Date(row.cells[2].innerText),
+        };
+
+    }
+    function undoGenre(button) {
+
+
+
+        var deletedRow = button.parentNode.parentNode;
+        var selectGenresTable = document.getElementById("selectGenresTable");
+        var buttonCell = deletedRow.querySelector('td:last-child');
+        buttonCell.innerHTML = '';
+        var createButton = document.createElement('button');
+        createButton.className = 'btn btn-outline-success';
+        createButton.textContent = 'Ekle';
+        createButton.onclick = function () { addGenre(this); };
+        buttonCell.appendChild(createButton);
+        selectGenresTable.appendChild(deletedRow);
+
+
+        var genreId = parseInt(deletedRow.querySelector('[name$="Id"]').value);
+
+        console.log(genreId)
+
+        selectedGenres = selectedGenres.filter(function (genre) {
+            return genre.Id !== genreId;
+        });
+
+
+        resetIndicesSelect();
+        resetIndicesSelected();
+    }
+
+
+
+    function resetIndicesSelect() {
+        var rows = document.querySelectorAll('#selectGenresTable tr');
+        rows.forEach((row, index) => {
+            var cells = row.getElementsByTagName('td');
+            cells[0].innerText = index + 1;
+        });
+    }
+    function resetIndicesSelected() {
+        var rows = document.querySelectorAll('#selectedGenresTable tr');
+        rows.forEach((row, index) => {
+            var cells = row.getElementsByTagName('td');
+            cells[0].innerText = index + 1;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        resetIndicesSelect();
+        resetIndicesSelected();
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

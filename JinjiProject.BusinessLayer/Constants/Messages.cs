@@ -108,6 +108,9 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateGenreError = "Kategori türü güncellenemedi.";
         public const string UpdateGenreSuccess = "Kategori türü başarıyla güncellendi.";
         public const string UpdateGenreRepoError = "Kategori türü veritabanı sebebiyle güncellenemedi.";
+        public const string NoGenresToUpdateError = "Güncellenecek kategori türü bulunamadı.";
+        public const string UpdateListGenreSuccess = "Kategori türlerinden bazıları ana sayfaya eklendi";
+        public const string UpdateListGenreRepoError = "Kategori türlerinden bazıları ana sayfaya eklenemedi.";
 
 
         public const string CreateSubscriberSuccess = "Abone olma başarılı.";

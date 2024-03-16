@@ -1,6 +1,7 @@
 ﻿using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Genres;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
     {
         public Task<DataResult<Genre>> CreateGenreAsync(CreateGenreDto createGenreDto);
         public Task<DataResult<Genre>> UpdateGenreAsync(UpdateGenreDto updateGenreDto);
+        public Task<DataResult<IEnumerable<Genre>>> UpdateAllGenreAsync(List<UpdateHomePageGenreDto> updateGenreDto);
         public Task<DataResult<Genre>> SoftDeleteGenreAsync(int id);
         public Task<DataResult<List<ListGenreDto>>> GetAllByExpression(Expression<Func<Genre, bool>> expression);
         public Task<DataResult<Genre>> HardDeleteGenreAsync(int id);
