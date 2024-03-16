@@ -110,7 +110,16 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateGenreRepoError = "Kategori türü veritabanı sebebiyle güncellenemedi.";
 
 
-
+        public const string CreateSubscriberSuccess = "Abone başarıyla oluşturuldu.";
+        public const string CreateSubscriberError = "Abone oluşturulamadı.";
+        public const string CreateSubscriberRepoError = "Abone veritabanına eklenirken hata oluştu.";
+        public const string SubscriberNotFound = "Abone bulunamadı.";
+        public const string SubscriberFoundSuccess = "Abone başarıyla bulundu.";
+        public const string SubscriberListedSuccess = "Abone başarıyla listelendi.";
+        public const string SubscriberFilteredError = "Abone bulunamadı.";
+        public const string SubscriberFilteredSuccess = "Abone başarıyla bulundu.";
+        public const string SubscriberDeletedSuccess = "Abone başarıyla silindi.";
+        public const string SubscriberDeletedRepoError = "Abone veritabanı sebebiyle silinemedi.";
 
 
     }
