@@ -317,6 +317,16 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 			return categoryNames;
 		}
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<List<CategoryNameVM>> GetHomePageCategoryNames()
+        {
+            var categories = await _categoryService.GetAllByExpression(x => x.IsOnHomePage == true);
 
-	}
+            var categoryNames = _mapper.Map<List<CategoryNameVM>>(categories.Data);
+
+            return categoryNames;
+        }
+
+    }
 }

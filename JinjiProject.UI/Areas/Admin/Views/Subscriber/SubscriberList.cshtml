@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "SubscriberList";
+}
+
+@model List<ListSubscriberDto>
+
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">ABONELER</h4>
+        <div class="row">
+            <div class="col-md-12" style="min-height: 730px;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Abone İşlemleri</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table mt-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Abone Adı</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Durumu</th>
+                                        <th scope="col">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.FullName</td>
+                                                <td>@item.Email</td>
+                                                <td>@GetEnumDescription.Description(item.Status)</td>
+                                                <td>
+                                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                        Seçenekler
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                                        <li>
+                                                            <a class="dropdown-item text-danger" href="/Admin/Subscriber/SoftDelete/@item.Id">Sil</a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <a style="margin-left:10px" href="/Admin/Subscriber/DeletedSubscriberList" class="btn btn-outline-danger">Silinen Aboneler</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

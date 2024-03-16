@@ -108,10 +108,24 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateGenreError = "Kategori türü güncellenemedi.";
         public const string UpdateGenreSuccess = "Kategori türü başarıyla güncellendi.";
         public const string UpdateGenreRepoError = "Kategori türü veritabanı sebebiyle güncellenemedi.";
+        public const string NoGenresToUpdateError = "Güncellenecek kategori türü bulunamadı.";
+        public const string UpdateListGenreSuccess = "Kategori türlerinden bazıları ana sayfaya eklendi";
+        public const string UpdateListGenreRepoError = "Kategori türlerinden bazıları ana sayfaya eklenemedi.";
 
 
-
-
+        public const string CreateSubscriberSuccess = "Abone olma başarılı.";
+        public const string CreateSubscriberError = "Abone olunamadı.";
+        public const string CreateSubscriberRepoError = "Abone olunurken hata oluştu.Tekrar deneyiniz.";
+        public const string SubscriberNotFound = "Abone bulunamadı.";
+        public const string SubscriberFoundSuccess = "Abone başarıyla bulundu.";
+        public const string SubscriberListedSuccess = "Abone başarıyla listelendi.";
+        public const string SubscriberFilteredError = "Abone bulunamadı.";
+        public const string SubscriberFilteredSuccess = "Abone başarıyla bulundu.";
+        public const string SubscriberDeletedSuccess = "Abone başarıyla silindi.";
+        public const string SubscriberDeletedRepoError = "Abone veritabanı sebebiyle silinemedi.";
+        public const string UpdateSubscriberError = "Abone güncellenemedi.";
+        public const string UpdateSubscriberSuccess = "Abone başarıyla güncellendi.";
+        public const string UpdateSubscriberRepoError = "Abone veritabanı sebebiyle güncellenemedi.";
 
     }
 }

@@ -2,7 +2,14 @@
 
 @foreach (var item in Model)
 {
-    <section class="section" id="men">
+    string categoryName = "";
+    if (item.Order == 1)
+        categoryName = "men";
+    else if (item.Order == 2)
+        categoryName = "women";
+    else
+        categoryName = "kids";
+    <section class="section" id="@categoryName">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">

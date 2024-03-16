@@ -12,3 +12,17 @@
 	runOwlCarousel();
 }
 
+function homePageGenrePartialView() {
+	$.ajax({
+		url: '/Home/HomePageGenreList',
+		type: 'GET',
+
+		success: function (response) {
+			console.log(response)
+			$("#homePage-genrelist").html(response)
+		}
+	});
+
+	
+}
+

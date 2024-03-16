@@ -2,6 +2,7 @@ using AspNetCoreHero.ToastNotification.Extensions;
 using JinjiProject.BusinessLayer.Extensions;
 using JinjiProject.DataAccess.EFCore.Extensions;
 using JinjiProject.DataAccessLayer.Extensions;
+using JinjiProject.Dtos.SendMails;
 using JinjiProject.UI.Extensions;
 
 namespace JinjiProject.UI
@@ -17,7 +18,8 @@ namespace JinjiProject.UI
                 AddDataAccessServices(builder.Configuration)
                 .AddEFCoreServices()
                 .AddBusinessServices()
-                .AddMvcServices();
+                .AddMvcServices()
+                .Configure<EmailConfigurationDto>(builder.Configuration.GetSection("EmailConfiguration"));
 
             var app = builder.Build();
 

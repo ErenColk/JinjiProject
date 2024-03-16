@@ -61,8 +61,12 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
             var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
 
-
-            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
+           
+            if(!listBrandDto.IsSuccess || !listCategoryDto.IsSuccess || !listMaterialDto.IsSuccess)
+            {
+                return RedirectToAction("ProductList");
+            }
+            ViewBag.Brands  = await BrandItems.GetBrands(listBrandDto.Data);
             ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
             ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
             ViewBag.Size = await SizeItems.GetSize();

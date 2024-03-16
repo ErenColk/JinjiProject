@@ -15,6 +15,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using JinjiProject.Dtos.Categories;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -150,6 +151,59 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 else
                     return new ErrorDataResult<Genre>(genre, Messages.UpdateGenreRepoError);
             }
+        }
+
+        public async Task<DataResult<IEnumerable<Genre>>> UpdateAllGenreAsync(List<UpdateHomePageGenreDto> updateGenreDto)
+        {
+            if (updateGenreDto == null)
+            {
+                return new ErrorDataResult<IEnumerable<Genre>>(Messages.UpdateGenreError);
+            }
+
+            var updatedGenreIds = updateGenreDto.Select(dto => dto.Id).ToList();
+            var genresToUpdate = await _genreRepository.GetAllByExpression(genre => updatedGenreIds.Contains(genre.Id));
+
+
+            if (genresToUpdate == null || !genresToUpdate.Any())
+            {
+                return new ErrorDataResult<IEnumerable<Genre>>(Messages.NoGenresToUpdateError);
+            }
+
+            foreach (var item in updateGenreDto)
+            {
+                var genreToUpdate = genresToUpdate.FirstOrDefault(c => c.Id == item.Id);
+                if (genreToUpdate != null)
+                {
+                    _mapper.Map(item, genreToUpdate);
+                    bool result = await _genreRepository.Update(genreToUpdate);
+                    if (!result)
+                    {
+                        return new ErrorDataResult<IEnumerable<Genre>>(Messages.UpdateListGenreRepoError);
+                    }
+                }
+            }
+
+            var genresToResetUpdate = await _genreRepository.GetAllByExpression(genre => !updatedGenreIds.Contains(genre.Id));
+
+            foreach (var item in genresToResetUpdate)
+            {
+                Genre genreToUpdate = new();
+                if (genreToUpdate != null)
+                {
+                    item.Order = null;
+                    item.IsOnHomePage = false;
+                    _mapper.Map(item, genreToUpdate);
+                    bool result = await _genreRepository.Update(genreToUpdate);
+                    if (!result)
+                    {
+                        return new ErrorDataResult<IEnumerable<Genre>>(Messages.UpdateListGenreRepoError);
+                    }
+                }
+
+
+            }
+
+            return new SuccessDataResult<IEnumerable<Genre>>(genresToUpdate, Messages.UpdateListGenreSuccess);
         }
     }
 }

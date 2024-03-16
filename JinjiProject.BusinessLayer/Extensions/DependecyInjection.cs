@@ -23,6 +23,8 @@ namespace JinjiProject.BusinessLayer.Extensions
             services.AddScoped<IBrandService, BrandManager>();
             services.AddScoped<IMaterialService, MaterialManager>();
             services.AddScoped<IGenreService, GenreManager>();
+            services.AddScoped<ISendMailService, SendMailService>();
+            services.AddScoped<ISubscriberService, SubscriberManager>();
 
 
             return services;

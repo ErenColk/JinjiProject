@@ -15,5 +15,7 @@ namespace JinjiProject.Dtos.Genres
         public string ImagePath { get; set; }
         public IFormFile UploadPath { get; set; }
         public string CategoryId { get; set; }
+        public bool? IsOnHomePage { get; set; }
+        public int? Order { get; set; }
     }
 }
