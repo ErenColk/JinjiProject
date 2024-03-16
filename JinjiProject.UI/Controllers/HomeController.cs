@@ -1,4 +1,5 @@
-﻿using JinjiProject.UI.Models;
+﻿using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,10 +8,12 @@ namespace JinjiProject.UI.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ISendMailService sendMailService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ISendMailService sendMailService)
         {
             _logger = logger;
+            this.sendMailService = sendMailService;
         }
 
         public IActionResult Index()
