@@ -1,0 +1,22 @@
+﻿@using JinjiProject.Dtos.Subscribers
+@model CreateSubscriberDto
+
+<form id="subscribe" asp-area="Admin" asp-controller="Subscriber" asp-action="CreateSubscriber" method="post">
+    <div class="row">
+        <div class="col-lg-5">
+            <fieldset>
+                <input asp-for="FullName" type="text" id="name" placeholder="Adınız Soyadınız" required="">
+            </fieldset>
+        </div>
+        <div class="col-lg-5">
+            <fieldset>
+                <input asp-for="Email" type="email" id="email" placeholder="Email Adresiniz" required="">
+            </fieldset>
+        </div>
+        <div class="col-lg-2">
+            <fieldset>
+                <button type="submit" id="form-submit" class="main-dark-button"><i class="fa fa-paper-plane"></i></button>
+            </fieldset>
+        </div>
+    </div>
+</form>
