@@ -1,4 +1,5 @@
 ﻿using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Size = JinjiProject.Core.Enums.Size;
 
 namespace JinjiProject.Dtos.Products
 {
@@ -19,7 +21,7 @@ namespace JinjiProject.Dtos.Products
         public float? Height { get; set; }
         public float? Width { get; set; }
         public float? Length { get; set; }
-        public string SizeId { get; set; }
+        public Size? Size{ get; set; }
         public string ImagePath { get; set; }
         public IFormFile UploadPath { get; set; }
         public int? Capacity { get; set; }

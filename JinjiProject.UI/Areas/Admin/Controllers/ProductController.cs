@@ -24,9 +24,9 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly IGenreService _genreService;
 
-        public ProductController(IProductService productService,IBrandService brandService,ICategoryService categoryService,IMaterialService materialService, IMapper mapper,IGenreService genreService)
+        public ProductController(IProductService productService, IBrandService brandService, ICategoryService categoryService, IMaterialService materialService, IMapper mapper, IGenreService genreService)
         {
-             _productService = productService;
+            _productService = productService;
             _brandService = brandService;
             _categoryService = categoryService;
             _materialService = materialService;
@@ -60,15 +60,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
             var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
             var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
-           
 
-            ViewBag.Brands  = await BrandItems.GetBrands(listBrandDto.Data);
+
+            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
             ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
             ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
             ViewBag.Size = await SizeItems.GetSize();
             return View();
         }
-  
+
 
 
         [HttpPost]
@@ -102,7 +102,6 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 else
                 {
                     ViewData["DescriptionError"] += item.ErrorMessage + "\n";
-
                 }
             }
             return View(createProductDto);
@@ -117,18 +116,19 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var updateProductResult = await _productService.GetProductById(id);
             if (updateProductResult.IsSuccess)
             {
+                var selectedCategory = await _categoryService.GetCategoryFilteredInclude(category => category.Genres.Any(genre => genre.Id.ToString() == updateProductResult.Data.GenreId));
+                updateProductResult.Data.CategoryId = selectedCategory.Data.Id.ToString();
+
                 var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
                 var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
                 var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
-
-                var selectedCategory = await _categoryService.GetCategoryFilteredInclude(category => category.Genres.Any(genre => genre.CategoryId == category.Id));
-                updateProductResult.Data.CategoryId =  selectedCategory.Data.Id.ToString();
+                var selectedGenre = await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == selectedCategory.Data.Id);
 
                 ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
                 ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
                 ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
                 ViewBag.Size = await SizeItems.GetSize();
-
+                ViewBag.Genres = await GenreItems.GetGenres(selectedGenre.Data);
                 UpdateProductDto updateProduct = _mapper.Map<UpdateProductDto>(updateProductResult.Data);
                 return View(updateProduct);
 
@@ -283,12 +283,12 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
         [HttpGet]
         public async Task<SelectList> AddGenreList(int id)
-                    {
+        {
 
 
             var deneme = await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == id);
 
-            return  new SelectList((await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == id)).Data, "Id", "Name");
+            return new SelectList((await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == id)).Data, "Id", "Name");
 
         }
 
