@@ -15,33 +15,14 @@ namespace JinjiProject.BusinessLayer.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<CreateProductDto, Product>()
-           .ForMember(dest => dest.Size, opt => opt.MapFrom(src => GetSizeByValue(Convert.ToInt32(src.SizeId)))).ReverseMap();
-            CreateMap<Product, UpdateProductDto>().ReverseMap()
-                .ForMember(dest => dest.Size, opt => opt.MapFrom(src => GetSizeByValue(src.SizeId)));
-            CreateMap<UpdateProductDto, GetProductDto>().ReverseMap()               ;
-            CreateMap<Product, ListProductDto>()
-                .ForMember(dest => dest.GenreName,opt => opt.MapFrom(src => src.Genre.Name))
-                .ForMember(dest => dest.Size,opt => opt.MapFrom(src => GetEnumDescription.Description(src.Size))).ReverseMap();
-
+            CreateMap<CreateProductDto, Product>().ReverseMap();
+            CreateMap<Product, UpdateProductDto>().ReverseMap();
+            CreateMap<GetProductDto, UpdateProductDto>().ReverseMap();
+            CreateMap<Product, ListProductDto>().ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.Name)).ReverseMap();
             CreateMap<ListProductDto, DeletedProductListDto>().ReverseMap();
             CreateMap<GetProductDto, Product>().ReverseMap();
             CreateMap<GetProductDto, CreateProductDto>().ReverseMap();
         }
-
-        private Size GetSizeByValue(int sizeId)
-        {
-            switch (sizeId)
-            {
-                case 0:
-                    return Size.Small;
-                case 1:
-                    return Size.Medium;
-                case 2:
-                    return Size.Large;
-                default:
-                    throw new ArgumentException("Geçersiz sizeId: " + sizeId);
-            }
-        }
+    
     }
 }

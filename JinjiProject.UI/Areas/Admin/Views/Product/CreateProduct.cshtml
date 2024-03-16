@@ -138,7 +138,7 @@
                                 <span class="text-muted font-weight-bold">BOYUT</span>
                                 <div class="input-group d-flex">
                                     <input type="checkbox" data-result="false" onchange="showSize('product-size')" id="input-size-toggle" data-toggle="toggle" data-onstyle="success">
-                                    <select asp-for="SizeId" asp-items="@ViewBag.Size" class="form-control" id="product-size" style="display: none; margin-left:10px">
+                                    <select asp-for="Size" asp-items="@ViewBag.Size" class="form-control" id="product-size" style="display: none; margin-left:10px">
                                         <option value="" selected>-- Seçiniz --</option>
                                     </select>
                                 </div>
@@ -178,6 +178,7 @@
         </form>
     </div>
 </div>
+<script src="~/js/product-create.js"></script>
 
 <script>
     function previewImage(event) {
