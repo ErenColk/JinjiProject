@@ -14,6 +14,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
     public interface ISubscriberService
     {
         public Task<DataResult<Subscriber>> CreateSubscriberAsync(CreateSubscriberDto createSubscriberDto);
+        public Task<DataResult<Subscriber>> UpdateSubscriberAsync(UpdateSubscriberDto updateSubscriberDto);
         public Task<DataResult<Subscriber>> SoftDeleteSubscriberAsync(int id);
         public Task<DataResult<Subscriber>> HardDeleteSubscriberAsync(int id);
         public Task<DataResult<List<ListSubscriberDto>>> GetAllByExpression(Expression<Func<Subscriber, bool>> expression);
