@@ -35,7 +35,7 @@ async function fillNavbarCategories() {
         else {
             hastagName = 'kids'
         }
-        categoryLink.href = `/home/index/#${hastagName}`;
+        categoryLink.href = `/#${hastagName}`;
         categoryLink.textContent = category.name;
         categoryLi.classList.add("scroll-to-section");
         categoryLi.appendChild(categoryLink);
