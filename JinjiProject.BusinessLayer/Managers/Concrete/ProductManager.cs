@@ -80,8 +80,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<List<ListProductDto>>> GetAllProduct()
         {
-            var categories = await _productRepository.GetAllAsync();
-            return new SuccessDataResult<List<ListProductDto>>(_mapper.Map<List<ListProductDto>>(categories), Messages.ProductListedSuccess);
+            var products = await _productRepository.GetAllAsync(false);
+            return new SuccessDataResult<List<ListProductDto>>(_mapper.Map<List<ListProductDto>>(products), Messages.ProductListedSuccess);
         }
 
         public async Task<DataResult<GetProductDto>> GetFilteredProduct(Expression<Func<Product, bool>> expression)
