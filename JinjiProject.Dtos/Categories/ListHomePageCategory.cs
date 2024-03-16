@@ -17,6 +17,6 @@ namespace JinjiProject.Dtos.Categories
         public string Description { get; set; }
         public bool? IsOnHomePage { get; set; }
         public int? Order { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

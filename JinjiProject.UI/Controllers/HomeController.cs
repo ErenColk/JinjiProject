@@ -1,4 +1,5 @@
-﻿using JinjiProject.UI.Models;
+﻿using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +8,25 @@ namespace JinjiProject.UI.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IGenreService _genreService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IGenreService genreService)
         {
             _logger = logger;
+            _genreService = genreService;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> HomePageGenreList()
+        {
+            var genreList = await _genreService.GetAllByExpression(genre => genre.IsOnHomePage == true);
+            return PartialView("_HomePageGenreListPartialView", genreList.Data);
+
         }
 
         public IActionResult AboutUs()
