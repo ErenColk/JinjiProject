@@ -16,7 +16,8 @@ namespace JinjiProject.BusinessLayer.Profiles
         public GenreProfile()
         {
             CreateMap<CreateGenreDto, Genre>().ReverseMap();
-            CreateMap<UpdateGenreDto, Genre>().ReverseMap();
+            CreateMap<UpdateGenreDto, Genre>().ReverseMap()
+                .ForMember(dest => dest.ImagePath, opt => opt.Condition(src => src.ImagePath != null));
             CreateMap<ListGenreDto, Genre>().ReverseMap();
             CreateMap<GetGenreDto, Genre>().ReverseMap();
             CreateMap<GetGenreDto, UpdateGenreDto>().ReverseMap();

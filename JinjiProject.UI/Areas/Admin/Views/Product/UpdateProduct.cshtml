@@ -20,10 +20,12 @@
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">ÜRÜN ADI</span>
                                 <input asp-for="Name" type="text" class="form-control " id="product-name" placeholder="Ürün Adını Giriniz...">
+                                <span class="text-danger">@ViewData["NameError"]</span>
                             </div>
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">RENK</span>
                                 <input asp-for="Color" type="text" class="form-control" id="product-color" placeholder="Ürün Rengini Giriniz...">
+                                <span class="text-danger">@ViewData["ColorError"]</span>
                             </div>
                         </div>
                     </div>
@@ -38,6 +40,7 @@
                                         <span class="input-group-text">₺</span>
                                     </div>
                                 </div>
+                                    <span class="text-danger">@ViewData["PriceError"]</span>
                             </div>
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">STOK</span>
@@ -47,6 +50,7 @@
                                         <span class="input-group-text">Adet</span>
                                     </div>
                                 </div>
+                                    <span class="text-danger">@ViewData["StockError"]</span>
                             </div>
                         </div>
                     </div>
@@ -58,6 +62,7 @@
                                 <select asp-for="MaterialId" data-control="select2" asp-items="@ViewBag.Materials" class="form-control" id="product-material">
                                     <option value="" selected>-- Seçiniz --</option>
                                 </select>
+                                <span class="text-danger">@ViewData["MaterialError"]</span>
                             </div>
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">MARKA</span>
@@ -65,6 +70,7 @@
                                         asp-items="@ViewBag.Brands" class="form-control" id="product-category">
                                     <option value="" selected>-- Seçiniz --</option>
                                 </select>
+                                <span class="text-danger">@ViewData["BrandError"]</span>
                             </div>
                         </div>
                     </div>
@@ -76,6 +82,7 @@
                                 <select asp-for="CategoryId" data-control="select2" asp-items="@ViewBag.Categories" onchange="onCategoryChangeUpdate()" class="form-control" id="product-category-update">
                                     <option value="" selected>-- Seçiniz --</option>
                                 </select>
+                                <span class="text-danger">@ViewData["CategoryError"]</span>
                             </div>
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">TÜR</span>
@@ -83,6 +90,7 @@
                                         class="form-control" id="product-genre">
                                     <option value="" selected>-- Seçiniz --</option>
                                 </select>
+                                <span class="text-danger">@ViewData["GenreError"]</span>
                             </div>
                         </div>
                     </div>
@@ -95,6 +103,7 @@
                                     <textarea asp-for="Description" class="form-control" id="product-comment" placeholder="Ürünün Açıklamasını Giriniz...">
                                                 </textarea>
                                 </div>
+                                <span class="text-danger">@ViewData["DescriptionError"]</span>
                             </div>
                         </div>
                     </div>
@@ -201,6 +210,8 @@
                                 <div class="form-group">
                                     <span class="text-muted font-weight-bold">ÜRÜN FOTOĞRAFI</span>
                                     <input asp-for="UploadPath" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event)">
+                                    <span class="text-danger">@ViewData["ImageError"]</span>
+                                    <input asp-for="ImagePath" value="@Model.ImagePath" hidden/>
                                 </div>
                             </div>
                             <div class="col-md-4">
