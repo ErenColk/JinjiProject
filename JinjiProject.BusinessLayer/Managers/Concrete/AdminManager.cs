@@ -19,6 +19,7 @@ using JinjiProject.Core.Enums;
 using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Core.Utilities.Results.Abstract;
+using JinjiProject.Dtos.Genres;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -59,12 +60,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     createAdminDto.AppUserId = user.Id;
                     if (createAdminDto.UploadPath != null)
                     {
-                        using var image = Image.Load(createAdminDto.UploadPath.OpenReadStream());
-                        image.Mutate(x => x.Resize(300, 300));
-
-                        Guid guid = Guid.NewGuid();
-                        image.Save($"wwwroot/images/adminPhotos/{guid}.jpg");
-                        createAdminDto.ImagePath = $"/images/adminPhotos/{guid}.jpg";
+                        using (var image = Image.Load(createAdminDto.UploadPath.OpenReadStream()))
+                        {
+                            image.Mutate(x => x.Resize(300, 300));
+                            Guid guid = Guid.NewGuid();
+                            image.Save($"wwwroot/images/adminPhotos/{guid}.jpg");
+                            createAdminDto.ImagePath = $"/images/adminPhotos/{guid}.jpg";
+                        }                    
                     }
                     Admin admin = mapper.Map<Admin>(createAdminDto);
                     bool result = await adminRepository.Create(admin);
@@ -143,9 +145,15 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 AppUser appUser = await userManager.FindByIdAsync(adminDto.AppUserId);
                 IdentityResult result = await userManager.DeleteAsync(appUser);
-                //bool result = await adminRepository.HardDelete(adminDto);
                 if (result.Succeeded)
+                {
+                    await adminRepository.HardDelete(adminDto);
+                    if (File.Exists($"wwwroot/{adminDto.ImagePath}"))
+                    {
+                        File.Delete($"wwwroot/{adminDto.ImagePath}");
+                    }
                     return new SuccessDataResult<Admin>(Messages.AdminDeletedSuccess);
+                }
                 else
                     return new ErrorDataResult<Admin>(Messages.AdminDeletedRepoError);
             }
@@ -182,6 +190,16 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 Admin admin = await adminRepository.GetByIdAsync(updateAdminDto.Id);
+                if (updateAdminDto.UploadPath != null)
+                {
+                    using (var image = Image.Load(updateAdminDto.UploadPath.OpenReadStream()))
+                    {
+                        image.Mutate(x => x.Resize(300, 300));
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/adminPhotos/{guid}{Path.GetExtension(updateAdminDto.UploadPath.FileName)}");
+                        updateAdminDto.ImagePath = $"/images/adminPhotos/{guid}{Path.GetExtension(updateAdminDto.UploadPath.FileName)}";
+                    }
+                }
                 updateAdminDto.Status = Status.Active;
                 admin = mapper.Map(updateAdminDto,admin);
                 bool result = await adminRepository.Update(admin);
