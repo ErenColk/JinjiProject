@@ -48,10 +48,12 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 if (createProductDto.UploadPath != null)
                 {
-                    using var image = Image.Load(createProductDto.UploadPath.OpenReadStream());
-                    Guid guid = Guid.NewGuid();
-                    image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}");
-                    createProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}";
+                    using (var image = Image.Load(createProductDto.UploadPath.OpenReadStream()))
+                    {
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}");
+                        createProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}";
+                    }                   
                 }
 
                 Product Product = _mapper.Map<Product>(createProductDto);
@@ -109,7 +111,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 bool result = await _productRepository.HardDelete(ProductDto);
                 if (result)
+                {
+                    if (File.Exists($"wwwroot/{ProductDto.ImagePath}"))
+                    {
+                        File.Delete($"wwwroot/{ProductDto.ImagePath}");
+                    }
                     return new SuccessDataResult<Product>(Messages.ProductDeletedSuccess);
+                }
                 else
                     return new ErrorDataResult<Product>(Messages.ProductDeletedRepoError);
             }
@@ -144,10 +152,12 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
                 if (updateProductDto.UploadPath != null)
                 {
-                    using var image = Image.Load(updateProductDto.UploadPath.OpenReadStream());
-                    Guid guid = Guid.NewGuid();
-                    image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}");
-                    updateProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}";
+                    using (var image = Image.Load(updateProductDto.UploadPath.OpenReadStream()))
+                    {
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}");
+                        updateProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}";
+                    }                   
                 }
 
                 product = _mapper.Map(updateProductDto, product);
