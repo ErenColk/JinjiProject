@@ -40,11 +40,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 if (createGenreDto.UploadPath != null)
                 {
-                    using var image = Image.Load(createGenreDto.UploadPath.OpenReadStream());
-                    image.Mutate(x => x.Resize(385, 330));
-                    Guid guid = Guid.NewGuid();
-                    image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}");
-                    createGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}";
+                    using (var image = Image.Load(createGenreDto.UploadPath.OpenReadStream()))
+                    {
+                        image.Mutate(x => x.Resize(385, 330));
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}");
+                        createGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}";
+                    }                 
                 }
 
                 Genre genre = _mapper.Map<Genre>(createGenreDto);
@@ -105,7 +107,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 bool result = await _genreRepository.HardDelete(genreDto);
                 if (result)
+                {
+                    if (File.Exists($"wwwroot/{genreDto.ImagePath}"))
+                    {
+                        File.Delete($"wwwroot/{genreDto.ImagePath}");
+                    }
                     return new SuccessDataResult<Genre>(Messages.GenreDeletedSuccess);
+                }
                 else
                     return new ErrorDataResult<Genre>(Messages.GenreDeletedRepoError);
             }
@@ -140,10 +148,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
                 if (updateGenreDto.UploadPath != null)
                 {
-                    using var image = Image.Load(updateGenreDto.UploadPath.OpenReadStream());
-                    Guid guid = Guid.NewGuid();
-                    image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(updateGenreDto.UploadPath.FileName)}");
-                    updateGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(updateGenreDto.UploadPath.FileName)}";
+                    using (var image = Image.Load(updateGenreDto.UploadPath.OpenReadStream()))
+                    {
+                        image.Mutate(x => x.Resize(385, 330));
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(updateGenreDto.UploadPath.FileName)}");
+                        updateGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(updateGenreDto.UploadPath.FileName)}";
+                    }                  
                 }
 
                 genre = _mapper.Map(updateGenreDto, genre);
