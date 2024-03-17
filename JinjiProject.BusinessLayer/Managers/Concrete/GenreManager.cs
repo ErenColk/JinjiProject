@@ -16,6 +16,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using JinjiProject.Dtos.Categories;
+using SixLabors.ImageSharp.Processing;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -40,6 +41,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 if (createGenreDto.UploadPath != null)
                 {
                     using var image = Image.Load(createGenreDto.UploadPath.OpenReadStream());
+                    image.Mutate(x => x.Resize(385, 330));
                     Guid guid = Guid.NewGuid();
                     image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}");
                     createGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}";
