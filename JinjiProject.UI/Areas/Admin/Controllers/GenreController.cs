@@ -77,10 +77,17 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 {
                     ViewData["NameError"] += item.ErrorMessage + "\n";
                 }
-                else
+                else if(item.ErrorCode == "2")
                 {
                     ViewData["DescriptionError"] += item.ErrorMessage + "\n";
-
+                }
+                else if (item.ErrorCode == "3")
+                {
+                    ViewData["ImageError"] += item.ErrorMessage + "\n";
+                }
+                else if (item.ErrorCode == "4")
+                {
+                    ViewData["CategoryError"] += item.ErrorMessage + "\n";
                 }
             }
 
@@ -171,10 +178,17 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 {
                     ViewData["NameError"] += item.ErrorMessage + "\n";
                 }
-                else
+                else if (item.ErrorCode == "2")
                 {
                     ViewData["DescriptionError"] += item.ErrorMessage + "\n";
-
+                }
+                else if (item.ErrorCode == "3")
+                {
+                    ViewData["ImageError"] += item.ErrorMessage + "\n";
+                }
+                else if (item.ErrorCode == "4")
+                {
+                    ViewData["CategoryError"] += item.ErrorMessage + "\n";
                 }
             }
 

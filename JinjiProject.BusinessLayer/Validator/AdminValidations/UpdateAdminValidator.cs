@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using JinjiProject.BusinessLayer.Validator.ProductValidations;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Admins;
 using SixLabors.ImageSharp;
@@ -24,6 +25,7 @@ namespace JinjiProject.BusinessLayer.Validator.AdminValidations
             RuleFor(admin => admin.Email).NotEmpty().WithMessage("Email adresi boş geçilemez.").WithErrorCode("4");
 
             RuleFor(admin => admin.Gender).Must(gender => (gender == Gender.Man && gender == Gender.Woman)).NotNull().WithMessage("Cinsiyet boş geçilemez.").WithErrorCode("5");
+            RuleFor(x => x.UploadPath).Must(FileExtensions.IsImage).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("6");
         }
         private static bool IsNumber(string description)
         {
