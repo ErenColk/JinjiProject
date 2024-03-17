@@ -9,12 +9,14 @@ async function loadGenreData(id) {
     const genreImageRow = rows[0];
     const genreNameRow = rows[1];
     const genreDescriptionRow = rows[2];
-    const genreCreatedDateRow = rows[3];
-    const genreModifiedDateRow = rows[4];
+    const genreTitleRow = rows[3];
+    const genreCreatedDateRow = rows[4];
+    const genreModifiedDateRow = rows[5];
 
     const genreImageCell = genreImageRow.cells[1];
     const genreNameCell = genreNameRow.cells[1];
     const genreDescriptionCell = genreDescriptionRow.cells[1];
+    const genreTitleCell = genreTitleRow.cells[1];
     const genreCreatedDateCell = genreCreatedDateRow.cells[1];
     const genreModifiedDateCell = genreModifiedDateRow.cells[1];
 
@@ -32,6 +34,7 @@ async function loadGenreData(id) {
 
     genreNameCell.textContent = ":" + "  " + genre.name;
     genreDescriptionCell.textContent = ":" + "   " + genre.description;
+    genreTitleCell.textContent = ":" + "   " + genre.title;
     genreCreatedDateCell.textContent = ":" + "   " + new Date(genre.createdDate).toLocaleDateString();
     const genreModifiedDate = await new Date(genre.modifiedDate).getFullYear();
 
