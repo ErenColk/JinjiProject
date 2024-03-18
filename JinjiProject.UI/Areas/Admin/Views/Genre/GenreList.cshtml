@@ -27,14 +27,14 @@
                                         <th scope="col">İşlem</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="genre-table-body">
                                     @if (Model == null)
                                     {
 
                                     }
                                     else
                                     {
-                                        @foreach (var item in Model)
+                                        @* @foreach (var item in Model)
                                         {
                                             <tr class="dropdown-row">
                                                 <td>@item.Id</td>
@@ -53,13 +53,30 @@
                                                     </ul>
                                                 </td>
                                             </tr>
-                                        }
+                                        } *@
                                     }
                                 </tbody>
                             </table>
-                            <a href="/Admin/Genre/HomePageEditGenre" class="btn btn-outline-warning">Ana Sayfa Kategori Türü Düzenle</a>
                             <a asp-area="Admin" asp-action="CreateGenre" asp-controller="Genre" class="btn btn-outline-primary">Yeni Kategori Türü Girişi </a>
                             <a style="margin-left:10px" href="/Admin/Genre/DeletedGenreList" class="btn btn-outline-danger">Silinen Kategori Türleri</a>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-lg-12">
+                            <ul class="pagination pg-primary" id="pagination-list">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -67,7 +84,12 @@
         </div>
     </div>
 </div>
-
+<script>
+    // Model verilerini JavaScript nesnelerine dönüştürme
+    var genreList = [];
+    genreList = @Html.Raw(Json.Serialize(Model));
+</script>
+<script src="~/js/list-genre.js"></script>
 <partial name="~/Areas/Admin/Views/Genre/_GenreDetailPartialView.cshtml" />
 <script src="~/js/detail-genre.js"></script>
 

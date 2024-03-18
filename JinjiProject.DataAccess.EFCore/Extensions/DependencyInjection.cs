@@ -13,7 +13,9 @@ namespace JinjiProject.DataAccess.EFCore.Extensions
 {
     public static class DependencyInjection
     {
+
         public static IServiceCollection AddEFCoreServices(this IServiceCollection services, IConfiguration configuration)
+
         {
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IAdminRepository, AdminRepository>();
@@ -23,8 +25,6 @@ namespace JinjiProject.DataAccess.EFCore.Extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<ISubscriberRepository, SubscriberRepository>();
-
-
             AdminSeed.SeedAsync(configuration).GetAwaiter().GetResult();
 
             return services;

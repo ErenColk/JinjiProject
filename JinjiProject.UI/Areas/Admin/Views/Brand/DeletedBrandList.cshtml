@@ -28,13 +28,13 @@
                                         <th scope="col">İşlem</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
+                                <tbody id="brand-table-body">
+                                    @* @foreach (var item in Model)
                                     {
                                         <tr>
                                             <td>@item.Id</td>
                                             <td>@item.Name</td>
-                                            <td>@GetEnumDescription.Description(item.Status)</td>
+                                            <td>@item.StatusName</td>
                                             <td>@item.DeletedDate</td>
                                             <td>
                                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -47,19 +47,41 @@
                                                 </ul>
                                             </td>
                                         </tr>
-                                    }
+                                    } *@
                                 </tbody>
                             </table>
                         </div>
                         <a href="/Admin/Brand/BrandList" class="btn btn-outline-primary mt-3">Listeye Geri Dön</a>
                     </div>
-
+                    <div class="card-footer">
+                        <div class="col-lg-12">
+                            <ul class="pagination pg-primary" id="pagination-list">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    // Model verilerini JavaScript nesnelerine dönüştürme
+    var brandList = [];
+    brandList = @Html.Raw(Json.Serialize(Model));
+</script>
+<script src="~/js/list-deleted-brand.js"></script>
 <partial name="~/Areas/Admin/Views/Brand/_BrandHardDeletedPartialView.cshtml" />
 <script src="~/js/delete-brand.js"></script>
 

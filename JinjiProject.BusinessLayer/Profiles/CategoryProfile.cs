@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JinjiProject.BusinessLayer.Helpers;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
@@ -22,7 +23,8 @@ namespace JinjiProject.BusinessLayer.Profiles
             CreateMap<UpdateCategoryDto, Category>()
     .ForMember(dest => dest.CreatedDate, opt => opt.Ignore())
     .ReverseMap(); ;
-            CreateMap<ListCategoryDto, Category>().ReverseMap();
+            CreateMap<ListCategoryDto, Category>().ReverseMap()
+                .ForMember(dest => dest.StatusName, opt => opt.MapFrom(opt => GetEnumDescription.Description(opt.Status)));
             CreateMap<GetCategoryDto, Category>().ReverseMap();
             CreateMap<GetCategoryDto, UpdateCategoryDto>().ReverseMap();
             CreateMap<ListCategoryDto, DeletedCategoryListDto>().ReverseMap();

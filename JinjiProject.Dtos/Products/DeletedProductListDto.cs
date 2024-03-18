@@ -20,6 +20,6 @@ namespace JinjiProject.Dtos.Products
         public string ImagePath { get; set; }
         public int? Capacity { get; set; }
         public DateTime DeletedDate { get; set; }
-        public Status Status { get; set; }
+        public string StatusName { get; set; }
     }
 }

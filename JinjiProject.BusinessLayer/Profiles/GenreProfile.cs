@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JinjiProject.BusinessLayer.Helpers;
 using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
@@ -16,8 +17,10 @@ namespace JinjiProject.BusinessLayer.Profiles
         public GenreProfile()
         {
             CreateMap<CreateGenreDto, Genre>().ReverseMap();
-            CreateMap<UpdateGenreDto, Genre>().ReverseMap();
-            CreateMap<ListGenreDto, Genre>().ReverseMap();
+            CreateMap<UpdateGenreDto, Genre>().ReverseMap()
+                .ForMember(dest => dest.ImagePath, opt => opt.Condition(src => src.ImagePath != null));
+            CreateMap<ListGenreDto, Genre>().ReverseMap()
+                .ForMember(dest => dest.StatusName, opt => opt.MapFrom(opt => GetEnumDescription.Description(opt.Status)));
             CreateMap<GetGenreDto, Genre>().ReverseMap();
             CreateMap<GetGenreDto, UpdateGenreDto>().ReverseMap();
             CreateMap<ListGenreDto, DeletedGenreListDto>().ReverseMap();

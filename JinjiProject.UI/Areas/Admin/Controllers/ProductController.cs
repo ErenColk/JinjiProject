@@ -61,12 +61,12 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
             var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
 
-           
-            if(!listBrandDto.IsSuccess || !listCategoryDto.IsSuccess || !listMaterialDto.IsSuccess)
+
+            if (!listBrandDto.IsSuccess || !listCategoryDto.IsSuccess || !listMaterialDto.IsSuccess)
             {
                 return RedirectToAction("ProductList");
             }
-            ViewBag.Brands  = await BrandItems.GetBrands(listBrandDto.Data);
+            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
             ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
             ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
             ViewBag.Size = await SizeItems.GetSize();
@@ -99,15 +99,49 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             foreach (var item in result.Errors)
             {
-                if (item.ErrorCode == "1")
+                switch (item.ErrorCode)
                 {
-                    ViewData["NameError"] += item.ErrorMessage + "\n";
-                }
-                else
-                {
-                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+                    case "1":
+                        ViewData["NameError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "2":
+                        ViewData["PriceError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "3":
+                        ViewData["StockError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "4":
+                        ViewData["ColorError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "5":
+                        ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "6":
+                        ViewData["BrandError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "7":
+                        ViewData["CategoryError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "8":
+                        ViewData["GenreError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "9":
+                        ViewData["MaterialError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "10":
+                        ViewData["ImageError"] += item.ErrorMessage + "\n";
+                        break;
+                    default:
+                        break;
                 }
             }
+            var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
+            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
+            ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+            ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
+            ViewBag.Size = await SizeItems.GetSize();
             return View(createProductDto);
 
         }
@@ -173,8 +207,8 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             if (result.IsValid)
             {
-                var updateProductResult = await _productService.UpdateProductAsync(updateProductDto);
 
+                var updateProductResult = await _productService.UpdateProductAsync(updateProductDto);
                 if (updateProductResult.IsSuccess)
                 {
 
@@ -191,16 +225,52 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             foreach (var item in result.Errors)
             {
-                if (item.ErrorCode == "1")
+                switch (item.ErrorCode)
                 {
-                    ViewData["NameError"] += item.ErrorMessage + "\n";
-                }
-                else
-                {
-                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
-
+                    case "1":
+                        ViewData["NameError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "2":
+                        ViewData["PriceError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "3":
+                        ViewData["StockError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "4":
+                        ViewData["ColorError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "5":
+                        ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "6":
+                        ViewData["BrandError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "7":
+                        ViewData["CategoryError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "8":
+                        ViewData["GenreError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "9":
+                        ViewData["MaterialError"] += item.ErrorMessage + "\n";
+                        break;
+                    case "10":
+                        ViewData["ImageError"] += item.ErrorMessage + "\n";
+                        break;
+                    default:
+                        break;
                 }
             }
+
+            var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
+
+
+            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
+            ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+            ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
+            ViewBag.Size = await SizeItems.GetSize();
             return View(updateProductDto);
 
 

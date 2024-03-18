@@ -16,9 +16,11 @@ namespace JinjiProject.BusinessLayer.Profiles
         public ProductProfile()
         {
             CreateMap<CreateProductDto, Product>().ReverseMap();
-            CreateMap<Product, UpdateProductDto>().ReverseMap();
+            CreateMap<Product, UpdateProductDto>().ReverseMap()
+                .ForMember(dest => dest.ImagePath, opt => opt.Condition(src => src.ImagePath != null));
             CreateMap<GetProductDto, UpdateProductDto>().ReverseMap();
-            CreateMap<Product, ListProductDto>().ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.Name)).ReverseMap();
+            CreateMap<Product, ListProductDto>().ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.Name)).ForMember(dest => dest.StatusName, opt => opt.MapFrom(opt => GetEnumDescription.Description(opt.Status))).ReverseMap();
+            
             CreateMap<ListProductDto, DeletedProductListDto>().ReverseMap();
             CreateMap<GetProductDto, Product>().ReverseMap();
             CreateMap<GetProductDto, CreateProductDto>().ReverseMap();
