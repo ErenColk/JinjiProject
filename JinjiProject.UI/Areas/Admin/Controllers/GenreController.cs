@@ -46,7 +46,11 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> CreateGenre()
         {
             var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
-            ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+            if (listCategoryDto.Data != null)
+            {
+                ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+
+            }
             return View();
         }
 

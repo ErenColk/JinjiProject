@@ -147,6 +147,25 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 
         [HttpPost]
+        public async Task<IActionResult> AddDiscount([FromBody] UpdateProductDiscountDto updateProductDiscountDto)
+        {
+
+
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveDiscount(int id)
+        {
+
+
+
+            return Ok();
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
         {
             UpdateProductValidator updateProductValidator = new UpdateProductValidator();

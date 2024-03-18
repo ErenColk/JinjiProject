@@ -25,12 +25,12 @@ namespace JinjiProject.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if (TempData["Login"] != null)
-            {
-                var user = await userManager.GetUserAsync(User);
-                var userRole = await userManager.GetRolesAsync(user);
-                return RedirectToAction("Index", "Home", new { Area = userRole[0].ToString() });
-            }
+            //if (TempData["Login"] != null)
+            //{
+            //    var user = await userManager.GetUserAsync(User);
+            //    var userRole = await userManager.GetRolesAsync(user);
+            //    return RedirectToAction("Index", "Home", new { Area = userRole[0].ToString() });
+            //}
             return View();
         }
 
