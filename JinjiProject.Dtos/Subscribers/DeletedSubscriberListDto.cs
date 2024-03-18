@@ -12,7 +12,7 @@ namespace JinjiProject.Dtos.Subscribers
         public int Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public Status Status { get; set; }
+        public string StatusName { get; set; }
         public DateTime DeletedDate { get; set; }
     }
 }

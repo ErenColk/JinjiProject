@@ -13,7 +13,7 @@ namespace JinjiProject.Dtos.Genres
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImagePath { get; set; }
-        public Status Status { get; set; }
+        public string StatusName { get; set; }
         public DateTime DeletedDate { get; set; }
     }
 }
