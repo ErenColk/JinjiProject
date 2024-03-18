@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\list-deleted-brand.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\list-deleted-brand.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\AdminTemplate\.DS_Store" />
+    <None Include="wwwroot\js\list-deleted-brand.js" />
   </ItemGroup>
 
   <ItemGroup>

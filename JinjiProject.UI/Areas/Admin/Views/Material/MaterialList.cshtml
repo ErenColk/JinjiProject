@@ -20,14 +20,14 @@
                                     <th scope="col">İşlem</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="material-table-body">
                                 @if (Model == null)
                                 {
 
                                 }
                                 else
                                 {
-                                    @foreach (var item in Model)
+                                    @* @foreach (var item in Model)
                                     {
                                         <tr>
                                             <td>@item.Id</td>
@@ -45,7 +45,7 @@
                                                 </ul>
                                             </td>
                                         </tr>
-                                    }
+                                    } *@
 
                                 }
 
@@ -54,11 +54,34 @@
                         <a href="/Admin/Material/CreateMaterial" class="btn btn-outline-primary">Yeni Malzeme Girişi </a>
                         <a style="margin-left:10px" href="/Admin/Material/DeletedMaterialList" class="btn btn-outline-danger">Silinen Malzemeler</a>
                     </div>
+                    <div class="card-footer">
+                        <div class="col-lg-12">
+                            <ul class="pagination pg-primary" id="pagination-list">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    // Model verilerini JavaScript nesnelerine dönüştürme
+    var materialList = [];
+    materialList = @Html.Raw(Json.Serialize(Model));
+</script>
+<script src="~/js/list-material.js"></script>
 <partial name="~/Areas/Admin/Views/Material/_MaterialDetailPartialView.cshtml" />
 <script src="~/js/detail-material.js"></script>
