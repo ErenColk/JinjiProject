@@ -19,6 +19,6 @@ namespace JinjiProject.Dtos.Genres
         public DateTime DeletedDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public Status Status { get; set; }
+        public string StatusName { get; set; }
     }
 }
