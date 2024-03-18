@@ -44,8 +44,8 @@
                                                 <td><img class="img-fluid img-thumbnail" style="width: 100px; height:100px; border-radius:5px; " src="@item.ImagePath" /></td>
                                                 <td>@item.Name</td>
                                                 <td>@item.Color</td>
-                                                <td>@item.Price</td>
-                                                <td>@item.Stock</td>
+                                                <td>@item.Price ₺</td>
+                                                <td>@item.Stock Adet</td>
                                                 <td>@item.Capacity</td>
                                                 <td>@item.CreatedDate</td>
                                                 <td>@GetEnumDescription.Description(item.Status)</td>
@@ -55,6 +55,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                                                         <a class="dropdown-item " href="/Admin/Product/UpdateProduct/@item.Id">Güncelle</a>
+                                                        <a class="dropdown-item " id="modalOpener" onclick="addPriceToProduct(@item.Id)" data-bs-toggle="modal" data-bs-target="#productAddDiscountModal" data-id="@item.Id">Fiyat Güncelle</a>
                                                         <a class="dropdown-item " id="modalOpener" onclick="loadProductData(@item.Id)" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-id="@item.Id">Detaylar</a>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item text-danger" href="/Admin/Product/SoftDelete/@item.Id">Sil</a>
@@ -93,6 +94,10 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/detail-product.js"></script>
+<script src="~/js/product-discount-add.js"></script>
+
 <script>
     // Model verilerini JavaScript nesnelerine dönüştürme
     var productList = [];
@@ -100,4 +105,4 @@
 </script>
 <script src="~/js/list-product.js"></script>
 <partial name="~/Areas/Admin/Views/Product/_DetailProductPartialView.cshtml" />
- 
+<partial name="~/Areas/Admin/Views/Product/_AddDiscountProductPartialView.cshtml" />

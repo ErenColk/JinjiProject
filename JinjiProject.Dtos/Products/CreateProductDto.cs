@@ -16,7 +16,7 @@ namespace JinjiProject.Dtos.Products
         public string Name { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }
-        public int Price { get; set; }
+        public decimal? Price { get; set; }
         public int Stock { get; set; }
         public float? Height { get; set; }
         public float? Width { get; set; }

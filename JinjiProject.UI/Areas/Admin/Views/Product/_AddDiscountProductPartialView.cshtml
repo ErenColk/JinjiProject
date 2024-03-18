@@ -1,0 +1,134 @@
+﻿
+<div class="modal fade" id="productAddDiscountModal" tabindex="-1" aria-labelledby="productAddDiscountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productAddDiscountModalLabel">İndirim Detayı</h5>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
+                    X
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <table id="kt_modal_discount_product_form">
+                    <tbody>
+                        <tr>
+                            <td><strong>Ürün Adı  </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ürün Stok Bilgisi  </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oluşturulma Tarihi  </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ürünün İndirimsiz Fiyatı </strong></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <form asp-area="Admin" onsubmit="submitFormDiscount(); return false;" method="post">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="text-muted font-weight-bold">ÜRÜN İNDİRİMLİ FİYATI</span>
+                                        <div class="input-group">
+                                            <input type="hidden" id="product-discount-id" />
+                                            <input type="text" class="form-control" oninput="formatPrice(this,'danger-newprice')" id="product-newprice" placeholder="Ürünün İndirimli Fiyatını Giriniz...">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">₺</span>
+                                            </div>
+                                        </div>
+                                        <span class="text-danger" id="danger-newprice"></span>
+                                    </div>
+                                    <div class="col-md-6" id="prev-discount-product" style="display:none">
+                                        <span class="text-muted font-weight-bold">ÖNCEKİ İNDİRİMLİ FİYATI</span>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" readonly oninput="formatPrice(this,'danger-oldprice')" id="product-oldprice" placeholder="Ürün Fiyatını Giriniz...">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">₺</span>
+                                            </div>
+                                        </div>
+                                        <span class="text-danger" id="danger-oldprice"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+                    
+                        </div>
+                        <hr />
+                        <div class="card-action d-flex justify-content-end">
+                            <button  class="btn btn-outline-success mr-2">Kaydet</button>
+                            <button type="button" class="btn btn-outline-danger mr-2" onclick="removeDiscount()" id="btn-remove-discount">İndirimi Kaldır</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary">Kapat</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/product-discount-add.js"></script>
+
+<script>
+    let product = [];
+    function submitFormDiscount() {
+        console.log("form çalıştı");
+        debugger;
+        var newProductPrice = parseFloat(document.getElementById("product-newprice").value);
+        var productId = parseInt(document.getElementById('product-discount-id').value); // Ürün ID'sini temsil ettiğini varsayarak değişken adını productId olarak düzelttim
+        console.log(productId);
+        console.log(newProductPrice);
+
+        var productDiscount = {
+            Id: productId, // DTO ile eşleşmesi için özellik adını düzelttim
+            OldPrice: newProductPrice
+        };
+        console.log(productDiscount);
+        var productData = JSON.stringify(productDiscount);
+
+        var gelenAjax = $.ajax({
+            url: '/Admin/Product/AddDiscount',
+            type: 'POST',
+            contentType: 'application/json',
+            data: productData,
+            success: function (data) {
+                window.location.href = '/Admin/Product/ProductList';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('İsteğinizde bir sorun oluştu:', errorThrown);
+            }
+        });
+    };
+
+    function removeDiscount() {
+
+        const id = parseInt(document.getElementById('product-discount-id').value);
+      
+        var gelenAjax = $.ajax({
+            url: '/Admin/Product/RemoveDiscount/'+id,
+            type: 'POST',
+            contentType: 'application/json',
+            success: function (data) {
+                window.location.href = '/Admin/Product/ProductList';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('İsteğinizde bir sorun oluştu:', errorThrown);
+            }
+        });
+
+
+    }
+
+
+
+
+</script>
+
