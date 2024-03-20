@@ -1,7 +1,6 @@
 ﻿async function addPriceToProduct(id) {
     const table = document.getElementById('kt_modal_discount_product_form');
     const rows = table.getElementsByTagName('tr');
-    debugger;
     console.log(document.getElementById('product-newprice').value);
     document.getElementById('product-newprice').value = "";
     const productNameRow = rows[0];

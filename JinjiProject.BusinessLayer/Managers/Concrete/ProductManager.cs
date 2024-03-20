@@ -16,19 +16,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
 
-    
 
     public class ProductManager : IProductService
     {
-
-    
-  
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
@@ -197,6 +195,58 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
             }
 
+        }
+
+        public async Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name, string? price, string? brandId, string? genreId, string? createdDate)
+        {
+            int nullParamCount = new[] { name, price, brandId, genreId }.Count(param => param != null);
+            var deneme = DateTime.Parse(createdDate).Year.ToString();
+            if (DateTime.Parse(createdDate).Year.ToString() != "1")
+            {
+                nullParamCount++;
+            }
+
+            var productsByName = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.Name.Contains(name));
+            var productsByPrice = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.Price <= Convert.ToDecimal(price));
+            var productsByBrand = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.BrandId == Convert.ToInt32(brandId));
+            var productsByGenre = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.GenreId == Convert.ToInt32(genreId));
+            var productsByCreatedYear = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && EF.Functions.DateDiffDay(product.CreatedDate, DateTime.Parse(createdDate)) == 0);
+
+            var filteredProducts = IntersectNonEmpty(nullParamCount, productsByName, productsByPrice, productsByBrand, productsByGenre, productsByCreatedYear);
+
+            return filteredProducts.Any()
+            ? new SuccessDataResult<List<ListProductDto>>(_mapper.Map<List<ListProductDto>>(filteredProducts), Messages.ProductListedSuccess)
+            : new ErrorDataResult<List<ListProductDto>>(Messages.ProductNotFound);
+        }
+
+        private static IEnumerable<T> IntersectNonEmpty<T>(int _nullParamCount, params IEnumerable<T>[] lists)
+        {
+            var nonEmptyLists = lists.Where(list => list != null && list.Any()).ToList();
+
+            if (nonEmptyLists.Count == 0)
+            {
+                return new List<T>();
+            }
+
+            IEnumerable<T> result = nonEmptyLists[0];
+            if (_nullParamCount == nonEmptyLists.Count)
+            {
+                for (int i = 1; i < nonEmptyLists.Count; i++)
+                {
+                    result = result.Intersect(nonEmptyLists[i]).ToList();
+
+                    if (!result.Any())
+                    {
+                        break;
+                    }
+                }
+                return result;
+            }
+            else
+            {
+
+                return result = new List<T>();
+            }
         }
     }
 }

@@ -15,6 +15,51 @@
                         <div class="card-title">Ürün İşlemleri</div>
                     </div>
                     <div class="card-body">
+                        <div class="flex" data-kt-docs-table-toolbar="base">
+                            <form class="form-question" asp-controller="Product" asp-action="GetProductsByGivenValues" asp-route-state="" method="post" onsubmit="return onSubmitForm()">
+                                <div class="classroomfilter flex-row">
+                                    <div class="row g-5 align-items-end">
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Ürün Adı</label>
+                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="Name" name="Name" placeholder="Ürün Adı" value="@ViewBag.Content" />
+                                        </div>
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <div class="form-label-group">
+                                                <label for="Subject">Ürün Fiyatı</label>
+                                                <input class="form-control form-control-solid mb-3 mb-lg-0" id="Price" name="Price" placeholder="Ürün Fiyatı" type="number" value="@ViewBag.Content" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Kategori</label>
+                                            <select class="form-control" data-control="select2" id="Category" name="GenreId" asp-items="@ViewBag.Genres">
+                                                <option value="">Seçiniz</option>
+                                            </select>
+                                        </div>
+
+
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Malzeme</label>
+                                            <select class="form-control" data-control="select2" id="Material" name="MaterialId" asp-items="@ViewBag.Materials">
+                                                <option value="">Seçiniz</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Oluşturma Tarihi</label>
+                                            <input type="date" class="form-control form-control-solid" id="CreatedDate" name="CreatedDate" placeholder="Oluşturma Tarihi" />
+                                        </div>
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <button type="submit" id="searchButton" style="min-width:99px;" class="btn btn-outline-primary" >Listele</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table class="table mt-4">
                                 <thead>
@@ -102,6 +147,28 @@
     // Model verilerini JavaScript nesnelerine dönüştürme
     var productList = [];
     productList = @Html.Raw(Json.Serialize(Model));
+
+    function onSubmitForm() {
+        var searchButton = document.getElementById("searchButton");
+        var name = document.getElementById("Name");
+        var price = document.getElementById("Price");
+        var category = document.getElementById("Genre");
+        var material = document.getElementById("Material");
+        var createdDate = document.getElementById("CreatedDate")
+        console.log(createdDate)
+        if (!name.value && !price.value && !category.value && !questionDifficulty.value && !createdDate.value) {
+            var showAllQuestions = true;
+
+            var baseUrl = '@Url.Action("ProductList")';
+
+            var url = baseUrl + queryString;
+
+            window.location.href = url;
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>
 <script src="~/js/list-product.js"></script>
 <partial name="~/Areas/Admin/Views/Product/_DetailProductPartialView.cshtml" />

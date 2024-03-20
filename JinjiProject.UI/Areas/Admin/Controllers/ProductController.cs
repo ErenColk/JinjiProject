@@ -40,6 +40,18 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var productListResult = await _productService.GetAllByExpression(product => product.Status != Status.Deleted);
             var productList = _mapper.Map<List<ListProductDto>>(productListResult.Data);
 
+            var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
+            var listGenreDto = await _genreService.GetAllByExpression(category => category.Status != Status.Deleted);
+            var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
+            if (!listBrandDto.IsSuccess || !listGenreDto.IsSuccess || !listMaterialDto.IsSuccess)
+            {
+                NotifyError("Öncelikle gerekli diğer özellikler eklenmelidir!");
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
+            ViewBag.Genres = await GenreItems.GetGenres(listGenreDto.Data);
+            ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
+
             if ((productList.Count <= 0 || productList == null) && showWarning)
             {
                 NotifyError(productListResult.Message);
@@ -52,6 +64,25 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             return View(productList);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetProductsByGivenValues(ListProductDto listProductDto)
+        {
+            string price = null;
+            string brand = null;
+            string genre = null;
+            if (listProductDto.Price != 0)
+                price = listProductDto.Price.ToString();
+            if (listProductDto.BrandId != 0)
+                brand = listProductDto.BrandId.ToString();
+            if (listProductDto.GenreId != 0)
+                genre = listProductDto.GenreId.ToString();
+            var productListResponse = await _productService.GetProductBySearchValues(listProductDto.Name, price, brand, genre, listProductDto.CreatedDate.ToString());
+
+            if(productListResponse.Data == null)
+                return RedirectToAction("ProductList");
+
+            return View("ProductList",productListResponse.Data);
+        }
 
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
@@ -64,7 +95,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             if (!listBrandDto.IsSuccess || !listCategoryDto.IsSuccess || !listMaterialDto.IsSuccess)
             {
-                return RedirectToAction("ProductList");
+                NotifyError("Öncelikle gerekli diğer özellikler eklenmelidir!");
             }
             ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
             ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);

@@ -94,6 +94,7 @@ function fillproducts(products) {
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                                                         <a class="dropdown-item " href="/Admin/Product/UpdateProduct/${product.id}">Güncelle</a>
+                                                         <a class="dropdown-item " id="modalOpener" onclick="addPriceToProduct(${product.id})" data-bs-toggle="modal" data-bs-target="#productAddDiscountModal" data-id="${product.id}">İndirim Ekle</a>
                                                         <a class="dropdown-item " id="modalOpener" onclick="loadProductData(${product.id})" data-bs-toggle="modal" data-bs-target="#productDetailModal" data-id="${product.id}">Detaylar</a>
                                                         <div class="dropdown-divider"></div>
                                                         <a class="dropdown-item text-danger" href="/Admin/Product/SoftDelete/${product.id}">Sil</a>
