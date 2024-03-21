@@ -22,7 +22,7 @@ namespace JinjiProject.BusinessLayer.Validator.ProductValidations
             RuleFor(x => x.CategoryId).NotEmpty().NotNull().WithMessage("Kategori boş geçilemez!").WithErrorCode("7");
             RuleFor(x => x.GenreId).NotEmpty().NotNull().WithMessage("Kategori Türü boş geçilemez!").WithErrorCode("8");
             RuleFor(x => x.MaterialId).NotEmpty().NotNull().WithMessage("Malzeme boş geçilemez!").WithErrorCode("9");
-            RuleFor(x => x.UploadPath).Must(file => file.IsImage()).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("10");
+            RuleFor(x => x.UploadPath).Must(file => file == null || file.IsImage()).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("10");
         }
     }
     public static class FileExtensions
