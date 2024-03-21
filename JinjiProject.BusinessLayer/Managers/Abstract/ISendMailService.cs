@@ -13,7 +13,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
     public interface ISendMailService
     {
 
-        Task<DataResult<Subscriber>> SendMailAllSubscriber(GetProductDto getProductDto, string urL);
+        Task<DataResult<Subscriber>> SendMailAllSubscriber(List<ListProductDto> listProductDtos, string urL);
         Task SendEmailRenewPassword(RenewPasswordDto renewPasswordDto);
     }
 }

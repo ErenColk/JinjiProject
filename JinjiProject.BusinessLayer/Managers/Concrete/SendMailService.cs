@@ -72,25 +72,87 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             await SendMail(message);
         }
 
-        public async Task<DataResult<Subscriber>> SendMailAllSubscriber(GetProductDto getProductDto, string urL)
+        public async Task<DataResult<Subscriber>> SendMailAllSubscriber(List<ListProductDto> listProductDtos, string urL)
         {
 
-            var htmlContent = $@" <p>Merhaba,</p>
-            <p>Size [Ürün Adı] hakkında bir güncelleme yapmak istiyoruz. Bu ürün şu anda indirime girdi! İndirimli fiyatlarımızı kaçırmayın.<p>
-            <p><strong>[Ürün Adı]: {getProductDto.Name} [{getProductDto.Price}] ➔ [{getProductDto.OldPrice}]</strong></p>
-            <p>Ürüne gitmek için aşağıdaki bağlantıya tıklayabilirsiniz:</p>
-            <p><a href=""{urL}"">Ürüne Git</a></p>
-            <p>Fırsatı kaçırmayın!</p>
-            <p>Saygılarımla,<br>
-            [Jinji]</p>";
+
 
             var subscribers = await _subscriberService.GetAllSubscriber();
+
             foreach (var subscriber in subscribers.Data)
             {
+                var htmlContent = $@"
+<html>
+<head>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }}
+        .product {{
+            margin-bottom: 10px;
+        }}
+        .product-name {{
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }}
+        .product-price {{
+            color: #dc3545;
+            text-decoration: line-through;
+        }}
+        .product-old-price {{
+            color: #28a745;
+        }}
+        .product-link {{
+            color: #007bff;
+            text-decoration: none;
+        }}
+        .product-link:hover {{
+            text-decoration: underline;
+        }}
+        .signature {{
+            margin-top: 20px;
+            font-style: italic;
+            color: #6c757d;
+        }}
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <p>Merhaba,</p>
+        <p>Size ürünler hakkında bir güncelleme yapmak istiyoruz. Aşağıda bulunan ürünler şu anda indirime girdi! İndirimli fiyatlarımızı kaçırmayın.</p>";
+
+                foreach (var productDto in listProductDtos)
+                {
+                    {
+
+                        htmlContent += $@"
+        <div class='product'>
+            <p class='product-name'><strong>{productDto.Name}</strong></p>
+            <p><span class='product-price'>{productDto.Price}₺</span> <span class='product-old-price'>{productDto.OldPrice}₺</span> <a class='product-link' href='{urL + '/' + productDto.Id}'>Ürüne Git</a></p>
+        </div>";
+                    }
+                }
+
+                htmlContent += $@"
+        <p>Ürünlere gitmek için yanlarındaki bağlantıya tıklayabilirsiniz.</p>
+        <p>Fırsatları kaçırmayın!</p>
+        <p class='signature'>Saygılarımla,<br>
+        [Jinji]</p>
+    </div>
+</body>
+</html>";
+
 
                 MailMessageDto message = new MailMessageDto(subscriber.Email, "Ürün İndirimi Hakkında", htmlContent);
                 await SendMail(message);
-
             }
 
             return new SuccessDataResult<Subscriber>(Messages.SendMailSuccess);
@@ -98,4 +160,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         }
     }
+
 }
+
+
+

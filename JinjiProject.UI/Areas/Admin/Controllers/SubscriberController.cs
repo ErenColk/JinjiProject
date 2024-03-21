@@ -15,11 +15,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
     {
         private readonly ISubscriberService subscriberService;
         private readonly IMapper _mapper;
+        private readonly IProductService _productService;
+        private readonly ISendMailService _sendMailService;
 
-        public SubscriberController(ISubscriberService subscriberService,IMapper mapper)
+        public SubscriberController(ISubscriberService subscriberService, IMapper mapper, IProductService productService, ISendMailService sendMailService)
         {
             this.subscriberService = subscriberService;
             _mapper = mapper;
+            _productService = productService;
+            _sendMailService = sendMailService;
         }
 
         [HttpGet]
@@ -30,6 +34,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             if ((subscriberList.Count <= 0 || SubscriberList == null) && showWarning)
             {
+
                 NotifyError(subscriberListResult.Message);
             }
             else if (showWarning)
@@ -161,6 +166,31 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             }
 
             return View(deletedSubscriberList);
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SendMailToSubscribers(bool showWarning = true)
+        {
+
+
+            var discountedProducts = await _productService.GetAllByExpression(x => x.Status != Status.Deleted && x.IsDiscount == true);
+            var subscribers = await subscriberService.GetAllByExpression(x => x.Status != Status.Deleted);
+
+            string link = Url.Action("ProductDetails", "product", new { Area = "" }, Request.Scheme);
+            var sendMailResult = await _sendMailService.SendMailAllSubscriber(discountedProducts.Data, link);
+            if (sendMailResult.IsSuccess)
+            {
+                NotifySuccess(sendMailResult.Message);
+                return RedirectToAction(nameof(SubscriberList), new { showWarning = false });
+            }
+            else
+            {
+                NotifyError(sendMailResult.Message);
+                return RedirectToAction(nameof(SubscriberList), new { showWarning = false });
+
+            }
 
         }
 
