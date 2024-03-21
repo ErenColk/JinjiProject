@@ -223,17 +223,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var updateProductResult = await _productService.UpdateProductDiscountAsync(updateProductDiscountDto);
             if (updateProductResult.IsSuccess)
             {
-                //var productResult = await _productService.GetProductById(updateProductDiscountDto.Id);
-                //string link = Url.Action("ProductDetails", "product",new { Area = "", id = updateProductDiscountDto.Id }, Request.Scheme);
-                //var sendMailResult = await _sendMailService.SendMailAllSubscriber(productResult.Data, link);
-                //if(sendMailResult.IsSuccess)
-                //{
-                //    return Json(new { success = true, message = sendMailResult.Message });
-                //}
-                //else
-                //{
-                //}
-
+                
                 return Json(new { success = true, message = updateProductResult.Message });
             }
             else
