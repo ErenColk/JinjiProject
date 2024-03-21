@@ -248,5 +248,24 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 return result = new List<T>();
             }
         }
+
+        public async Task<DataResult<Product>> UpdateProductDiscountAsync(UpdateProductDiscountDto updateProductDiscountDto)
+        {
+            if (updateProductDiscountDto == null)
+            {
+                return new ErrorDataResult<Product>(Messages.UpdateProductError);
+            }
+            else
+            {
+                Product product = await _productRepository.GetByIdAsync(updateProductDiscountDto.Id);
+
+                            product = _mapper.Map(updateProductDiscountDto, product);
+                bool result = await _productRepository.Update(product);
+                if (result)
+                    return new SuccessDataResult<Product>(product, Messages.UpdateProductSuccess);
+                else
+                    return new ErrorDataResult<Product>(product, Messages.UpdateProductRepoError);
+            }
+        }
     }
 }

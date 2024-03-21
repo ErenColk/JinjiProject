@@ -23,8 +23,9 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         private readonly IMaterialService _materialService;
         private readonly IMapper _mapper;
         private readonly IGenreService _genreService;
+        private readonly ISendMailService _sendMailService;
 
-        public ProductController(IProductService productService, IBrandService brandService, ICategoryService categoryService, IMaterialService materialService, IMapper mapper, IGenreService genreService)
+        public ProductController(IProductService productService, IBrandService brandService, ICategoryService categoryService, IMaterialService materialService, IMapper mapper, IGenreService genreService, ISendMailService sendMailService)
         {
             _productService = productService;
             _brandService = brandService;
@@ -32,6 +33,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             _materialService = materialService;
             _mapper = mapper;
             _genreService = genreService;
+            _sendMailService = sendMailService;
         }
 
         [HttpGet]
@@ -60,6 +62,10 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             {
                 NotifySuccess(productListResult.Message);
             }
+            else if (!showWarning)
+            {
+                NotifySuccess("Güncelleme işlemi başarılı.");
+            }
 
             return View(productList);
         }
@@ -78,10 +84,10 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 genre = listProductDto.GenreId.ToString();
             var productListResponse = await _productService.GetProductBySearchValues(listProductDto.Name, price, brand, genre, listProductDto.CreatedDate.ToString());
 
-            if(productListResponse.Data == null)
+            if (productListResponse.Data == null)
                 return RedirectToAction("ProductList");
 
-            return View("ProductList",productListResponse.Data);
+            return View("ProductList", productListResponse.Data);
         }
 
         [HttpGet]
@@ -214,19 +220,56 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddDiscount([FromBody] UpdateProductDiscountDto updateProductDiscountDto)
         {
+            var updateProductResult = await _productService.UpdateProductDiscountAsync(updateProductDiscountDto);
+            if (updateProductResult.IsSuccess)
+            {
+                //var productResult = await _productService.GetProductById(updateProductDiscountDto.Id);
+                //string link = Url.Action("ProductDetails", "product",new { Area = "", id = updateProductDiscountDto.Id }, Request.Scheme);
+                //var sendMailResult = await _sendMailService.SendMailAllSubscriber(productResult.Data, link);
+                //if(sendMailResult.IsSuccess)
+                //{
+                //    return Json(new { success = true, message = sendMailResult.Message });
+                //}
+                //else
+                //{
+                //}
 
+                return Json(new { success = true, message = updateProductResult.Message });
+            }
+            else
+            {
+                return Json(new { success = false, message = updateProductResult.Message });
+            }
 
-
-            return Ok();
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoveDiscount(int id)
         {
+            var productResult = await _productService.GetProductById(id);
+            if (productResult.IsSuccess)
+            {
+                productResult.Data.IsDiscount = false;
+                productResult.Data.OldPrice = null;
+
+                var updateProductDiscountDto = _mapper.Map<UpdateProductDiscountDto>(productResult.Data);
+
+                var updateResult = await _productService.UpdateProductDiscountAsync(updateProductDiscountDto);
+                if (productResult.IsSuccess)
+                {
+                    return Json(new { success = true, message = updateResult.Message });
+                }
+                else
+                {
+                    return Json(new { success = false, message = updateResult.Message });
+                }
 
 
-
-            return Ok();
+            }
+            else
+            {
+                return Json(new { success = false, message = productResult.Message });
+            }
         }
 
 

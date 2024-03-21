@@ -1,4 +1,8 @@
-﻿using JinjiProject.BusinessLayer.Managers.Abstract;
+﻿using JinjiProject.BusinessLayer.Constants;
+using JinjiProject.BusinessLayer.Managers.Abstract;
+using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Utilities.Results.Concrete;
+using JinjiProject.Dtos.Products;
 using JinjiProject.Dtos.SendMails;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
@@ -15,10 +19,12 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
     public class SendMailService : ISendMailService
     {
         private readonly IOptions<EmailConfigurationDto> configuration;
+        private readonly ISubscriberService _subscriberService;
 
-        public SendMailService(IOptions<EmailConfigurationDto> configuration)
+        public SendMailService(IOptions<EmailConfigurationDto> configuration, ISubscriberService subscriberService)
         {
             this.configuration = configuration;
+            _subscriberService = subscriberService;
         }
         private async Task<MimeMessage> CreateEmailContent(MailMessageDto message)
         {
@@ -53,6 +59,10 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             client.Disconnect(true);
         }
 
+
+
+
+
         public async Task SendEmailRenewPassword(RenewPasswordDto renewPasswordDto)
         {
             var htmlContent = $@"<div>Şifrenizi yenilemek için <a href=""{renewPasswordDto.Link}"">buraya tıklayınız.</a></div>";
@@ -60,6 +70,32 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             MailMessageDto message = new MailMessageDto(renewPasswordDto.Email, "Jinji Şifremi Unuttum", htmlContent);
 
             await SendMail(message);
+        }
+
+        public async Task<DataResult<Subscriber>> SendMailAllSubscriber(GetProductDto getProductDto, string urL)
+        {
+
+            var htmlContent = $@" <p>Merhaba,</p>
+            <p>Size [Ürün Adı] hakkında bir güncelleme yapmak istiyoruz. Bu ürün şu anda indirime girdi! İndirimli fiyatlarımızı kaçırmayın.<p>
+            <p><strong>[Ürün Adı]: {getProductDto.Name} [{getProductDto.Price}] ➔ [{getProductDto.OldPrice}]</strong></p>
+            <p>Ürüne gitmek için aşağıdaki bağlantıya tıklayabilirsiniz:</p>
+            <p><a href=""{urL}"">Ürüne Git</a></p>
+            <p>Fırsatı kaçırmayın!</p>
+            <p>Saygılarımla,<br>
+            [Jinji]</p>";
+
+            var subscribers = await _subscriberService.GetAllSubscriber();
+            foreach (var subscriber in subscribers.Data)
+            {
+
+                MailMessageDto message = new MailMessageDto(subscriber.Email, "Ürün İndirimi Hakkında", htmlContent);
+                await SendMail(message);
+
+            }
+
+            return new SuccessDataResult<Subscriber>(Messages.SendMailSuccess);
+
+
         }
     }
 }

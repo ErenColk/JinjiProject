@@ -3,7 +3,7 @@ const paginationList = document.getElementById('pagination-list');
 const totalPages = Math.ceil(productList.length / productsPerPage); // Toplam sayfa sayısı
 const productTableBody = document.getElementById('product-table-body');
 var currentPage = 1;
-
+console.log(productList)
 updatePagination(totalPages, productList)
 updateActiveClass(currentPage);
 showPage(currentPage, productList)
@@ -84,7 +84,7 @@ function fillproducts(products) {
                                                 <td><img class="img-fluid img-thumbnail" style="width: 100px; height:100px; border-radius:5px; " src="${product.imagePath}" /></td>
                                                 <td>${product.name}</td>
                                                 <td>${product.color}</td>
-                                                <td>${product.price}</td>
+                                                <td>${product.price}₺</td>
                                                 <td>${product.stock}</td>
                                                 <td>${new Date(product.createdDate).toLocaleDateString()}</td>
                                                 <td>${product.statusName}</td>

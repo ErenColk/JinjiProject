@@ -1,8 +1,10 @@
 ﻿async function addPriceToProduct(id) {
     const table = document.getElementById('kt_modal_discount_product_form');
     const rows = table.getElementsByTagName('tr');
-    console.log(document.getElementById('product-newprice').value);
-    document.getElementById('product-newprice').value = "";
+    var newPriceDiv = document.getElementById('product-newprice');
+    var newPriceTextDangerDiv = document.getElementById('danger-newprice').textContent = ''
+    newPriceDiv.value = "";
+    newPriceTextDangerDiv.value = "";
     const productNameRow = rows[0];
     const productStockRow = rows[1];
     const productCreatedDateRow = rows[2];
@@ -23,20 +25,21 @@
     const prevDiscount = document.getElementById('product-oldprice');
     const prevDiscountDiv = document.getElementById('prev-discount-product');
     const removeDiscountButton = document.getElementById('btn-remove-discount');
-    if (product.oldPrice !== null) {
+    debugger
+    console.log(product.oldPrice)
+    if (product.oldPrice !== null && product.oldPrice !== 0) {
         prevDiscount.value = product.oldPrice;
         removeDiscountButton.style.display = "block";
         prevDiscountDiv.style.display = "block";
     }
     else {
         removeDiscountButton.style.display = "none";
-        prevDiscount.value ="";
+        prevDiscount.value = "";
         prevDiscountDiv.style.display = "none";
 
     }
 
     document.getElementById('product-discount-id').value = id;
-
 }
 
 function formatPrice(inputElement, id) {
@@ -50,16 +53,15 @@ function formatPrice(inputElement, id) {
     if (regex.test(input)) {
         document.getElementById(id).textContent = "";
 
-        console.log("Doğru formatta para girildi: " + input);
     } else {
         // Eğer eşleşmiyorsa, hatalı formatta giriş yapılmıştır
-        console.log("Hatalı para formatı: " + input);
         document.getElementById(id).textContent = "Doğru formatta giriş yapınız!";
 
         // Hatalı girişi temizleme
         if (input.length > 0) {
             // Eğer input alanı doluysa ve hatalı formatta giriş yapıldıysa temizleme
             inputElement.value = "";
+            document.getElementById('newproduct-price').textContent = "";
         }
     }
 }

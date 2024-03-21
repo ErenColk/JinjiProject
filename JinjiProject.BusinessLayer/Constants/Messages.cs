@@ -22,6 +22,9 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string UpdateAdminSuccess = "Admin başarıyla güncellendi.";
         public const string UpdateAdminRepoError = "Admin veritabanı sebebiyle güncellenemedi.";
 
+        public const string SendMailSuccess = "Mail Gönderimi Başarılı";
+        public const string SendMailError = "Mail Gönderimi Başarısız";
+
 
         public const string CreateBrandSuccess = "Marka başarıyla oluşturuldu.";
         public const string CreateBrandError = "Marka oluşturulamadı.";

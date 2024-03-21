@@ -13,7 +13,7 @@ async function fillCategoryNames() {
         // Dynamically set href attribute using JavaScript
         categoryLink.href = `/Product/Index?category=${category.name}`;
         categoryLink.textContent = category.name;
-
+        
         categoryLi.appendChild(categoryLink);
         categoryContainer.appendChild(categoryLi);
     });

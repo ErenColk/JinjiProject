@@ -15,10 +15,10 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
     {
         public Task<DataResult<Product>> CreateProductAsync(CreateProductDto createProductDto);
         public Task<DataResult<Product>> UpdateProductAsync(UpdateProductDto updateProductDto);
+        public Task<DataResult<Product>> UpdateProductDiscountAsync(UpdateProductDiscountDto updateProductDiscountDto);
         public Task<DataResult<Product>> SoftDeleteProductAsync(int id);
         public Task<DataResult<Product>> HardDeleteProductAsync(int id);
         public Task<DataResult<List<ListProductDto>>> GetAllByExpression(Expression<Func<Product, bool>> expression);
-
         public Task<DataResult<List<ListProductDto>>> GetAllProduct();
         public Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name,string? price,string? brandId,string? genreId,string? createdDate);
         public Task<DataResult<GetProductDto>> GetProductById(int id);

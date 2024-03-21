@@ -80,19 +80,22 @@
 <script>
     let product = [];
     function submitFormDiscount() {
-        console.log("form çalıştı");
-        debugger;
+  
         var newProductPrice = parseFloat(document.getElementById("product-newprice").value);
-        var productId = parseInt(document.getElementById('product-discount-id').value); // Ürün ID'sini temsil ettiğini varsayarak değişken adını productId olarak düzelttim
-        console.log(productId);
-        console.log(newProductPrice);
+        var productId = parseInt(document.getElementById('product-discount-id').value); // Ürün ID'sini temsil ettiğini varsayarak değişken adını productId 
 
         var productDiscount = {
             Id: productId, // DTO ile eşleşmesi için özellik adını düzelttim
-            OldPrice: newProductPrice
+            OldPrice: newProductPrice,
+            IsDiscount : true
         };
-        console.log(productDiscount);
         var productData = JSON.stringify(productDiscount);
+
+
+        if (!newProductPrice || isNaN(newProductPrice) || newProductPrice === 0) {
+            document.getElementById('danger-newprice').textContent = 'Lütfen geçerli bir fiyat girin!';
+            return;
+        }
 
         var gelenAjax = $.ajax({
             url: '/Admin/Product/AddDiscount',
@@ -100,7 +103,9 @@
             contentType: 'application/json',
             data: productData,
             success: function (data) {
-                window.location.href = '/Admin/Product/ProductList';
+                var showWarning = false; // veya false olarak ayarlayabilirsiniz
+                var url = '/Admin/Product/ProductList/?showWarning=' + showWarning;
+                window.location.href = url;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('İsteğinizde bir sorun oluştu:', errorThrown);
