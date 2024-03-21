@@ -87,6 +87,8 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             if (listProductDto.Name == null && price == null && material == null && genre == null && listProductDto.CreatedDate.Year == 1)
                 return RedirectToAction("ProductList");
 
+            if(productListResponse.Data == null)
+                NotifyError(productListResponse.Message);
             return View("ProductList", productListResponse.Data);
         }
 
