@@ -16,14 +16,43 @@
                         <div class="card-title">Kategori Türü İşlemleri</div>
                     </div>
                     <div class="card-body">
+                        <div class="flex" data-kt-docs-table-toolbar="base">
+                            <form class="form-question" asp-controller="Genre" asp-action="GetGenresByGivenValues" asp-route-state="" method="post">
+                                <div class="classroomfilter flex-row">
+                                    <div class="row g-5 align-items-end">
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Tür Adı</label>
+                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="Name" name="Name" placeholder="Ürün Adı" />
+                                        </div> 
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Kategori</label>
+                                            <select class="form-control" data-control="select2" id="Category" name="CategoryId" asp-items="@ViewBag.Categories">
+                                                <option value="">Seçiniz</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Oluşturma Tarihi</label>
+                                            <input type="date" class="form-control form-control-solid" id="CreatedDate" name="CreatedDate" placeholder="Oluşturma Tarihi" />
+                                        </div>
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <button type="submit" id="searchButton" style="min-width:99px;" class="btn btn-outline-primary">Listele</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table class="table mt-4">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Fotoğrafı</th>
-                                        <th scope="col">Kategori Türü Adı</th>
+                                        <th scope="col">Tür Adı</th>
+                                        <th scope="col">Kategori Adı</th>
                                         <th scope="col">Durumu</th>
+                                        <th scope="col">Oluşturulma Tarihi</th>
                                         <th scope="col">İşlem</th>
                                     </tr>
                                 </thead>

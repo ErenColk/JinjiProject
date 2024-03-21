@@ -83,7 +83,9 @@ function fillgenres(genres) {
                <td>${genre.id}</td>
                                                 <td><img class="img-fluid" style="width: 100px; height:100px; border-radius:50%;" src="${genre.imagePath}" /></td>
                                                 <td>${genre.name}</td>
+                                                <td>${genre.categoryName}</td>
                                                 <td>${genre.statusName}</td>
+                                                <td>${new Date(genre.createdDate).toLocaleDateString()}</td>
                                                 <td>
                                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                                                         Seçenekler

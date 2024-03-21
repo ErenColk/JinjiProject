@@ -54,6 +54,7 @@
                                     <span class="text-muted font-weight-bold">KATEGORİ TÜRÜ FOTOĞRAFI</span>
                                     <input asp-for="UploadPath" type="file" class="form-control-file" id="genre-photo" onchange="previewImage(event)">
                                     <span class="text-danger">@ViewData["ImageError"]</span>
+                                    <input asp-for="ImagePath" value="@Model.ImagePath" hidden />
                                 </div>
                             </div>
                             <div class="col-md-4">
