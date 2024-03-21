@@ -1,7 +1,7 @@
-﻿const imgElement = document.getElementById('detail-product-img');
+﻿
 async function loadProductData(id) {
     const table = document.getElementById('kt_modal_detail_product_form');
-
+    const imgElement = document.getElementById('detail-product-img');
 
 
     const rows = table.getElementsByTagName('tr');
@@ -31,12 +31,51 @@ async function loadProductData(id) {
 
     const product = await getProduct(id);
 
-
     imgElement.alt = product.name;
     imgElement.src = product.imagePath;
     imgElement.style.width = '100px';
     imgElement.style.height = '150px';
     imgElement.classList.add('img-thumbnail');
+
+    imgElement.addEventListener('click', function () {
+        // Create a modal overlay
+        const modalOverlay = document.createElement('div');
+        modalOverlay.classList.add('modal-overlay');
+        modalOverlay.style.position = 'fixed';
+        modalOverlay.style.top = '0';
+        modalOverlay.style.left = '0';
+        modalOverlay.style.width = '100%';
+        modalOverlay.style.height = '100%';
+        modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        modalOverlay.style.display = 'flex';
+        modalOverlay.style.justifyContent = 'center';
+        modalOverlay.style.alignItems = 'center';
+        modalOverlay.style.zIndex = '9999';
+        modalOverlay.style.transition = 'background-color 0.3s ease';
+
+        // Create an image element inside the modal overlay
+        const enlargedImg = document.createElement('img');
+        enlargedImg.src = imgElement.src;
+        enlargedImg.style.maxWidth = '80%';
+        enlargedImg.style.maxHeight = '80%';
+        enlargedImg.style.transition = 'transform 0.3s ease';
+
+        // Append the enlarged image to the modal overlay
+        modalOverlay.appendChild(enlargedImg);
+
+        // Append the modal overlay to the document body
+        document.body.appendChild(modalOverlay);
+
+        // Disable scrolling when the modal is open
+        document.body.style.overflow = 'hidden';
+
+        // Add an event listener to the modal overlay to close it when clicked
+        modalOverlay.addEventListener('click', function (event) {
+            if (event.target === modalOverlay) {
+                closeModal();
+            }
+        });
+    });
 
     productNameCell.textContent = ":" + "  " + product.name;
     productDescriptionCell.textContent = ":" + "   " + product.description;
@@ -55,45 +94,7 @@ async function loadProductData(id) {
 }
 
 // Add an event listener to the image element for mouseover
-imgElement.addEventListener('click', function () {
-    // Create a modal overlay
-    const modalOverlay = document.createElement('div');
-    modalOverlay.classList.add('modal-overlay');
-    modalOverlay.style.position = 'fixed';
-    modalOverlay.style.top = '0';
-    modalOverlay.style.left = '0';
-    modalOverlay.style.width = '100%';
-    modalOverlay.style.height = '100%';
-    modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-    modalOverlay.style.display = 'flex';
-    modalOverlay.style.justifyContent = 'center';
-    modalOverlay.style.alignItems = 'center';
-    modalOverlay.style.zIndex = '9999';
-    modalOverlay.style.transition = 'background-color 0.3s ease';
 
-    // Create an image element inside the modal overlay
-    const enlargedImg = document.createElement('img');
-    enlargedImg.src = imgElement.src;
-    enlargedImg.style.maxWidth = '80%';
-    enlargedImg.style.maxHeight = '80%';
-    enlargedImg.style.transition = 'transform 0.3s ease';
-
-    // Append the enlarged image to the modal overlay
-    modalOverlay.appendChild(enlargedImg);
-
-    // Append the modal overlay to the document body
-    document.body.appendChild(modalOverlay);
-
-    // Disable scrolling when the modal is open
-    document.body.style.overflow = 'hidden';
-
-    // Add an event listener to the modal overlay to close it when clicked
-    modalOverlay.addEventListener('click', function (event) {
-        if (event.target === modalOverlay) {
-            closeModal();
-        }
-    });
-});
 
 // Function to close the modal overlay
 function closeModal() {
@@ -125,7 +126,7 @@ enlargedImg.addEventListener('mouseout', function (event) {
 });
 
 
-function getProduct(productid) {
+async function getProduct(productid) {
     console.log(productid)
     return $.ajax({
         url: '/Admin/Product/GetProduct',
