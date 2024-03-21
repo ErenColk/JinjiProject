@@ -22,7 +22,7 @@ namespace JinjiProject.BusinessLayer.Validator.GenreValidations
             RuleFor(genre => genre.Description).NotEmpty().WithMessage("Kategori türünün açıklaması boş geçilemez.").WithErrorCode("2");
             RuleFor(genre => genre.Description).MinimumLength(3).WithMessage("Kategori türünün açıklaması en az 3 karakter içermelidir.").WithErrorCode("2");
             RuleFor(genre => genre.Description).Must(IsNumber).WithMessage("Kategori türünün açıklaması sadece sayı içermemelidir.").WithErrorCode("2");
-            RuleFor(x => x.UploadPath).Must(FileExtensions.IsImage).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("3");
+            RuleFor(x => x.UploadPath).Must(file => file == null || file.IsImage()).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("3");
             RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Kategori geçilemez!").NotNull().WithMessage("Kategori geçilemez!").WithErrorCode("4");
         }
 

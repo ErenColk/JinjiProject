@@ -17,10 +17,10 @@ namespace JinjiProject.BusinessLayer.Profiles
         public GenreProfile()
         {
             CreateMap<CreateGenreDto, Genre>().ReverseMap();
-            CreateMap<UpdateGenreDto, Genre>().ReverseMap()
+            CreateMap<Genre, UpdateGenreDto>().ReverseMap()
                 .ForMember(dest => dest.ImagePath, opt => opt.Condition(src => src.ImagePath != null));
             CreateMap<ListGenreDto, Genre>().ReverseMap()
-                .ForMember(dest => dest.StatusName, opt => opt.MapFrom(opt => GetEnumDescription.Description(opt.Status)));
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name)).ForMember(dest => dest.StatusName, opt => opt.MapFrom(opt => GetEnumDescription.Description(opt.Status)));
             CreateMap<GetGenreDto, Genre>().ReverseMap();
             CreateMap<GetGenreDto, UpdateGenreDto>().ReverseMap();
             CreateMap<ListGenreDto, DeletedGenreListDto>().ReverseMap();
