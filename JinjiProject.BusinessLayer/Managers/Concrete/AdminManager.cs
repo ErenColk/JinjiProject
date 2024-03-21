@@ -53,11 +53,12 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     Status = Status.Active,
                     LockoutEnabled = false,
                 };
-                IdentityResult identityResult = await userManager.CreateAsync(appUser, "newPassword+0");
-                if (identityResult.Succeeded)
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    IdentityResult identityResult = await userManager.CreateAsync(appUser, "newPassword+0");
+                    if (identityResult.Succeeded)
                     {
+
                         await userManager.AddToRoleAsync(appUser, "Admin");
                         var user = await userManager.FindByEmailAsync(appUser.Email);
                         createAdminDto.AppUserId = user.Id;
@@ -83,13 +84,11 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                             return new ErrorDataResult<Admin>(admin, Messages.CreateAdminRepoError);
                         }
                     }
-
+                    else
+                    {
+                        return new ErrorDataResult<Admin>(Messages.CreateAdminRepoError);
+                    }
                 }
-                else
-                {
-                    return new ErrorDataResult<Admin>(Messages.CreateAdminRepoError);
-                }
-
 
             }
         }
