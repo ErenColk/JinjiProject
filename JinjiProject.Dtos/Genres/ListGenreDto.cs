@@ -20,5 +20,7 @@ namespace JinjiProject.Dtos.Genres
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string StatusName { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
     }
 }

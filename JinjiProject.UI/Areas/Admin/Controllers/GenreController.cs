@@ -3,10 +3,13 @@ using JinjiProject.BusinessLayer.Helpers.SelectItemProducts;
 using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.BusinessLayer.Validator.BrandValidations;
 using JinjiProject.BusinessLayer.Validator.GenreValidations;
+using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Genres;
+using JinjiProject.Dtos.Materials;
+using JinjiProject.Dtos.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
@@ -30,6 +33,14 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             var genreListResult = await _genreService.GetAllByExpression(genre => genre.Status == Status.Active || genre.Status == Status.Modified);
             var genreList = _mapper.Map<List<ListGenreDto>>(genreListResult.Data);
 
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            if (!listCategoryDto.IsSuccess)
+            {
+                NotifyError("Öncelikle gerekli diğer özellikler eklenmelidir!");
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+
             if ((genreList.Count <= 0 || genreList == null) && showWarning)
             {
                 NotifyError(genreListResult.Message);
@@ -40,6 +51,29 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             }
 
             return View(genreList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetGenresByGivenValues(ListGenreDto listGenreDto)
+        {
+            string category = null;
+            if (listGenreDto.CategoryId != 0)
+                category = listGenreDto.CategoryId.ToString();
+
+            var genreListResponse = await _genreService.GetGenreBySearchValues(listGenreDto.Name,category, listGenreDto.CreatedDate.ToString());
+
+            if (category == null && listGenreDto.CreatedDate.Year == 1 && listGenreDto.Name == null)
+                return RedirectToAction("GenreList");
+
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            if (!listCategoryDto.IsSuccess)
+            {
+                NotifyError("Öncelikle gerekli diğer özellikler eklenmelidir!");
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+
+            return View("GenreList", genreListResponse.Data);
         }
 
         [HttpGet]
@@ -94,7 +128,12 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                     ViewData["CategoryError"] += item.ErrorMessage + "\n";
                 }
             }
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            if (listCategoryDto.Data != null)
+            {
+                ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
 
+            }
             return View(createGenreDto);
         }
 
@@ -137,7 +176,11 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             if (updateGenreResult.IsSuccess)
             {
                 var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
-                ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+                if (listCategoryDto.Data != null)
+                {
+                    ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+
+                }               
 
                 UpdateGenreDto updateGenre = _mapper.Map<UpdateGenreDto>(updateGenreResult.Data);
                 return View(updateGenre);
@@ -173,6 +216,8 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                     NotifyError(updateGenreResult.Message);
                 }
 
+                
+
                 return RedirectToAction(nameof(GenreList), new { showWarning = false });
             }
 
@@ -195,6 +240,14 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                     ViewData["CategoryError"] += item.ErrorMessage + "\n";
                 }
             }
+
+            var listCategoryDto = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            if (listCategoryDto.Data != null)
+            {
+                ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
+
+            }
+
 
             return View(updateGenreDto);
         }

@@ -3,6 +3,7 @@ using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Genres;
+using JinjiProject.Dtos.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,6 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
         public Task<DataResult<List<ListGenreDto>>> GetAllGenre();
         public Task<DataResult<GetGenreDto>> GetGenreById(int id);
         public Task<DataResult<GetGenreDto>> GetFilteredGenre(Expression<Func<Genre, bool>> expression);
+        public Task<DataResult<List<ListGenreDto>>> GetGenreBySearchValues(string? name, string? categoryId, string? createdDate);
     }
 }

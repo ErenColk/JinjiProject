@@ -74,15 +74,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> GetProductsByGivenValues(ListProductDto listProductDto)
         {
             string price = null;
-            string brand = null;
+            string material = null;
             string genre = null;
             if (listProductDto.Price != 0)
                 price = listProductDto.Price.ToString();
-            if (listProductDto.BrandId != 0)
-                brand = listProductDto.BrandId.ToString();
+            if (listProductDto.MaterialId != 0)
+                material = listProductDto.MaterialId.ToString();
             if (listProductDto.GenreId != 0)
                 genre = listProductDto.GenreId.ToString();
-            var productListResponse = await _productService.GetProductBySearchValues(listProductDto.Name, price, brand, genre, listProductDto.CreatedDate.ToString());
+            var productListResponse = await _productService.GetProductBySearchValues(listProductDto.Name, price, material, genre, listProductDto.CreatedDate.ToString());
 
             if (productListResponse.Data == null)
                 return RedirectToAction("ProductList");

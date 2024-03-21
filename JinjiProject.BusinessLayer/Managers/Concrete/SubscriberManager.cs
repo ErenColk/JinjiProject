@@ -2,17 +2,21 @@
 using JinjiProject.BusinessLayer.Constants;
 using JinjiProject.BusinessLayer.Managers.Abstract;
 using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Enums;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.DataAccess.Interface.Repositories;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Products;
 using JinjiProject.Dtos.Subscribers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -117,6 +121,58 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     return new SuccessDataResult<Subscriber>(subscriber, Messages.UpdateSubscriberSuccess);
                 else
                     return new ErrorDataResult<Subscriber>(subscriber, Messages.UpdateSubscriberRepoError);
+            }
+        }
+
+        public async Task<DataResult<List<ListSubscriberDto>>> GetSubscribersBySearchValues(string? fullName, string? email, string? createdDate)
+        {
+            int nullParamCount = new[] { fullName, email }.Count(param => param != null);
+
+            if (DateTime.Parse(createdDate).Year.ToString() != "1")
+            {
+                nullParamCount++;
+            }
+
+            var subscribersByName = await subscriberRepository.GetAllByExpression(subscriber => subscriber.Status != Status.Deleted && subscriber.FullName.Contains(fullName));
+
+            var subscribersByEmail = await subscriberRepository.GetAllByExpression(subscriber => subscriber.Status != Status.Deleted && subscriber.Email.Contains(email));
+
+            var subscribersByCreatedYear = await subscriberRepository.GetAllByExpression(subscriber => subscriber.Status != Status.Deleted && EF.Functions.DateDiffDay(subscriber.CreatedDate, DateTime.Parse(createdDate)) == 0);
+
+            var filteredSubsricers = IntersectNonEmpty(nullParamCount, subscribersByName, subscribersByEmail, subscribersByCreatedYear);
+
+            return filteredSubsricers.Any()
+            ? new SuccessDataResult<List<ListSubscriberDto>>(mapper.Map<List<ListSubscriberDto>>(filteredSubsricers), Messages.ProductListedSuccess)
+            : new ErrorDataResult<List<ListSubscriberDto>>(Messages.ProductNotFound);
+        }
+
+        private static IEnumerable<T> IntersectNonEmpty<T>(int _nullParamCount, params IEnumerable<T>[] lists)
+        {
+            var nonEmptyLists = lists.Where(list => list != null && list.Any()).ToList();
+
+            if (nonEmptyLists.Count == 0)
+            {
+                return new List<T>();
+            }
+
+            IEnumerable<T> result = nonEmptyLists[0];
+            if (_nullParamCount == nonEmptyLists.Count)
+            {
+                for (int i = 1; i < nonEmptyLists.Count; i++)
+                {
+                    result = result.Intersect(nonEmptyLists[i]).ToList();
+
+                    if (!result.Any())
+                    {
+                        break;
+                    }
+                }
+                return result;
+            }
+            else
+            {
+
+                return result = new List<T>();
             }
         }
     }

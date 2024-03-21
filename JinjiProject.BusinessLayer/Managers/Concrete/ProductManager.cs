@@ -197,10 +197,10 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         }
 
-        public async Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name, string? price, string? brandId, string? genreId, string? createdDate)
+        public async Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name, string? price, string? materialId, string? genreId, string? createdDate)
         {
-            int nullParamCount = new[] { name, price, brandId, genreId }.Count(param => param != null);
-            var deneme = DateTime.Parse(createdDate).Year.ToString();
+            int nullParamCount = new[] { name, price, materialId, genreId }.Count(param => param != null);
+            
             if (DateTime.Parse(createdDate).Year.ToString() != "1")
             {
                 nullParamCount++;
@@ -208,11 +208,11 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
             var productsByName = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.Name.Contains(name));
             var productsByPrice = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.Price <= Convert.ToDecimal(price));
-            var productsByBrand = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.BrandId == Convert.ToInt32(brandId));
+            var productsByMaterial = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.MaterialId == Convert.ToInt32(materialId));
             var productsByGenre = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && product.GenreId == Convert.ToInt32(genreId));
             var productsByCreatedYear = await _productRepository.GetAllByExpression(product => product.Status != Status.Deleted && EF.Functions.DateDiffDay(product.CreatedDate, DateTime.Parse(createdDate)) == 0);
 
-            var filteredProducts = IntersectNonEmpty(nullParamCount, productsByName, productsByPrice, productsByBrand, productsByGenre, productsByCreatedYear);
+            var filteredProducts = IntersectNonEmpty(nullParamCount, productsByName, productsByPrice, productsByMaterial, productsByGenre, productsByCreatedYear);
 
             return filteredProducts.Any()
             ? new SuccessDataResult<List<ListProductDto>>(_mapper.Map<List<ListProductDto>>(filteredProducts), Messages.ProductListedSuccess)

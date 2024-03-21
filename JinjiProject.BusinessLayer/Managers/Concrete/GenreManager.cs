@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading.Tasks;
 using JinjiProject.Dtos.Categories;
 using SixLabors.ImageSharp.Processing;
+using JinjiProject.Core.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -24,11 +26,13 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
     {
         private readonly IGenreRepository _genreRepository;
         private readonly IMapper _mapper;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public GenreManager(IGenreRepository genreRepository, IMapper mapper)
+        public GenreManager(IGenreRepository genreRepository, IMapper mapper , ICategoryRepository categoryRepository)
         {
             _genreRepository = genreRepository;
             _mapper = mapper;
+            _categoryRepository = categoryRepository;
         }
         public async Task<DataResult<Genre>> CreateGenreAsync(CreateGenreDto createGenreDto)
         {
@@ -67,7 +71,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<List<ListGenreDto>>> GetAllGenre()
         {
-            var genres = await _genreRepository.GetAllAsync();
+            var genres = await _genreRepository.GetAllAsync(false);
             return new SuccessDataResult<List<ListGenreDto>>(_mapper.Map<List<ListGenreDto>>(genres), Messages.GenreListedSuccess);
         }
 
@@ -217,6 +221,55 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
 
             return new SuccessDataResult<IEnumerable<Genre>>(genresToUpdate, Messages.UpdateListGenreSuccess);
+        }
+
+        public async Task<DataResult<List<ListGenreDto>>> GetGenreBySearchValues(string? name, string? categoryId, string? createdDate)
+        {
+            int nullParamCount = new[] { name, categoryId }.Count(param => param != null);
+            if (DateTime.Parse(createdDate).Year.ToString() != "1")
+            {
+                nullParamCount++;
+            }
+
+            var genresByName = await _genreRepository.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.Name.Contains(name));
+            var genresByCategory = await _genreRepository.GetAllByExpression(genre => genre.Status != Status.Deleted && genre.CategoryId == Convert.ToInt32(categoryId));
+            var genresByCreatedYear = await _genreRepository.GetAllByExpression(genre => genre.Status != Status.Deleted && EF.Functions.DateDiffDay(genre.CreatedDate, DateTime.Parse(createdDate)) == 0);
+
+            var filteredGenres = IntersectNonEmpty(nullParamCount, genresByName, genresByCategory, genresByCreatedYear);
+
+            return filteredGenres.Any()
+            ? new SuccessDataResult<List<ListGenreDto>>(_mapper.Map<List<ListGenreDto>>(filteredGenres), Messages.GenreListedSuccess)
+            : new ErrorDataResult<List<ListGenreDto>>(Messages.GenreNotFound);
+        }
+
+        private static IEnumerable<T> IntersectNonEmpty<T>(int _nullParamCount, params IEnumerable<T>[] lists)
+        {
+            var nonEmptyLists = lists.Where(list => list != null && list.Any()).ToList();
+
+            if (nonEmptyLists.Count == 0)
+            {
+                return new List<T>();
+            }
+
+            IEnumerable<T> result = nonEmptyLists[0];
+            if (_nullParamCount == nonEmptyLists.Count)
+            {
+                for (int i = 1; i < nonEmptyLists.Count; i++)
+                {
+                    result = result.Intersect(nonEmptyLists[i]).ToList();
+
+                    if (!result.Any())
+                    {
+                        break;
+                    }
+                }
+                return result;
+            }
+            else
+            {
+
+                return result = new List<T>();
+            }
         }
     }
 }
