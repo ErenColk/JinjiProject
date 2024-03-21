@@ -25,8 +25,7 @@
     const prevDiscount = document.getElementById('product-oldprice');
     const prevDiscountDiv = document.getElementById('prev-discount-product');
     const removeDiscountButton = document.getElementById('btn-remove-discount');
-    debugger
-    console.log(product.oldPrice)
+
     if (product.oldPrice !== null && product.oldPrice !== 0) {
         prevDiscount.value = product.oldPrice;
         removeDiscountButton.style.display = "block";
