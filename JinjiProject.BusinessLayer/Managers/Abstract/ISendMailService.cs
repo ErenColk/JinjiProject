@@ -1,4 +1,7 @@
-﻿using JinjiProject.Dtos.SendMails;
+﻿using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Utilities.Results.Concrete;
+using JinjiProject.Dtos.Products;
+using JinjiProject.Dtos.SendMails;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,8 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
 {
     public interface ISendMailService
     {
+
+        Task<DataResult<Subscriber>> SendMailAllSubscriber(GetProductDto getProductDto, string urL);
         Task SendEmailRenewPassword(RenewPasswordDto renewPasswordDto);
     }
 }

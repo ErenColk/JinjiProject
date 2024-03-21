@@ -15,6 +15,8 @@ namespace JinjiProject.BusinessLayer.Profiles
     {
         public ProductProfile()
         {
+            CreateMap<UpdateProductDiscountDto, Product>().ReverseMap();
+            CreateMap<UpdateProductDiscountDto, GetProductDto>().ReverseMap();
             CreateMap<CreateProductDto, Product>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap()
                 .ForMember(dest => dest.ImagePath, opt => opt.Condition(src => src.ImagePath != null));

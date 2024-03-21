@@ -10,5 +10,6 @@ namespace JinjiProject.Dtos.Products
     {
         public int Id { get; set; }
         public decimal  OldPrice { get; set; }
+        public bool? IsDiscount { get; set; }
     }
 }
