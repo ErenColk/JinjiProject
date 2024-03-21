@@ -84,7 +84,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 genre = listProductDto.GenreId.ToString();
             var productListResponse = await _productService.GetProductBySearchValues(listProductDto.Name, price, material, genre, listProductDto.CreatedDate.ToString());
 
-            if (productListResponse.Data == null)
+            if (listProductDto.Name == null && price == null && material == null && genre == null && listProductDto.CreatedDate.Year == 1)
                 return RedirectToAction("ProductList");
 
             return View("ProductList", productListResponse.Data);
