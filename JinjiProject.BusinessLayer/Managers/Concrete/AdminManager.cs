@@ -20,6 +20,7 @@ using JinjiProject.DataAccess.EFCore.Repositories;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Core.Utilities.Results.Abstract;
 using JinjiProject.Dtos.Genres;
+using System.Transactions;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -29,7 +30,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         private readonly UserManager<AppUser> userManager;
         private readonly IMapper mapper;
 
-        public AdminManager(IAdminRepository adminRepository, UserManager<AppUser> userManager,IMapper mapper)
+        public AdminManager(IAdminRepository adminRepository, UserManager<AppUser> userManager, IMapper mapper)
         {
             this.adminRepository = adminRepository;
             this.userManager = userManager;
@@ -38,7 +39,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<Admin>> CreateAdminAsync(CreateAdminDto createAdminDto)
         {
-            if(createAdminDto == null)
+            if (createAdminDto == null)
             {
                 return new ErrorDataResult<Admin>(Messages.CreateAdminError);
             }
@@ -55,34 +56,40 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 IdentityResult identityResult = await userManager.CreateAsync(appUser, "newPassword+0");
                 if (identityResult.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(appUser, "Admin");
-                    var user = await userManager.FindByEmailAsync(appUser.Email);
-                    createAdminDto.AppUserId = user.Id;
-                    if (createAdminDto.UploadPath != null)
+                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        using (var image = Image.Load(createAdminDto.UploadPath.OpenReadStream()))
+                        await userManager.AddToRoleAsync(appUser, "Admin");
+                        var user = await userManager.FindByEmailAsync(appUser.Email);
+                        createAdminDto.AppUserId = user.Id;
+                        if (createAdminDto.UploadPath != null)
                         {
-                            image.Mutate(x => x.Resize(300, 300));
-                            Guid guid = Guid.NewGuid();
-                            image.Save($"wwwroot/images/adminPhotos/{guid}.jpg");
-                            createAdminDto.ImagePath = $"/images/adminPhotos/{guid}.jpg";
-                        }                    
+                            using (var image = Image.Load(createAdminDto.UploadPath.OpenReadStream()))
+                            {
+                                image.Mutate(x => x.Resize(300, 300));
+                                Guid guid = Guid.NewGuid();
+                                image.Save($"wwwroot/images/adminPhotos/{guid}.jpg");
+                                createAdminDto.ImagePath = $"/images/adminPhotos/{guid}.jpg";
+                            }
+                        }
+                        Admin admin = mapper.Map<Admin>(createAdminDto);
+                        bool result = await adminRepository.Create(admin);
+                        if (result)
+                        {
+                            scope.Complete();
+                            return new SuccessDataResult<Admin>(admin, Messages.CreateAdminSuccess);
+                        }
+                        else
+                        {
+                            return new ErrorDataResult<Admin>(admin, Messages.CreateAdminRepoError);
+                        }
                     }
-                    Admin admin = mapper.Map<Admin>(createAdminDto);
-                    bool result = await adminRepository.Create(admin);
-                    if (result)
-                        return new SuccessDataResult<Admin>(admin, Messages.CreateAdminSuccess);
-                    else
-                    {
-                        await userManager.DeleteAsync(appUser);
-                        return new ErrorDataResult<Admin>(admin, Messages.CreateAdminRepoError);
-                    }
+
                 }
                 else
-                { 
+                {
                     return new ErrorDataResult<Admin>(Messages.CreateAdminRepoError);
                 }
-                    
+
 
             }
         }
@@ -93,8 +100,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 return new ErrorDataResult<GetAdminDto>(Messages.AdminNotFound);
             else
             {
-               GetAdminDto getAdminDto =  mapper.Map<GetAdminDto>(await adminRepository.GetByIdAsync(id));
-                return new SuccessDataResult<GetAdminDto>(getAdminDto,Messages.AdminFoundSuccess);
+                GetAdminDto getAdminDto = mapper.Map<GetAdminDto>(await adminRepository.GetByIdAsync(id));
+                return new SuccessDataResult<GetAdminDto>(getAdminDto, Messages.AdminFoundSuccess);
             }
         }
         public async Task<IDataResult<GetAdminDto>> GetByIdentityIdAsync(string identityId)
@@ -123,7 +130,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         public async Task<DataResult<GetAdminDto>> GetFilteredAdmin(Expression<Func<Admin, bool>> expression)
         {
             var adminDto = await adminRepository.GetFilteredFirstOrDefault(expression);
-            if(adminDto == null)
+            if (adminDto == null)
             {
                 return new ErrorDataResult<GetAdminDto>(Messages.AdminFilteredError);
             }
@@ -137,7 +144,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         public async Task<DataResult<Admin>> HardDeleteAdminAsync(int id)
         {
             var adminDto = await adminRepository.GetByIdAsync(id);
-            if( adminDto == null)
+            if (adminDto == null)
             {
                 return new ErrorDataResult<Admin>(Messages.AdminNotFound);
             }
@@ -201,11 +208,11 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     }
                 }
                 updateAdminDto.Status = Status.Active;
-                admin = mapper.Map(updateAdminDto,admin);
+                admin = mapper.Map(updateAdminDto, admin);
                 bool result = await adminRepository.Update(admin);
                 if (result)
                 {
-                    if(addAgain == true)
+                    if (addAgain == true)
                     {
                         AppUser user = await userManager.FindByIdAsync(admin.AppUserId);
                         user.LockoutEnabled = false;
