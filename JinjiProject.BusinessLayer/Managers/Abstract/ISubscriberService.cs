@@ -1,6 +1,7 @@
 ﻿using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Utilities.Results.Concrete;
 using JinjiProject.Dtos.Brands;
+using JinjiProject.Dtos.Products;
 using JinjiProject.Dtos.Subscribers;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
         public Task<DataResult<Subscriber>> SoftDeleteSubscriberAsync(int id);
         public Task<DataResult<Subscriber>> HardDeleteSubscriberAsync(int id);
         public Task<DataResult<List<ListSubscriberDto>>> GetAllByExpression(Expression<Func<Subscriber, bool>> expression);
+        public Task<DataResult<List<ListSubscriberDto>>> GetSubscribersBySearchValues(string? fullName, string? email, string? createdDate);
         public Task<DataResult<List<ListSubscriberDto>>> GetAllSubscriber();
         public Task<DataResult<GetSubscriberDto>> GetSubscriberById(int id);
     }

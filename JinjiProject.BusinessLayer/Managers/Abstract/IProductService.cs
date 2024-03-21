@@ -20,7 +20,7 @@ namespace JinjiProject.BusinessLayer.Managers.Abstract
         public Task<DataResult<List<ListProductDto>>> GetAllByExpression(Expression<Func<Product, bool>> expression);
 
         public Task<DataResult<List<ListProductDto>>> GetAllProduct();
-        public Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name,string? price,string? brandId,string? genreId,string? createdDate);
+        public Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name,string? price,string? materialId,string? genreId,string? createdDate);
         public Task<DataResult<GetProductDto>> GetProductById(int id);
         public Task<DataResult<GetProductDto>> GetFilteredProduct(Expression<Func<Product, bool>> expression);
         public Task<DataResult<List<ListProductDto>>> GetFilteredProductsAsync(Expression<Func<Product, bool>> expression);

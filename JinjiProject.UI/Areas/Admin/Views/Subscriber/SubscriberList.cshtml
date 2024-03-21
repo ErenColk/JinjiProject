@@ -15,6 +15,31 @@
                         <div class="card-title">Abone İşlemleri</div>
                     </div>
                     <div class="card-body">
+                        <div class="flex" data-kt-docs-table-toolbar="base">
+                            <form class="form-question" asp-controller="Subscriber" asp-action="GetSubscribersByGivenValues" asp-route-state="" method="post">
+                                <div class="classroomfilter flex-row">
+                                    <div class="row g-5 align-items-end">
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Abone Adı</label>
+                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="FullName" name="FullName" placeholder="Abone Adı"  />
+                                        </div>
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Abone Email</label>
+                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="Email" name="Email" placeholder="Abone Emaili"  />
+                                        </div>
+
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <label>Oluşturma Tarihi</label>
+                                            <input type="date" class="form-control form-control-solid" id="CreatedDate" name="CreatedDate" placeholder="Oluşturma Tarihi" />
+                                        </div>
+                                        <div class="form-floating col-md-2 mb-3">
+                                            <button type="submit" id="searchButton" style="min-width:99px;" class="btn btn-outline-primary">Listele</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table class="table mt-4">
                                 <thead>

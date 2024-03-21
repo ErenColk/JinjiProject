@@ -4,6 +4,7 @@ using JinjiProject.BusinessLayer.Validator.SubscriberValidations;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.Dtos.Products;
 using JinjiProject.Dtos.Subscribers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,16 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             return View(subscriberList);
         }
+        [HttpPost]
+        public async Task<IActionResult> GetSubscribersByGivenValues(ListSubscriberDto listSubscriberDto)
+        {
+            var subscriberListResponse = await subscriberService.GetSubscribersBySearchValues(listSubscriberDto.FullName, listSubscriberDto.Email, listSubscriberDto.CreatedDate.ToString());
 
+            if (subscriberListResponse.Data == null)
+                return RedirectToAction("SubscriberList");
+
+            return View("SubscriberList", subscriberListResponse.Data);
+        }
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> CreateSubscriber(CreateSubscriberDto createSubscriberDto)
