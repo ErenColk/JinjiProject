@@ -26,7 +26,15 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li>
                             <div class="user-box">
-                                <div class="u-img"><img src="@admin.ImagePath" alt="user"></div>
+                                @if (admin.ImagePath == null)
+                                {
+                                    <div class="u-img"><img src="https://www.nicepng.com/png/full/73-730154_open-default-profile-picture-png.png" alt="user"></div>
+                                }
+                                else
+                                {
+                                    <div class="u-img"><img src="@admin.ImagePath" alt="user"></div>
+
+                                }
                                 <div class="u-text">
                                     <h4>Admin</h4>
                                     <p class="text-muted">@admin.Email</p><a href="/Admin/Admin/UpdateAdmin/@admin.Id" class="btn btn-rounded btn-danger btn-sm">Profili Güncelle </a>

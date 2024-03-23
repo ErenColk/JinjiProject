@@ -42,7 +42,6 @@ function showPage(pageNumber, products) {
     const productsOnPage = products.slice(startIndex, endIndex);
 
     // Ürünleri listele
-    console.log('productOnPage', productsOnPage)
     fillProducts(productsOnPage);
 
 }
@@ -64,27 +63,40 @@ function fillProducts(products) {
     products.forEach((product, index) => {
         const productDiv = document.createElement('div');
         productDiv.classList.add('col-lg-3');
+        console.log(product.oldPrice)
+
         productDiv.innerHTML = `
-                <div class="item">
-                    <div class="thumb">
-                        <div class="hover-content">
-                            <ul>
-                                <li><a href="/Product/ProductDetails/${product.id}"><i class="fa fa-eye"></i></a></li>
-                            </ul>
-                        </div>
-                        <img src="${product.imagePath}" style="height:320px" alt="">
-                    </div>
-                    <div class="down-content">
-                        <h4>${product.name}</h4>
-                        <span>${product.description}</span>
-                        <ul class="stars">
-                            <li>${product.price} ₺</i></li>
+            <div class="item ">
+                <div class="thumb">
+                    <div class="hover-content">
+                        <ul>
+                            <li><a href="/Product/ProductDetails/${product.id}"><i class="fa fa-eye"></i></a></li>
                         </ul>
                     </div>
-                </div>`;
+                    <img class="img-thumbnail" src="${product.imagePath}" style="height:320px" alt="">
+                </div>
+                <div class="down-content">
+                <div class="d-flex flex-row justify-content-between">
+                    <h4>${product.name}</h4>
+<ul style="padding: 0;">
+    <li style="font-family: Blippo, fantasy; font-size: 18px; display: inline-block;">
+        ${product.oldPrice ? `<del style="color: rgba(0, 0, 0, 0.6);">${product.price} ₺</del>` : `<p style="font-family: Blippo, fantasy; color: rgba(46, 139, 87, 0.6); font-size: 25px;">${product.price} ₺</p>`}
+    </li>
+    <li style="font-family: Blippo, fantasy;  font-size: 18px; display: inline-block; color: rgba(46, 139, 87, 0.6);">
+        ${product.oldPrice ? `<p style="font-family: Blippo, fantasy; color: rgba(46, 139, 87, 0.6); font-size: 25px;">${product.oldPrice} ₺</p>` : ''}
+    </li>
+</ul>
+
+
+                </div>
+                    <span>${product.description}</span>
+
+                </div>
+            </div>`;
         productsContainer.appendChild(productDiv);
     });
 }
+
 
 //------------------------------ Filtreleme kısmı-----------------------------
 function filterProductsByKeyword(keyword) {

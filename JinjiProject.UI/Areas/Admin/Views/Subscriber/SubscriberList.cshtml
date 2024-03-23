@@ -2,7 +2,8 @@
     ViewData["Title"] = "SubscriberList";
 }
 
-@model List<ListSubscriberDto>
+@model ListSubscriberVm
+
 
 
 <div class="content">
@@ -14,36 +15,41 @@
                     <div class="card-header">
                         <div class="card-title">Abone İşlemleri</div>
                     </div>
-                    <div class="card-body">
-                        <div class="flex" data-kt-docs-table-toolbar="base">
-                            <form class="form-question" asp-controller="Subscriber" asp-action="GetSubscribersByGivenValues" asp-route-state="" method="post">
+                    <div class="card-body ">
+                        <div class="d-flex flex-row justify-content-between align-items-center " data-kt-docs-table-toolbar="base">
+                            <form asp-controller="Subscriber" asp-action="GetSubscribersByGivenValues" asp-route-state="" method="post" class="mr-3">
                                 <div class="classroomfilter flex-row">
                                     <div class="row g-5 align-items-end">
-                                        <div class="form-floating col-md-2 mb-3">
-                                            <label>Abone Adı</label>
-                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="FullName" name="FullName" placeholder="Abone Adı"  />
+                                        <div class="form-floating col-md-3 mb-3">
+                                            <label for="FullName">Abone Adı</label>
+                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="FullName" name="FullName" placeholder="Abone Adı" />
                                         </div>
-
-                                        <div class="form-floating col-md-2 mb-3">
-                                            <label>Abone Email</label>
-                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="Email" name="Email" placeholder="Abone Emaili"  />
+                                        <div class="form-floating col-md-3 mb-3">
+                                            <label for="Email">Abone Email</label>
+                                            <input class="form-control form-control-solid mb-3 mb-lg-0" id="Email" name="Email" placeholder="Abone Emaili" />
                                         </div>
-
-                                        <div class="form-floating col-md-2 mb-3">
-                                            <label>Oluşturma Tarihi</label>
+                                        <div class="form-floating col-md-3 mb-3">
+                                            <label for="CreatedDate">Oluşturma Tarihi</label>
                                             <input type="date" class="form-control form-control-solid" id="CreatedDate" name="CreatedDate" placeholder="Oluşturma Tarihi" />
                                         </div>
-                                        <div class="form-floating col-md-4 mb-3 d-flex  ">
-                                            <button type="submit" id="searchButton" style="min-width:99px;"  class="btn btn-outline-primary mr-2">Listele</button>
-
-                                            <button type="submit" asp-controller="Subscriber" asp-action="SendMailToSubscribers" method="POST" style="min-width:99px;" title="Tüm indirimli ürünleri abonelere mail atar" class="btn btn-outline-success">İndirimli Ürünleri Mail At</button>
-
+                                        <div class="form-floating col-md-3 mb-3 d-flex align-items-end">
+                                            <button type="submit" id="searchButton" style="min-width:99px;" class="btn btn-outline-primary">Listele</button>
                                         </div>
-                                      
                                     </div>
                                 </div>
                             </form>
+                            <form class="d-flex align-items-end" asp-controller="Subscriber" asp-action="SendMailToSubscribers" method="POST">
+                                <select asp-for="SelectedProductIds" class="selectpicker" data-selected-text-format="count > 2" data-live-search="true"
+                                        data-size="5" data-actions-box="true" data-max-options="10" title="Ürünleri Seçiniz..." multiple>
+                                    @foreach (var product in Model.ListProductDtos)
+                                    {
+                                        <option value="@product.Id" >@product.Name</option>
+                                    }
+                                </select>
+                                <button type="submit" style="min-width:99px;" title="Tüm indirimli ürünleri abonelere mail atar" class="btn btn-outline-success ml-2">İndirimli Ürünleri Mail At</button>
+                            </form>
                         </div>
+
                         <div class="table-responsive">
                             <table class="table mt-4">
                                 <thead>
@@ -113,6 +119,6 @@
 <script>
     // Model verilerini JavaScript nesnelerine dönüştürme
     var subscriberList = [];
-    subscriberList = @Html.Raw(Json.Serialize(Model));
+    subscriberList = @Html.Raw(Json.Serialize(Model.ListSubscriberDtos));
 </script>
 <script src="~/js/list-subscriber.js"></script>

@@ -20,6 +20,8 @@
         .filtre-item h3 {
             font-size: 16px;
             margin-bottom: 10px;
+            font-weight: bold; /* Başlıkları kalın yap */
+            font-family: 'Arial Black', sans-serif; /* Başlık fontunu değiştir */
         }
 
     .form-control {
@@ -28,24 +30,33 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         margin-bottom: 10px;
+        font-family: Arial, sans-serif; /* İçerik fontunu değiştir */
     }
 
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
+    .btn:hover {
+        background-color: red;
+        
+    }
 
     #clear-price-filter,
     #clear-color-filter,
     #clear-size-filter {
-        margin-top:-35px ; /* Ayarlayabilirsiniz */
-        margin-right: 0; /* Ayarlayabilirsiniz */
+        margin-top: -35px;
+        margin-right: 0; 
         display: inline-block;
         font-size: 12px;
         float: right;
-        color:red;
+        color: red;
+        font-family: Arial, sans-serif; 
     }
 
+        #clear-price-filter:hover,
+        #clear-color-filter:hover,
+        #clear-size-filter:hover {
+            color: white; /* Hover durumunda yazı rengi beyaz olacak */
+        }
+
+ 
 
     input[type="radio"] {
         margin-right: 5px;
@@ -56,6 +67,7 @@
         cursor: pointer;
         font-size: 14px;
         margin-right: 10px;
+        font-family: Arial, sans-serif; /* Font family eklendi */
     }
 
         label:hover {
@@ -65,6 +77,7 @@
     #search-box {
         position: relative;
         padding-right: 30px; /* Temizle butonunun genişliği için ayarlayın */
+        font-family: Arial, sans-serif; /* Font family eklendi */
     }
 
     #clear-search {
@@ -79,6 +92,7 @@
     #search-box:focus + #clear-search {
         display: inline-block;
     }
+
 
 </style>
 <!-- ***** Main Banner Area Start ***** -->
@@ -125,9 +139,10 @@
 
                         <div class="filtre-item">
                             <h3>Fiyat Aralığı</h3>
-                            <a class="btn" id="clear-price-filter" style="display: none;">Temizle</a>
                             <input type="number" placeholder="En az" style="width:90px;" id="min-price" name="min-price">
+                            <span>₺</span>
                             <input type="number" placeholder="En çok" style="width:90px;" id="max-price" name="max-price">
+                            <span>₺</span>
                             <button class="btn" id="search-price">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -135,24 +150,25 @@
                             </button>
                             <br />
                             <input type="radio" id="range-1" name="price-range" value="20-200">
-                            <label for="range-1">20-200</label>
+                            <label for="range-1">20₺-200₺</label>
                             <br />
                             <input type="radio" id="range-2" name="price-range" value="200-500">
-                            <label for="range-2">200-500</label>
+                            <label for="range-2">200₺-500₺</label>
                             <br />
                             <input type="radio" id="range-3" name="price-range" value="500-1000">
-                            <label for="range-3">500-1000</label>
+                            <label for="range-3">500₺-1000₺</label>
                             <br />
                             <input type="radio" id="range-4" name="price-range" value="1000-2000">
-                            <label for="range-4">1000-2000</label>
+                            <label for="range-4">1000₺-2000₺</label>
                         </div>
+                            <a class=" btn btn-outline-danger" id="clear-price-filter" style="display: none;">Temizle</a>
                         <div class="filtre-item" id="filter-color">
                             <h3>Renk</h3>
-                            <a class="btn" id="clear-color-filter" style="display: none;">Temizle</a>
+                            <a class="btn btn-outline-danger" id="clear-color-filter" style="display: none;">Temizle</a>
                         </div>
                         <div class="filtre-item" id="filter-size">
                             <h3>Boyut</h3>
-                            <a class="btn" id="clear-size-filter" style="display: none;">Temizle</a>
+                            <a class="btn btn-outline-danger" id="clear-size-filter" style="display: none;">Temizle</a>
                         </div>
                     </div>
                 </aside>

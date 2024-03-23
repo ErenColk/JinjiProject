@@ -21,6 +21,8 @@ namespace JinjiProject.Dtos.Products
         public float? Width { get; set; }
         public float? Length { get; set; }
         public string ImagePath { get; set; }
+        public string? ImagePath2 { get; set; }
+        public string? ImagePath3 { get; set; }
         public IFormFile UploadPath { get; set; }
         public int? Capacity { get; set; }
         public string MaterialId { get; set; }

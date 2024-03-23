@@ -6,6 +6,7 @@ using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
 using JinjiProject.Dtos.Products;
 using JinjiProject.Dtos.Subscribers;
+using JinjiProject.VMs.Subscriber;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,10 +30,14 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> SubscriberList(bool showWarning = true)
         {
-            var subscriberListResult = await subscriberService.GetAllByExpression(subscriber => subscriber.Status == Status.Active || subscriber.Status == Status.Modified);
-            var subscriberList = _mapper.Map<List<ListSubscriberDto>>(subscriberListResult.Data);
+            var subscriberListResult = await subscriberService.GetAllByExpression(subscriber => subscriber.Status != Status.Deleted);
+            var discountProductList= await _productService.GetAllByExpression(src => src.IsDiscount == true && src.Status != Status.Deleted);
+            ListSubscriberVm listSubscriberVm = new();
+            listSubscriberVm.ListSubscriberDtos = subscriberListResult.Data;
+            listSubscriberVm.ListProductDtos = discountProductList.Data;
 
-            if ((subscriberList.Count <= 0 || SubscriberList == null) && showWarning)
+
+            if ((subscriberListResult.Data.Count <= 0 || SubscriberList == null) && showWarning)
             {
 
                 NotifyError(subscriberListResult.Message);
@@ -42,7 +47,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 NotifySuccess(subscriberListResult.Message);
             }
 
-            return View(subscriberList);
+            return View(listSubscriberVm);
         }
         [HttpPost]
         public async Task<IActionResult> GetSubscribersByGivenValues(ListSubscriberDto listSubscriberDto)
@@ -171,14 +176,15 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SendMailToSubscribers(bool showWarning = true)
+        public async Task<IActionResult> SendMailToSubscribers(ListSubscriberVm productIds)
         {
 
 
-            var discountedProducts = await _productService.GetAllByExpression(x => x.Status != Status.Deleted && x.IsDiscount == true);
+            var discountedProducts = await _productService.GetAllByExpression(x => x.Status != Status.Deleted && x.IsDiscount == true && productIds.SelectedProductIds.Contains(x.Id));
             var subscribers = await subscriberService.GetAllByExpression(x => x.Status != Status.Deleted);
 
             string link = Url.Action("ProductDetails", "product", new { Area = "" }, Request.Scheme);
+
             var sendMailResult = await _sendMailService.SendMailAllSubscriber(discountedProducts.Data, link);
             if (sendMailResult.IsSuccess)
             {
