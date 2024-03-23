@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "ProductDetails";
 }
 @model GetProductDto
@@ -31,7 +30,7 @@
             <div class="col-lg-4">
                 <div class="right-content">
                     <h4>@Model.Name</h4>
-                    <span class="price">@Model.Price₺</span>
+                    @*<span class="price">@Model.Price₺</span>*@
                     <ul class="stars">
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
@@ -39,23 +38,89 @@
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                     </ul>
-                    <span>@Model.Description</span>
+                    @*<span>@Model.Description</span>*@
                     <div class="quote">
-                        <i class="fa fa-quote-left"></i><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
+                        <i class="fa fa-quote-left"></i><p>@Model.Description</p>
                     </div>
                     <div class="quantity-content">
-                        <div class="left-content">
-                            <h6>No. of Orders</h6>
-                        </div>
-                        <div class="right-content">
-                            <div class="quantity buttons_added">
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                        <div class="container ">
+                            <button class="btn btn-dark col-lg-12" id="ozellikButton" data-toggle="collapse" data-target="#ozellikTablo" aria-expanded="false" aria-controls="ozellikTablo">Ürün Özellikleri</button>
+                            <div class="mt-3 collapse" id="ozellikTablo">
+                                <table class="table ">
+                                    <tbody>
+                                        <tr>
+                                            <td>Renk</td>
+                                            <td>: @Model.Color</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Stok Sayısı</td>
+                                            <td>: @Model.Stock</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Marka</td>
+                                            <td>: @Model.Brand.Name</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ürün Grubu</td>
+                                            <td>: @Model.Genre.Name</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Malzeme</td>
+                                            <td>: @Model.Material.Name</td>
+                                        </tr>
+                                        @if (Model.Capacity != null)
+                                        {
+                                            <tr>
+                                                <td>Kapasite</td>
+                                                <td>: @Model.Capacity</td>
+                                            </tr>
+                                        }
+                                        @if (Model.Height != null)
+                                        {
+                                            <tr>
+                                                <td>Yükseklik</td>
+                                                <td>: @Model.Height</td>
+                                            </tr>
+                                        }
+                                        @if (Model.Width != null)
+                                        {
+                                            <tr>
+                                                <td>Genişlik</td>
+                                                <td>: @Model.Width</td>
+                                            </tr>
+                                        }
+                                        @if (Model.Length != null)
+                                        {
+                                            <tr>
+                                                <td>Uzunluk</td>
+                                                <td>: @Model.Length</td>
+                                            </tr>
+                                        }
+                                        @if (Model.Size != null)
+                                        {
+                                            <tr>
+                                                <td>Beden</td>
+                                                <td>: @Model.Size</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                        @*<div class="left-content">
+                        <h6>Ürün Özellikleri</h6>
+                        </div>
+                        <div class="right-content">
+                        <div class="quantity buttons_added">
+                        <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                        </div>
+                        </div>*@
                     </div>
                     <div class="total">
-                        <h4>Total: $210.00</h4>
-                        <div class="main-border-button"><a href="#">Add To Cart</a></div>
+                        <div class="price">
+                            <h4 class="price">Fiyat: @Model.Price₺</h4>
+                            @*<div class="main-border-button"><a href="#">Add To Cart</a></div>*@
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,6 +128,16 @@
     </div>
 </section>
 <!-- ***** Product Area Ends ***** -->
+
+<style>
+    .price {
+        text-align: center; /* Metni ortalamak için */
+        display: flex; /* Flex kullanarak içeriği dikey ve yatayda ortalamak için */
+        align-items: center; /* Dikeyde ortalamak için */
+        justify-content: end; /* Yatayda ortalamak için */
+        /*height: 100vh; /* Sayfa boyunca div'i ortalayın */ */
+    }
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

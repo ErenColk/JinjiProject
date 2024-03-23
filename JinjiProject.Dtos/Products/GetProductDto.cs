@@ -1,4 +1,5 @@
-﻿using JinjiProject.Core.Enums;
+﻿using JinjiProject.Core.Entities.Concrete;
+using JinjiProject.Core.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -35,5 +36,8 @@ namespace JinjiProject.Dtos.Products
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public Status Status { get; set; }
+        public virtual Material Material { get; set; }
+        public virtual Genre Genre { get; set; }
+        public virtual Brand Brand { get; set; }
     }
 }
