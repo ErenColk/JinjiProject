@@ -51,7 +51,28 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                         Guid guid = Guid.NewGuid();
                         image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}");
                         createProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(createProductDto.UploadPath.FileName)}";
-                    }                   
+                    }
+                }
+
+                if (createProductDto.UploadPathSecond != null)
+                {
+                    using (var imageSecond = Image.Load(createProductDto.UploadPathSecond.OpenReadStream()))
+                    {
+
+                        Guid guidSecond = Guid.NewGuid();
+                        imageSecond.Save($"wwwroot/images/productPhotos/{guidSecond}{Path.GetExtension(createProductDto.UploadPathSecond.FileName)}");
+                        createProductDto.ImagePathSecond = $"/images/productPhotos/{guidSecond}{Path.GetExtension(createProductDto.UploadPathSecond.FileName)}";
+                    }
+                }
+
+                if (createProductDto.UploadPathThirth != null)
+                {
+                    using (var imageThird = Image.Load(createProductDto.UploadPathThirth.OpenReadStream()))
+                    {
+                        Guid guidThird = Guid.NewGuid();
+                        imageThird.Save($"wwwroot/images/productPhotos/{guidThird}{Path.GetExtension(createProductDto.UploadPathThirth.FileName)}");
+                        createProductDto.ImagePathThirth = $"/images/productPhotos/{guidThird}{Path.GetExtension(createProductDto.UploadPathThirth.FileName)}";
+                    }
                 }
 
                 Product Product = _mapper.Map<Product>(createProductDto);
@@ -155,7 +176,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                         Guid guid = Guid.NewGuid();
                         image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}");
                         updateProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}";
-                    }                   
+                    }
                 }
 
                 product = _mapper.Map(updateProductDto, product);
@@ -200,7 +221,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         public async Task<DataResult<List<ListProductDto>>> GetProductBySearchValues(string? name, string? price, string? materialId, string? genreId, string? createdDate)
         {
             int nullParamCount = new[] { name, price, materialId, genreId }.Count(param => param != null);
-            
+
             if (DateTime.Parse(createdDate).Year.ToString() != "1")
             {
                 nullParamCount++;
@@ -259,7 +280,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             {
                 Product product = await _productRepository.GetByIdAsync(updateProductDiscountDto.Id);
 
-                            product = _mapper.Map(updateProductDiscountDto, product);
+                product = _mapper.Map(updateProductDiscountDto, product);
                 bool result = await _productRepository.Update(product);
                 if (result)
                     return new SuccessDataResult<Product>(product, Messages.UpdateProductSuccess);

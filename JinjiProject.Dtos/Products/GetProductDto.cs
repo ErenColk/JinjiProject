@@ -20,11 +20,13 @@ namespace JinjiProject.Dtos.Products
         public int Stock { get; set; }
         public Size? Size{ get; set; }
         public string ImagePath { get; set; }
+        public string? ImagePathSecond { get; set; }
+        public string? ImagePathThirth { get; set; }
 
         public float? Height { get; set; }
         public float? Width { get; set; }
         public float? Length { get; set; }
-        public IFormFile UploadPath { get; set; }
+
         public int? Capacity { get; set; }
         public string MaterialId { get; set; }
         public string CategoryId { get; set; }

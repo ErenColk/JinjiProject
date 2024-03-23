@@ -32,12 +32,17 @@
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">ÜRÜN FİYATI</span>
                                 <div class="input-group">
-                                    <input asp-for="Price" type="text" class="form-control" oninput="formatPrice()" id="product-price" placeholder="Ürün Fiyatını Giriniz...">
+                                    <input asp-for="Price" type="text" class="form-control" oninput="formatPrice(this,'danger-product-price')" id="product-price" placeholder="Ürün Fiyatını Giriniz...">
                                     <div class="input-group-append">
                                         <span class="input-group-text">₺</span>
                                     </div>
+
                                 </div>
-                                    <span class="text-danger">@ViewData["PriceError"]</span>
+                                <div>
+                                    <small class="text-muted" style="font-size: smaller;">Ürün Fiyatı Girerken '.' (nokta) kullanmayınız ',' (virgül) ile küsürat belirtiniz.</small>
+                                </div>
+                                <span class="text-danger" id="danger-product-price"></span>
+                                <span class="text-danger">@ViewData["PriceError"]</span>
                             </div>
                             <div class="col-md-6">
                                 <span class="text-muted font-weight-bold">STOK</span>
@@ -47,7 +52,7 @@
                                         <span class="input-group-text">Adet</span>
                                     </div>
                                 </div>
-                                    <span class="text-danger">@ViewData["StockError"]</span>
+                                <span class="text-danger">@ViewData["StockError"]</span>
                             </div>
                         </div>
                     </div>
@@ -166,17 +171,66 @@
                         <div class="row">
                             <div class="col-md-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <span class="text-muted font-weight-bold">ÜRÜN FOTOĞRAFI</span>
-                                    <input asp-for="UploadPath" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event)">
-                                <span class="text-danger">@ViewData["ImageError"]</span>
+                                    <span class="text-muted font-weight-bold">ÜRÜNÜN 1.FOTOĞRAFI</span>
+                                    <input asp-for="UploadPath" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,'image-preview-first','image-preview-label-first')">
+                                    <div>
+                                        <small class="text-muted" style="font-size: smaller;">Dikdörtgen (yatay) formatındaki fotoğraflar daha iyi görünebilir.Örnek olarak 1920x1080 piksel çözünürlükte fotoğraf tercih edebilirsiniz.</small>
+
+                                    </div>
+                                    <span class="text-danger">@ViewData["ImageError"]</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <img class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
-                                <small id="image-preview-label" style="display: none;" for="image-preview">Yüklenen Ürün Fotoğrafı</small>
+                                <img class="img-thumbnail" id="image-preview-first" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <small id="image-preview-label-first" style="display: none;" for="image-preview-first">Yüklenen Ürün Fotoğrafı</small>
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">ÜRÜNÜN 2.FOTOĞRAFI</span>
+                                    <input asp-for="UploadPathSecond" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,'image-preview-second','image-preview-label-second')">
+                                    <div>
+                                        <small class="text-muted" style="font-size: smaller;">Kare formatındaki fotoğraflar daha iyi görünebilir. Opsiyonel fotoğraflarınızı kare formatında tercih edin.</small>
+
+                                    </div>
+
+                                    <span class="text-danger">@ViewData["ImageErrorSecond"]</span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" id="image-preview-second" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+
+                                <small id="image-preview-label-second" style="display: none;" for="image-preview-second">Yüklenen Ürün Fotoğrafı</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">ÜRÜNÜN  3.FOTOĞRAFI</span>
+                                    <input asp-for="UploadPathThirth" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,'image-preview-thirth','image-preview-label-thirth')">
+                                    <div>
+                                    <small class="text-muted" style="font-size: smaller;">Kare formatındaki fotoğraflar daha iyi görünebilir. Opsiyonel fotoğraflarınızı kare formatında tercih edin.</small>  
+                                    </div>
+                                    <span class="text-danger">@ViewData["ImageErrorThirth"]</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" id="image-preview-thirth" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <small id="image-preview-label-thirth" style="display: none;" for="image-preview-thirth">Yüklenen Ürün Fotoğrafı</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
                 </div>
                 <div class="card-action d-flex justify-content-end  ">
                     <button type="submit" class="btn btn-outline-success mr-2">Kaydet</button>
@@ -189,13 +243,13 @@
 <script src="~/js/product-create.js"></script>
 
 <script>
-    function previewImage(event) {
+    function previewImage(event, imgId, labelId) {
         var reader = new FileReader();
         reader.onload = function () {
-            var output = document.getElementById('image-preview');
+            var output = document.getElementById(imgId);
             output.src = reader.result;
             output.style.display = 'block';
-            document.getElementById('image-preview-label').style.display = 'block';
+            document.getElementById(labelId).style.display = 'block';
         }
         reader.readAsDataURL(event.target.files[0]);
     };
@@ -249,8 +303,11 @@
 </script>
 
 <style>
-    #image-preview {
+    #image-preview-first,
+    #image-preview-second,
+    #image-preview-thirth {
         max-width: 100%;
         max-height: 200px;
     }
+
 </style>
