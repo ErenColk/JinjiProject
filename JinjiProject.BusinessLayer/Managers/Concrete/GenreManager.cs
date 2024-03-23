@@ -47,6 +47,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     using (var image = Image.Load(createGenreDto.UploadPath.OpenReadStream()))
                     {
                         image.Mutate(x => x.Resize(385, 330));
+                        image.Mutate(x => x.Brightness(0.6F));
                         Guid guid = Guid.NewGuid();
                         image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}");
                         createGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}";
@@ -149,14 +150,19 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 Genre genre = await _genreRepository.GetByIdAsync(updateGenreDto.Id);
-
+                            
                 if (updateGenreDto.UploadPath != null)
                 {
                     using (var image = Image.Load(updateGenreDto.UploadPath.OpenReadStream()))
                     {
                         image.Mutate(x => x.Resize(385, 330));
+                        image.Mutate(x => x.Brightness(0.6F));
                         Guid guid = Guid.NewGuid();
                         image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(updateGenreDto.UploadPath.FileName)}");
+                        if (File.Exists($"wwwroot/{updateGenreDto.ImagePath}"))
+                        {
+                            File.Delete($"wwwroot/{updateGenreDto.ImagePath}");
+                        }
                         updateGenreDto.ImagePath = $"/images/genrePhotos/{guid}{Path.GetExtension(updateGenreDto.UploadPath.FileName)}";
                     }                  
                 }
