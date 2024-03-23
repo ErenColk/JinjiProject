@@ -18,8 +18,8 @@ namespace JinjiProject.Dtos.Products
         public bool? IsDiscount { get; set; }
         public int Stock { get; set; }
         public string ImagePath { get; set; }
-        public string? ImagePath2 { get; set; }
-        public string? ImagePath3 { get; set; }
+        public string? ImagePathSecond { get; set; }
+        public string? ImagePathThirth { get; set; }
         public int? Capacity { get; set; }
         public Size? Size { get; set; }
         public string GenreName { get; set; }

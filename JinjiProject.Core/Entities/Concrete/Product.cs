@@ -21,8 +21,8 @@ namespace JinjiProject.Core.Entities.Concrete
         public bool?   IsDiscount { get; set; }
         public int Stock { get; set; }
         public string ImagePath { get; set; }
-        public string? ImagePath2 { get; set; }
-        public string?  ImagePath3 { get; set; }
+        public string? ImagePathSecond { get; set; }
+        public string?  ImagePathThirth { get; set; }
         public int? Capacity { get; set; }
         public float? Height { get; set; }
         public float? Width { get; set; }
@@ -30,9 +30,9 @@ namespace JinjiProject.Core.Entities.Concrete
         [NotMapped]
         public IFormFile UploadPath { get; set; }
         [NotMapped]
-        public IFormFile? UploadPath2 { get; set; }
+        public IFormFile? UploadPathSecond { get; set; }
         [NotMapped]
-        public IFormFile? UploadPath3 { get; set; }
+        public IFormFile? UploadPathThirth { get; set; }
         public Size? Size { get; set; }
 
         public int MaterialId { get; set; }

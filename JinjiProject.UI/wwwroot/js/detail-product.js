@@ -1,8 +1,18 @@
 ﻿
 async function loadProductData(id) {
+    const product = await getProduct(id);
+
     const table = document.getElementById('kt_modal_detail_product_form');
     const imgElement = document.getElementById('detail-product-img');
+    const imgElementSecond = document.getElementById('detail-product-img-second');
+    const imgElementThird = document.getElementById('detail-product-img-third');
 
+    const imgElementList = [];
+    document.getElementById('text-muted-second').style.display = 'block'
+    document.getElementById('text-muted-third').style.display =  'block'
+    product.imagePath ? imgElementList.push(imgElement) : document.getElementById('text-muted-second').style.display = 'none';
+    product.imagePathSecond ? imgElementList.push(imgElementSecond) : document.getElementById('text-muted-second').style.display = 'none';
+    product.imagePathThirth ? imgElementList.push(imgElementThird) :   document.getElementById('text-muted-third').style.display = 'none' ;
 
     const rows = table.getElementsByTagName('tr');
 
@@ -29,14 +39,42 @@ async function loadProductData(id) {
 
 
 
-    const product = await getProduct(id);
 
-    imgElement.alt = product.name;
-    imgElement.src = product.imagePath;
+    const productList = [];
+    productList.push(product.imagePath)
+    productList.push(product.imagePathSecond)
+    productList.push(product.imagePathThirth)
+
+
+
+    imgElementList.forEach(function (imgElement,index) {
+        EnlargeImg(product.name,productList[index], imgElement);
+    });
+
+    productNameCell.textContent = ":" + "  " + product.name;
+    productDescriptionCell.textContent = ":" + "   " + product.description;
+    productColorCell.textContent = ":" + "   " + product.color;
+    productPriceCell.textContent = ":" + "   " + product.price;
+    productStockCell.textContent = ":" + "   " + product.stock;
+    productCapacityCell.textContent = ":" + "   " + product.capacity;
+    productCreatedDateCell.textContent = ":" + "   " + new Date(product.createdDate).toLocaleDateString();
+    const productModifiedDate =  await new Date(product.modifiedDate).getFullYear();
+    if (productModifiedDate > 1) {
+        productModifiedDateCell.textContent = ":" + "   " + new Date(product.modifiedDate).toLocaleDateString();
+    } else {
+        productModifiedDateCell.textContent = ":" + "   " + "Henüz güncellenmedi!";
+    }
+}
+
+
+function EnlargeImg(productName,productImagePath, imgElement) {
+
+
+    imgElement.alt = productName;
+    imgElement.src = productImagePath;
     imgElement.style.width = '100px';
     imgElement.style.height = '150px';
     imgElement.classList.add('img-thumbnail');
-
     imgElement.addEventListener('click', function () {
         // Create a modal overlay
         const modalOverlay = document.createElement('div');
@@ -77,20 +115,9 @@ async function loadProductData(id) {
         });
     });
 
-    productNameCell.textContent = ":" + "  " + product.name;
-    productDescriptionCell.textContent = ":" + "   " + product.description;
-    productColorCell.textContent = ":" + "   " + product.color;
-    productPriceCell.textContent = ":" + "   " + product.price;
-    productStockCell.textContent = ":" + "   " + product.stock;
-    productCapacityCell.textContent = ":" + "   " + product.capacity;
-    productCreatedDateCell.textContent = ":" + "   " + new Date(product.createdDate).toLocaleDateString();
-    const productModifiedDate =  await new Date(product.modifiedDate).getFullYear();
-    if (productModifiedDate > 1) {
-        productModifiedDateCell.textContent = ":" + "   " + new Date(product.modifiedDate).toLocaleDateString();
-    } else {
-        productModifiedDateCell.textContent = ":" + "   " + "Henüz güncellenmedi!";
-    }
+
 }
+
 
 // Add an event listener to the image element for mouseover
 

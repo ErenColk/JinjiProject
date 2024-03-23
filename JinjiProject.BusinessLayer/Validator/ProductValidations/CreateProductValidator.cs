@@ -27,6 +27,8 @@ namespace JinjiProject.BusinessLayer.Validator.ProductValidations
             RuleFor(x => x.MaterialId).NotEmpty().NotNull().WithMessage("Malzeme boş geçilemez!").WithErrorCode("9");
             RuleFor(x => x.UploadPath).NotEmpty().NotNull().WithMessage("Fotoğraf boş geçilemez!").WithErrorCode("10");
             RuleFor(x => x.UploadPath).Must(FileExtensions.IsImage).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("10");
+            RuleFor(x => x.UploadPathSecond).Must(file => file == null || file.IsImage()).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("11");
+            RuleFor(x => x.UploadPathThirth).Must(file => file == null || file.IsImage()).WithMessage("Dosya sadece .jpg .jpeg veya .png uzantılı olmalıdır!").WithErrorCode("12");
         }
        
     }

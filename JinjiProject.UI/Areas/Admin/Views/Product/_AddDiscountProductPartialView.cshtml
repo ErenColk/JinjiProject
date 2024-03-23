@@ -44,7 +44,12 @@
                                                 <span class="input-group-text">₺</span>
                                             </div>
                                         </div>
+                                        <div>
+                                            <small class="text-muted" style="font-size: smaller;">Ürün Fiyatı Girerken ',' (virgül) kullanmayınız '.' (nokta) ile küsürat belirtiniz.</small>
+
+                                        </div>
                                         <span class="text-danger" id="danger-newprice"></span>
+
                                     </div>
                                     <div class="col-md-6" id="prev-discount-product" style="display:none">
                                         <span class="text-muted font-weight-bold">ÖNCEKİ İNDİRİMLİ FİYATI</span>
@@ -59,11 +64,11 @@
 
                                 </div>
                             </div>
-                    
+
                         </div>
                         <hr />
                         <div class="card-action d-flex justify-content-end">
-                            <button  class="btn btn-outline-success mr-2">Kaydet</button>
+                            <button class="btn btn-outline-success mr-2">Kaydet</button>
                             <button type="button" class="btn btn-outline-danger mr-2" onclick="removeDiscount()" id="btn-remove-discount">İndirimi Kaldır</button>
                             <button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary">Kapat</button>
                         </div>
@@ -80,14 +85,14 @@
 <script>
     let product = [];
     function submitFormDiscount() {
-  
+
         var newProductPrice = parseFloat(document.getElementById("product-newprice").value);
-        var productId = parseInt(document.getElementById('product-discount-id').value); // Ürün ID'sini temsil ettiğini varsayarak değişken adını productId 
+        var productId = parseInt(document.getElementById('product-discount-id').value); // Ürün ID'sini temsil ettiğini varsayarak değişken adını productId
 
         var productDiscount = {
             Id: productId, // DTO ile eşleşmesi için özellik adını düzelttim
             OldPrice: newProductPrice,
-            IsDiscount : true
+            IsDiscount: true
         };
         var productData = JSON.stringify(productDiscount);
 
@@ -116,9 +121,9 @@
     function removeDiscount() {
 
         const id = parseInt(document.getElementById('product-discount-id').value);
-      
+
         var gelenAjax = $.ajax({
-            url: '/Admin/Product/RemoveDiscount/'+id,
+            url: '/Admin/Product/RemoveDiscount/' + id,
             type: 'POST',
             contentType: 'application/json',
             success: function (data) {
