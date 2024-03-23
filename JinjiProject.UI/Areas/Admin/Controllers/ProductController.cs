@@ -330,6 +330,12 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                     case "10":
                         ViewData["ImageError"] += item.ErrorMessage + "\n";
                         break;
+                    case "11":
+                        ViewData["ImageErrorSecond"] += item.ErrorMessage + "\n";
+                        break;
+                    case "12":
+                        ViewData["ImageErrorThirth"] += item.ErrorMessage + "\n";
+                        break;
                     default:
                         break;
                 }

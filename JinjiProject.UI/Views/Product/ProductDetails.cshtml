@@ -58,15 +58,15 @@
                                         </tr>
                                         <tr>
                                             <td>Marka</td>
-                                            <td>: @Model.Brand.Name</td>
+                                            <td>:  @Model.BrandName </td>
                                         </tr>
                                         <tr>
                                             <td>Ürün Grubu</td>
-                                            <td>: @Model.Genre.Name</td>
+                                            <td>:  @Model.GenreName </td>
                                         </tr>
                                         <tr>
                                             <td>Malzeme</td>
-                                            <td>: @Model.Material.Name</td>
+                                            <td>:  @Model.MaterialName </td>
                                         </tr>
                                         @if (Model.Capacity != null)
                                         {
@@ -133,8 +133,7 @@
     .price {
         text-align: center; /* Metni ortalamak için */
         display: flex; /* Flex kullanarak içeriği dikey ve yatayda ortalamak için */
-        align-items: center; /* Dikeyde ortalamak için */
-        justify-content: end; /* Yatayda ortalamak için */
+
         /*height: 100vh; /* Sayfa boyunca div'i ortalayın */ */
     }
 </style>

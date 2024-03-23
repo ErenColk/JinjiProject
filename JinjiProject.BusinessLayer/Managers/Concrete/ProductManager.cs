@@ -175,7 +175,39 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     {
                         Guid guid = Guid.NewGuid();
                         image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}");
+                        if (File.Exists($"wwwroot/{updateProductDto.ImagePath}"))
+                        {
+                            File.Delete($"wwwroot/{updateProductDto.ImagePath}");
+                        }
                         updateProductDto.ImagePath = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPath.FileName)}";
+                    }
+                }
+
+                if (updateProductDto.UploadPathSecond != null)
+                {
+                    using (var image = Image.Load(updateProductDto.UploadPathSecond.OpenReadStream()))
+                    {
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPathSecond.FileName)}");
+                        if (File.Exists($"wwwroot/{updateProductDto.ImagePathSecond}"))
+                        {
+                            File.Delete($"wwwroot/{updateProductDto.ImagePathSecond}");
+                        }
+                        updateProductDto.ImagePathSecond = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPathSecond.FileName)}";
+                    }
+                }
+
+                if (updateProductDto.UploadPathThirth != null)
+                {
+                    using (var image = Image.Load(updateProductDto.UploadPathThirth.OpenReadStream()))
+                    {
+                        Guid guid = Guid.NewGuid();
+                        image.Save($"wwwroot/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPathThirth.FileName)}");
+                        if (File.Exists($"wwwroot/{updateProductDto.ImagePathThirth}"))
+                        {
+                            File.Delete($"wwwroot/{updateProductDto.ImagePathThirth}");
+                        }
+                        updateProductDto.ImagePathThirth = $"/images/productPhotos/{guid}{Path.GetExtension(updateProductDto.UploadPathThirth.FileName)}";
                     }
                 }
 

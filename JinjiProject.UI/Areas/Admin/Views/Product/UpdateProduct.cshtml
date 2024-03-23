@@ -208,20 +208,68 @@
                         <div class="row">
                             <div class="col-md-3 d-flex align-items-center">
                                 <div class="form-group">
-                                    <span class="text-muted font-weight-bold">ÜRÜN FOTOĞRAFI</span>
-                                    <input asp-for="UploadPath" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event)">
+                                    <span class="text-muted font-weight-bold">BİRİNCİ ÜRÜN FOTOĞRAFI</span>
+                                    <input asp-for="UploadPath" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,1)">
                                     <span class="text-danger">@ViewData["ImageError"]</span>
                                     <input asp-for="ImagePath" value="@Model.ImagePath" hidden/>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <img class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <img class="img-thumbnail" id="image-preview1" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
                                 <small id="image-preview-label" style="display: none;" for="image-preview">Yüklenen Ürün Fotoğrafı</small>
                             </div>
                             <div class="col-md-4">
                                 <img src="@Model.ImagePath" class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px;">
                                 <small id="image-preview-label" for="image-preview" style="display:block;">Eski Ürün Fotoğrafı</small>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">İKİNCİ ÜRÜN FOTOĞRAFI</span>
+                                    <input asp-for="UploadPathSecond" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,2)">
+                                    <span class="text-danger">@ViewData["ImageErrorSecond"]</span>
+                                    <input asp-for="ImagePathSecond" value="@Model.ImagePathSecond" hidden />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" id="image-preview2" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <small id="image-preview-label" style="display: none;" for="image-preview">İkinci Yüklenen Ürün Fotoğrafı</small>
+                            </div>
+                            @if(Model.ImagePathSecond != null)
+                            {
+                                <div class="col-md-4">
+                                    <img src="@Model.ImagePathSecond" class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px;">
+                                    <small id="image-preview-label" for="image-preview" style="display:block;">İkinci Eski Ürün Fotoğrafı</small>
+                                </div>
+                            }
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-group">
+                                    <span class="text-muted font-weight-bold">ÜÇÜNCÜ ÜRÜN FOTOĞRAFI</span>
+                                    <input asp-for="UploadPathThirth" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,3)">
+                                    <span class="text-danger">@ViewData["ImageErrorThirth"]</span>
+                                    <input asp-for="ImagePathThirth" value="@Model.ImagePathThirth" hidden />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" id="image-preview3" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px; display: none;">
+                                <small id="image-preview-label" style="display: none;" for="image-preview">üçüncü Yüklenen Ürün Fotoğrafı</small>
+                            </div>
+                            @if (Model.ImagePathThirth != null)
+                            {
+                                <div class="col-md-4">
+                                    <img src="@Model.ImagePathThirth" class="img-thumbnail" id="image-preview" src="#" alt="Ürün Fotoğrafı Önizleme" style="max-width: 100%; margin-top: 10px;">
+                                    <small id="image-preview-label" for="image-preview" style="display:block;">Üçüncü Eski Ürün Fotoğrafı</small>
+                                </div>
+                            }
+                           
                         </div>
                     </div>
                 </div>
@@ -241,6 +289,21 @@
 
 <style>
     #image-preview {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    #image-preview1 {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    #image-preview2 {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
+    #image-preview3 {
         max-width: 100%;
         max-height: 200px;
     }
