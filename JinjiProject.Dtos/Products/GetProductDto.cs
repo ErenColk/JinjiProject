@@ -36,8 +36,9 @@ namespace JinjiProject.Dtos.Products
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public Status Status { get; set; }
-        public virtual Material Material { get; set; }
-        public virtual Genre Genre { get; set; }
-        public virtual Brand Brand { get; set; }
+        public string MaterialName { get; set; }
+        public string GenreName { get; set; }
+        public string BrandName { get; set; }
+
     }
 }

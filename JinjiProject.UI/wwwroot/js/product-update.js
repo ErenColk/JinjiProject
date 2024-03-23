@@ -34,10 +34,10 @@ window.onload = function () {
 
 };
 
-function previewImage(event) {
+function previewImage(event,index) {
     var reader = new FileReader();
     reader.onload = function () {
-        var output = document.getElementById('image-preview');
+        var output = document.getElementById("image-preview"+index);
         output.src = reader.result;
         output.style.display = 'block';
         document.getElementById('image-preview-label').style.display = 'block';

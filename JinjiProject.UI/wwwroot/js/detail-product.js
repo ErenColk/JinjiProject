@@ -1,18 +1,30 @@
 ﻿
 async function loadProductData(id) {
-    const product = await getProduct(id);
+    const product = await getDetailProduct(id);
 
     const table = document.getElementById('kt_modal_detail_product_form');
     const imgElement = document.getElementById('detail-product-img');
     const imgElementSecond = document.getElementById('detail-product-img-second');
     const imgElementThird = document.getElementById('detail-product-img-third');
+    imgElementSecond.style.display = 'none';
+    imgElementThird.style.display = 'none';
 
     const imgElementList = [];
     document.getElementById('text-muted-second').style.display = 'block'
     document.getElementById('text-muted-third').style.display =  'block'
     product.imagePath ? imgElementList.push(imgElement) : document.getElementById('text-muted-second').style.display = 'none';
-    product.imagePathSecond ? imgElementList.push(imgElementSecond) : document.getElementById('text-muted-second').style.display = 'none';
-    product.imagePathThirth ? imgElementList.push(imgElementThird) :   document.getElementById('text-muted-third').style.display = 'none' ;
+    if (product.imagePathSecond) {
+        imgElementList.push(imgElementSecond);
+        imgElementSecond.style.display = 'block';
+    } else {
+        document.getElementById('text-muted-second').style.display = 'none';
+    }
+    if (product.imagePathThirth) {
+        imgElementList.push(imgElementThird);
+        imgElementThird.style.display = 'block';
+    } else {
+        document.getElementById('text-muted-third').style.display = 'none';
+    }
 
     const rows = table.getElementsByTagName('tr');
 
@@ -45,12 +57,10 @@ async function loadProductData(id) {
     productList.push(product.imagePathSecond)
     productList.push(product.imagePathThirth)
 
-
-
-    imgElementList.forEach(function (imgElement,index) {
+    
+    imgElementList.forEach(function (imgElement, index) {
         EnlargeImg(product.name,productList[index], imgElement);
     });
-
     productNameCell.textContent = ":" + "  " + product.name;
     productDescriptionCell.textContent = ":" + "   " + product.description;
     productColorCell.textContent = ":" + "   " + product.color;
@@ -67,8 +77,7 @@ async function loadProductData(id) {
 }
 
 
-function EnlargeImg(productName,productImagePath, imgElement) {
-
+function EnlargeImg(productName, productImagePath, imgElement) {
 
     imgElement.alt = productName;
     imgElement.src = productImagePath;
@@ -97,7 +106,20 @@ function EnlargeImg(productName,productImagePath, imgElement) {
         enlargedImg.style.maxWidth = '80%';
         enlargedImg.style.maxHeight = '80%';
         enlargedImg.style.transition = 'transform 0.3s ease';
-
+        // Add an event listener to the enlarged image element for mouseout
+        enlargedImg.addEventListener('mouseout', function (event) {
+            // Check if the mouse is outside of the image bounds
+            const bounds = enlargedImg.getBoundingClientRect();
+            if (
+                event.clientX < bounds.left ||
+                event.clientX > bounds.right ||
+                event.clientY < bounds.top ||
+                event.clientY > bounds.bottom
+            ) {
+                // If the mouse is outside of the image, close the modal
+                closeModal();
+            }
+        });
         // Append the enlarged image to the modal overlay
         modalOverlay.appendChild(enlargedImg);
 
@@ -136,24 +158,10 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
-// Add an event listener to the enlarged image element for mouseout
-enlargedImg.addEventListener('mouseout', function (event) {
-    // Check if the mouse is outside of the image bounds
-    const bounds = enlargedImg.getBoundingClientRect();
-    if (
-        event.clientX < bounds.left ||
-        event.clientX > bounds.right ||
-        event.clientY < bounds.top ||
-        event.clientY > bounds.bottom
-    ) {
-        // If the mouse is outside of the image, close the modal
-        closeModal();
-    }
-});
 
 
-async function getProduct(productid) {
-    console.log(productid)
+
+async function getDetailProduct(productid) {
     return $.ajax({
         url: '/Admin/Product/GetProduct',
         data: { productid: productid }
