@@ -83,11 +83,11 @@ function fillproducts(products) {
                  <td>${product.id}</td>
                                                 <td><img class="img-fluid img-thumbnail" style="width: 100px; height:100px; border-radius:5px; " src="${product.imagePath}" /></td>
                                                 <td>${product.name}</td>
-                                                <td>${product.color}</td>
                                                 <td>${product.price}₺</td>
-                                                <td>${product.stock}</td>
+                                                <td>${product.oldPrice ? product.oldPrice +"₺" : "-"}</td>
+                                               <td>${product.oldPrice ? '<span class="badge badge-success">İndirim Var</span>' : '<span class="badge badge-danger">İndirim Yok</span>'}</td>
+                                                <td>${product.stock} Adet</td>
                                                 <td>${new Date(product.createdDate).toLocaleDateString()}</td>
-                                                <td>${product.statusName}</td>
                                                 <td>
                                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                                                         Seçenekler

@@ -150,7 +150,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 Genre genre = await _genreRepository.GetByIdAsync(updateGenreDto.Id);
-
+                            
                 if (updateGenreDto.UploadPath != null)
                 {
                     using (var image = Image.Load(updateGenreDto.UploadPath.OpenReadStream()))
