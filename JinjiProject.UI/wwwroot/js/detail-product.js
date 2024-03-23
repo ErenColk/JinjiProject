@@ -84,9 +84,8 @@ async function loadProductData(id) {
     productStockCell.textContent = ":" + "   " + product.stock;
     productCapacityCell.textContent = ":" + "   " + product.capacity;
     productCreatedDateCell.textContent = ":" + "   " + new Date(product.createdDate).toLocaleDateString();
-    const productModifiedDate = ":" + "   " + await new Date(product.modifiedDate).getFullYear();
-    console.log(productModifiedDate);
-    if (productModifiedDate == 1) {
+    const productModifiedDate =  await new Date(product.modifiedDate).getFullYear();
+    if (productModifiedDate > 1) {
         productModifiedDateCell.textContent = ":" + "   " + new Date(product.modifiedDate).toLocaleDateString();
     } else {
         productModifiedDateCell.textContent = ":" + "   " + "Henüz güncellenmedi!";

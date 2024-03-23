@@ -1,4 +1,5 @@
 ﻿using JinjiProject.Core.Enums;
+using JinjiProject.Dtos.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace JinjiProject.Dtos.Subscribers
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string StatusName { get; set; }
+        public List<ListProductDto> DiscountProducts{ get; set; }
     }
 }
