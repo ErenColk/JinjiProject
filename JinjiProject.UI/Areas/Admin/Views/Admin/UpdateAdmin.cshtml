@@ -19,12 +19,12 @@
 
                             <label for="marka">Ad</label>
                             <input asp-for="FirstName" type="text" class="form-control" placeholder="Adınızı Giriniz.">
-                            <span class="form-text text-muted">@ViewData["FirstName"]</span>
+                            <span class="form-text text-danger">@ViewData["FirstName"]</span>
                         </div>
                         <div class="col-lg-6">
                             <label for="soyad">Soyad</label>
                             <input asp-for="LastName" type="text" class="form-control" id="soyad" placeholder="Soyadınızı Giriniz.">
-                            <span class="form-text text-muted">@ViewData["LastName"]</span>
+                            <span class="form-text text-danger">@ViewData["LastName"]</span>
                         </div>
                     </div>
                 </div>
@@ -48,51 +48,40 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <label>Eski Fotoğraf</label>
-                                    <img class="img-fluid form-control" style="max-width: 100px; border-radius:50%; border-style:none;" src="@Model.ImagePath" />
-                                </div>
-                                <div class="col-lg-6">
-                                    <label for="foto">Yeni Fotoğraf</label>
-                                    <input asp-for="UploadPath" type="file" class="form-control" id="foto">
+                               
+                                <div class="col-lg-6">                                 
+                                    <input asp-for="UploadPath" type="file" id="admin-photo" onchange="previewImage(event)" class="form-control" id="foto">
                                     <span class="text-danger">@ViewData["UploadPath"]</span>
+                                </div>
+                                <div class="col-lg-6 d-flex">
+                                    <div class="col-lg-6">
+                                        <label>Eski Fotoğraf</label>
+                                        <img class="img-fluid form-control" style="max-width: 100px; border-radius:50%; border-style:none;" src="@Model.ImagePath" />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="foto">Yeni Fotoğraf</label>
+                                        <img class="img-fluid form-control" id="admin-img" style="max-width: 100px; border-radius:50%; border-style:none;" />
+                                    </div>
+
                                 </div>
                             </div>                     
                         </div>
                         <div class="col-lg-6">
                             <div class="form-check">
                                 <label>Cinsiyet</label><br />
-                                <label class="form-radio-label">
-                                    @{
-                                        if(Model.Gender == Gender.Man)
-                                        {
-                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Man" checked>
-                                        }
-                                        else
-                                        {
-                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Man">
-                                        }
-                                    }
-                                    <span class="form-radio-sign">Erkek</span>
-                                </label>
-                                <label class="form-radio-label ml-3">
-                                    @{
-                                        if (Model.Gender == Gender.Woman)
-                                        {
-                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Woman" checked>
-                                        }
-                                        else
-                                        {
-                                            <input asp-for="Gender" class="form-radio-input" type="radio" name="optionsRadios" value="@Gender.Woman">
-                                        }
-                                    }
-                                   
-                                    <span class="form-radio-sign">Kadın</span>
-                                </label>                              
+                                @foreach (var item in Enum.GetValues(typeof(Gender)))
+                                {
+                                    <label class="form-radio-label">
+                                        <input asp-for="Gender" class="form-radio-input" type="radio" name="Gender" value="@item"
+                                               checked="@(Model.Gender == (Gender)item)">
+                                        <span class="form-radio-sign">@((item.ToString() == "Man") ? "Erkek" : "Kadın") </span>
+                                    </label>
+                                }
                                 <span class="text-danger">@ViewData["Gender"]</span>
                             </div>
                         </div>
                         <input asp-for="Status" hidden/>
+                        <input asp-for="ImagePath" hidden/>
                     </div>
                 </div>
                
@@ -106,3 +95,15 @@
     </div>
 </div>
 
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('admin-img');
+            output.src = reader.result;
+            output.style.display = 'block';
+            document.getElementById(labelId).style.display = 'block';
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    };
+</script>
