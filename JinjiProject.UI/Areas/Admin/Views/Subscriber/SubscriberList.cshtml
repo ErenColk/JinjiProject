@@ -41,10 +41,13 @@
                             <form class="d-flex align-items-end" asp-controller="Subscriber" asp-action="SendMailToSubscribers" method="POST">
                                 <select asp-for="SelectedProductIds" class="selectpicker" data-selected-text-format="count > 2" data-live-search="true"
                                         data-size="5" data-actions-box="true" data-max-options="10" title="Ürünleri Seçiniz..." multiple>
-                                    @foreach (var product in Model.ListProductDtos)
+                                    @if(Model.ListProductDtos != null)
                                     {
-                                        <option value="@product.Id" >@product.Name</option>
-                                    }
+                                        @foreach (var product in Model.ListProductDtos)
+                                        {
+                                            <option value="@product.Id">@product.Name</option>
+                                        }
+                                    }                                 
                                 </select>
                                 <button type="submit" style="min-width:99px;" title="Tüm indirimli ürünleri abonelere mail atar" class="btn btn-outline-success ml-2">İndirimli Ürünleri Mail At</button>
                             </form>
