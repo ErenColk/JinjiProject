@@ -50,10 +50,11 @@
                                     }
                                     else
                                     {
+                                        int count = 1;
                                         @foreach (var item in Model)
-                                        {
+                                        {                                           
                                             <tr>
-                                                <td>@item.Id</td>
+                                                <td>@count</td>
                                                 <td><img class="img-fluid" style="max-width: 75px; border-radius:50%;" src="@item.ImagePath" /></td>
                                                 <td>@item.FirstName</td>
                                                 <td>@item.LastName</td>
@@ -71,6 +72,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            count++;
                                         }
                                     }
                                 </tbody>

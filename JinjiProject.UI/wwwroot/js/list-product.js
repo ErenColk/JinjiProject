@@ -80,7 +80,7 @@ function fillproducts(products) {
     products.forEach((product, index) => {
         const productTR = document.createElement('tr');
         productTR.innerHTML = `
-                 <td>${product.id}</td>
+                 <td>${productsPerPage * (currentPage - 1) + index + 1}</td>
                                                 <td><img class="img-fluid img-thumbnail" style="width: 100px; height:100px; border-radius:5px; " src="${product.imagePath}" /></td>
                                                 <td>${product.name}</td>
                                                 <td>${product.price}₺</td>

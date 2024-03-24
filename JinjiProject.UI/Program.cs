@@ -16,7 +16,7 @@ namespace JinjiProject.UI
             // Add services to the container.
             builder.Services.
                 AddDataAccessServices(builder.Configuration)
-                .AddEFCoreServices(builder.Configuration)
+                .AddEFCoreServices(/*builder.Configuration*/)
                 .AddBusinessServices()
                 .AddMvcServices()
                 .Configure<EmailConfigurationDto>(builder.Configuration.GetSection("EmailConfiguration"));

@@ -133,6 +133,8 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
             else
             {
+                genreDto.IsOnHomePage = null;
+                genreDto.Order = null;
                 bool result = await _genreRepository.SoftDelete(genreDto);
                 if (result)
                     return new SuccessDataResult<Genre>(Messages.GenreDeletedSuccess);

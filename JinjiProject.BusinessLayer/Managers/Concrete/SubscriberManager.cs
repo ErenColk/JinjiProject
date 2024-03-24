@@ -103,7 +103,10 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
         public async Task<DataResult<List<ListSubscriberDto>>> GetAllByExpression(Expression<Func<Subscriber, bool>> expression)
         {
             var subscribers = await subscriberRepository.GetAllByExpression(expression);
-            return new SuccessDataResult<List<ListSubscriberDto>>(mapper.Map<List<ListSubscriberDto>>(subscribers), Messages.SubscriberListedSuccess);
+            if(subscribers.Count() <= 0)
+                return new ErrorDataResult<List<ListSubscriberDto>>(mapper.Map<List<ListSubscriberDto>>(subscribers), Messages.SubscriberListedError);
+            else
+                return new SuccessDataResult<List<ListSubscriberDto>>(mapper.Map<List<ListSubscriberDto>>(subscribers), Messages.SubscriberListedSuccess);
         }
 
         public async Task<DataResult<Subscriber>> UpdateSubscriberAsync(UpdateSubscriberDto updateSubscriberDto)

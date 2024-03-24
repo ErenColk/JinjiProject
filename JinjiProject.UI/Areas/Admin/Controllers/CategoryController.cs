@@ -90,8 +90,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> HomePageEdit()
 		{    
-			//TODOO DÜZENLECEK
-			var categoryResult = await _categoryService.GetAllCategory();
+			var categoryResult = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
             List<ListHomePageCategory> categoryDtos = _mapper.Map<List<ListHomePageCategory>>(categoryResult.Data.OrderBy(category => category.Order));
 
 			return View(categoryDtos);

@@ -80,7 +80,7 @@ function fillcategorys(categorys) {
     categorys.forEach((category, index) => {
         const categoryTR = document.createElement('tr');
         categoryTR.innerHTML = `
-              <td>${category.id}</td>
+              <td>${categorysPerPage * (currentPage - 1) + index + 1}</td>
                                             <td>${category.name}</td>
                                             <td>${category.statusName}</td>
                                             <td>${new Date(category.deletedDate).toLocaleDateString()}</td>

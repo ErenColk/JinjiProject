@@ -122,6 +122,7 @@ namespace JinjiProject.BusinessLayer.Constants
         public const string SubscriberNotFound = "Abone bulunamadı.";
         public const string SubscriberFoundSuccess = "Abone başarıyla bulundu.";
         public const string SubscriberListedSuccess = "Abone başarıyla listelendi.";
+        public const string SubscriberListedError = "Abone listesi boş.";
         public const string SubscriberFilteredError = "Abone bulunamadı.";
         public const string SubscriberFilteredSuccess = "Abone başarıyla bulundu.";
         public const string SubscriberDeletedSuccess = "Abone başarıyla silindi.";

@@ -80,7 +80,7 @@ function fillmaterials(materials) {
     materials.forEach((material, index) => {
         const materialTR = document.createElement('tr');
         materialTR.innerHTML = `
-                <td>${material.id}</td>
+                <td>${materialsPerPage * (currentPage - 1) + index + 1}</td>
                                             <td>${material.name}</td>
                                             <td>${material.statusName}</td>
                                             <td>
