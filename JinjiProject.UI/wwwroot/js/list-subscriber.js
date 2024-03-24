@@ -80,7 +80,7 @@ function fillsubscribers(subscribers) {
     subscribers.forEach((subscriber, index) => {
         const subscriberTR = document.createElement('tr');
         subscriberTR.innerHTML = `
-               <td>${subscriber.id}</td>
+               <td>${subscribersPerPage * (currentPage - 1) + index + 1}</td>
                                                 <td>${subscriber.fullName}</td>
                                                 <td>${subscriber.email}</td>
                                                 <td>${subscriber.statusName}</td>

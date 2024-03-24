@@ -80,7 +80,7 @@ function fillgenres(genres) {
     genres.forEach((genre, index) => {
         const genreTR = document.createElement('tr');
         genreTR.innerHTML = `
-                <td>${genre.id}</td>
+                <td>${genresPerPage * (currentPage - 1) + index + 1}</td>
                                                 <td><img class="img-fluid" style="width: 100px; height:100px; border-radius:50%;" src="${genre.imagePath}" /></td>
                                                 <td>${genre.name}</td>
                                                 <td>${new Date(genre.deletedDate).toLocaleDateString()}</td>

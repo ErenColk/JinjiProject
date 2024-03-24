@@ -140,8 +140,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> HomePageEditGenre()
         {
-            //TODOO DÜZENLECEK
-            var genreResult = await _genreService.GetAllGenre();
+            var genreResult = await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted);
             List<ListHomePageGenreDto> genreDtos = _mapper.Map<List<ListHomePageGenreDto>>(genreResult.Data.OrderBy(genre => genre.Order));
 
             return View(genreDtos);

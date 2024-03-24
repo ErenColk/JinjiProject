@@ -26,8 +26,10 @@ namespace JinjiProject.UI.Controllers
                 {
                     if (products.Data.Count > 0)
                     {
-                        ViewBag.CategoryName = category;
-                        ViewBag.Genre = products.Data.First().GenreName;
+                    var categoryResult = await _categoryService.GetFilteredCategory(x => x.Genres.First().Id == products.Data.FirstOrDefault().GenreId);
+
+                        ViewBag.CategoryName = categoryResult.Data.Name;
+                        ViewBag.Genre = genre;
                         return View(products.Data);
                     }
                     else
@@ -45,8 +47,10 @@ namespace JinjiProject.UI.Controllers
                 {
                     if (products.Data.Count > 0)
                     {
-                        ViewBag.CategoryName = category;
-                        ViewBag.Genre = products.Data.First().GenreName;
+                        var categoryResult = await _categoryService.GetFilteredCategory(x => x.Genres.First().Id == products.Data.FirstOrDefault().GenreId);
+
+                        ViewBag.CategoryName = categoryResult.Data.Name;
+                        ViewBag.Genre = genre;
                         return View(products.Data);
                     }
                     else
@@ -74,6 +78,7 @@ namespace JinjiProject.UI.Controllers
             var product = await productService.GetProductById(id);
             if (product.IsSuccess)
             {
+                ViewBag.ProductName = product.Data.Name;
                 return View(product.Data);
             }
             else

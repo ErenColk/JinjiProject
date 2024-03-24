@@ -119,14 +119,16 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<Category>> SoftDeleteCategoryAsync(int id)
         {
-            var CategoryDto = await _categoryRepository.GetByIdAsync(id);
-            if (CategoryDto == null)
+            var categoryDto = await _categoryRepository.GetByIdAsync(id);
+            if (categoryDto == null)
             {
                 return new ErrorDataResult<Category>(Messages.CategoryNotFound);
             }
             else
             {
-                bool result = await _categoryRepository.SoftDelete(CategoryDto);
+                categoryDto.IsOnHomePage = null;
+                categoryDto.Order = null;
+                bool result = await _categoryRepository.SoftDelete(categoryDto);
                 if (result)
                     return new SuccessDataResult<Category>(Messages.CategoryDeletedSuccess);
                 else

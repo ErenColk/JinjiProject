@@ -82,7 +82,7 @@ function fillBrands(brands) {
     brands.forEach((brand, index) => {
         const brandTR = document.createElement('tr');
         brandTR.innerHTML = `
-                <td>${brand.id}</td>
+                <td>${brandsPerPage*(currentPage-1)+index+1}</td>
                                                 <td>${brand.name}</td>
                                                 <td>${brand.statusName}</td>
                                                 <td>
