@@ -20,6 +20,7 @@ namespace JinjiProject.Dtos.Products
         public bool? IsDiscount { get; set; }
         public int Stock { get; set; }
         public Size? Size{ get; set; }
+        public string? SizeName{ get; set; }
         public string ImagePath { get; set; }
         public string? ImagePathSecond { get; set; }
         public string? ImagePathThirth { get; set; }

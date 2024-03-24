@@ -8,7 +8,6 @@
                 <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">
                     X
                 </button>
-
             </div>
             <div class="modal-body">
                 <table id="kt_modal_detail_product_form">
@@ -29,17 +28,13 @@
                                         <div>
                                             <small id="text-muted-second" class="text-muted" style="font-size: smaller;">2. Fotoğraf</small>
                                         </div>
-
                                     </div>
                                     <div>
                                         <img id="detail-product-img-third" />
                                         <div>
                                             <small id="text-muted-third" class="text-muted" style="font-size: smaller;">3. Fotoğraf</small>
-
                                         </div>
-
                                     </div>
-
                                 </div>
                             </td>
 
@@ -64,8 +59,18 @@
                             <td><strong>Ürün Stok Bilgisi  </strong></td>
                             <td></td>
                         </tr>
-                        <tr>
-                            <td><strong>Ürün Hacmi </strong></td>
+                        <tr id="product-capacity" style="display:none">
+                            <td ><strong>Ürün Hacmi </strong></td>
+                            <td></td>
+                        </tr>
+                        <tr id="product-measure" style="display:none;">
+                            <td ><strong>Ölçüler </strong></td>
+                            <td ></td>
+                            <td ></td>
+                            <td ></td>
+                        </tr>
+                        <tr id="product-size" style="display:none">
+                            <td><strong>Boyut</strong></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -89,13 +94,14 @@
 <script src="~/js/detail-product.js"></script>
 
 <style>
-    #kt_modal_detail_category_form td {
+    #kt_modal_detail_product_form td {
         max-width: 350px; /* Hücrenin maksimum genişliği */
         word-wrap: break-word; /* Uzun içeriği otomatik olarak satıra sığdırır */
         padding: 5px; /* Yatay ve dikey iç boşluk */
         left: 15px;
     }
 
+   
 </style>
 
 

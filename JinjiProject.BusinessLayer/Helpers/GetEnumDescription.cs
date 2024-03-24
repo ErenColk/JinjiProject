@@ -12,6 +12,9 @@ namespace JinjiProject.BusinessLayer.Helpers
     {
         public static string Description(Enum value)
         {
+            if (value == null)
+                return "";
+
             var field = value.GetType().GetField(value.ToString());
 
             var attribute = (DisplayAttribute)Attribute.GetCustomAttribute(field, typeof(DisplayAttribute));
