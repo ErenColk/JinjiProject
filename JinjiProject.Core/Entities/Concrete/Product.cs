@@ -24,9 +24,9 @@ namespace JinjiProject.Core.Entities.Concrete
         public string? ImagePathSecond { get; set; }
         public string?  ImagePathThirth { get; set; }
         public int? Capacity { get; set; }
-        public float? Height { get; set; }
         public float? Width { get; set; }
         public float? Length { get; set; }
+        public float? Height { get; set; }
         [NotMapped]
         public IFormFile UploadPath { get; set; }
         [NotMapped]
