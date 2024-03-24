@@ -21,6 +21,7 @@ using JinjiProject.Dtos.Categories;
 using JinjiProject.Core.Utilities.Results.Abstract;
 using JinjiProject.Dtos.Genres;
 using System.Transactions;
+using Microsoft.EntityFrameworkCore;
 
 namespace JinjiProject.BusinessLayer.Managers.Concrete
 {
@@ -39,6 +40,11 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
 
         public async Task<DataResult<Admin>> CreateAdminAsync(CreateAdminDto createAdminDto)
         {
+            if(await userManager.FindByEmailAsync(createAdminDto.Email) != null)
+            {
+                return new ErrorDataResult<Admin>("Bu mail adresi daha önce kullanılmış!");
+            }
+
             if (createAdminDto == null)
             {
                 return new ErrorDataResult<Admin>(Messages.CreateAdminError);
@@ -53,12 +59,23 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                     Status = Status.Active,
                     LockoutEnabled = false,
                 };
-                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    IdentityResult identityResult = await userManager.CreateAsync(appUser, "newPassword+0");
-                    if (identityResult.Succeeded)
-                    {
 
+                DataResult<Admin> result = new ErrorDataResult<Admin>();
+
+                var strategy = await adminRepository.CreateExecutionStrategy();
+                await strategy.ExecuteAsync(async () =>
+                {
+                    using var transactionScope = await adminRepository.BeginTransactionAsync().ConfigureAwait(false);
+                    try
+                    {
+                        IdentityResult identityResult = await userManager.CreateAsync(appUser, "newPassword+0");
+                        if (!identityResult.Succeeded)
+                        {                        
+                            result = new ErrorDataResult<Admin>(identityResult.ToString());
+                            transactionScope.Rollback();
+                            return;
+                        }
+                        appUser.LockoutEnabled = false;
                         await userManager.AddToRoleAsync(appUser, "Admin");
                         var user = await userManager.FindByEmailAsync(appUser.Email);
                         createAdminDto.AppUserId = user.Id;
@@ -72,24 +89,27 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                                 createAdminDto.ImagePath = $"/images/adminPhotos/{guid}.jpg";
                             }
                         }
-                        Admin admin = mapper.Map<Admin>(createAdminDto);
-                        bool result = await adminRepository.Create(admin);
-                        if (result)
-                        {
-                            scope.Complete();
-                            return new SuccessDataResult<Admin>(admin, Messages.CreateAdminSuccess);
-                        }
-                        else
-                        {
-                            return new ErrorDataResult<Admin>(admin, Messages.CreateAdminRepoError);
-                        }
-                    }
-                    else
-                    {
-                        return new ErrorDataResult<Admin>(Messages.CreateAdminRepoError);
-                    }
-                }
 
+                        Admin admin = mapper.Map<Admin>(createAdminDto);
+                        admin.AppUserId = user.Id;
+
+                        await adminRepository.Create(admin);
+                        await adminRepository.SaveChange();
+
+                        result = new SuccessDataResult<Admin>(mapper.Map<Admin>(admin), Messages.CreateAdminSuccess);
+                        transactionScope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        result = new ErrorDataResult<Admin>($"{Messages.CreateAdminError} - {ex.Message}");
+                        transactionScope.Rollback();
+                    }
+                    finally
+                    {
+                        transactionScope.Dispose();
+                    }
+                });              
+                 return result;
             }
         }
 
@@ -140,15 +160,23 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
         }
 
-        public async Task<DataResult<Admin>> HardDeleteAdminAsync(int id)
+        public async Task<DataResult<Admin>> HardDeleteAdminAsync(int id,string userId)
         {
             var adminDto = await adminRepository.GetByIdAsync(id);
+            if (adminDto.AppUserId != userId && userId != SuperAdmin.IdentityId)
+            {
+                    return new ErrorDataResult<Admin>("Yetkisiz Admin!");
+            }
             if (adminDto == null)
             {
                 return new ErrorDataResult<Admin>(Messages.AdminNotFound);
             }
             else
             {
+                if(adminDto.AppUserId == SuperAdmin.IdentityId) // Süper adminin Id'si gelecek
+                {
+                    return new ErrorDataResult<Admin>("Süper Admin Silinemez!");
+                }
                 AppUser appUser = await userManager.FindByIdAsync(adminDto.AppUserId);
                 IdentityResult result = await userManager.DeleteAsync(appUser);
                 if (result.Succeeded)
@@ -165,15 +193,23 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
         }
 
-        public async Task<DataResult<Admin>> SoftDeleteAdminAsync(int id)
+        public async Task<DataResult<Admin>> SoftDeleteAdminAsync(int id,string userId)
         {
             var adminDto = await adminRepository.GetByIdAsync(id);
+            if (adminDto.AppUserId != userId && userId != SuperAdmin.IdentityId)
+            {
+                    return new ErrorDataResult<Admin>("Yetkisiz Admin!");
+            }
             if (adminDto == null)
             {
                 return new ErrorDataResult<Admin>(Messages.AdminNotFound);
             }
             else
             {
+                if(adminDto.AppUserId == SuperAdmin.IdentityId) // Süper adminin Id'si gelecek
+                {
+                    return new ErrorDataResult<Admin>("Süper Admin Silinemez!");
+                }
                 bool result = await adminRepository.SoftDelete(adminDto);
                 if (result)
                 {
@@ -187,7 +223,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             }
         }
 
-        public async Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto, bool addAgain = false)
+        public async Task<DataResult<Admin>> UpdateAdminAsync(UpdateAdminDto updateAdminDto, string userId, bool addAgain = false)
         {
             if (updateAdminDto == null)
             {
@@ -196,6 +232,10 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
             else
             {
                 Admin admin = await adminRepository.GetByIdAsync(updateAdminDto.Id);
+                if(admin.AppUserId != userId && userId != SuperAdmin.IdentityId)
+                {
+                        return new ErrorDataResult<Admin>("Bu admini güncelleyemezsiniz!");
+                }
                 if (updateAdminDto.UploadPath != null)
                 {
                     using (var image = Image.Load(updateAdminDto.UploadPath.OpenReadStream()))

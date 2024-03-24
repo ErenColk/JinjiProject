@@ -119,9 +119,16 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 adminToAdded.Data.Status = Status.Active;
                 UpdateAdminDto updatedToAdmin = mapper.Map<UpdateAdminDto>(adminToAdded.Data);
 
-                var adminToUpdated = await adminService.UpdateAdminAsync(updatedToAdmin,true);
-
-                NotifySuccess("Admin yeniden eklendi.");
+                var adminToUpdated = await adminService.UpdateAdminAsync(updatedToAdmin,UserIdentityId,true);
+                if (adminToUpdated.IsSuccess)
+                {
+                    NotifySuccess("Admin yeniden eklendi.");
+                }
+                else
+                {
+                    NotifyError(adminToUpdated.Message);
+                }
+                
 
                 return RedirectToAction(nameof(AdminList));
             }
@@ -135,7 +142,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             if (result.IsValid)
             {
-                var updateAdminResult = await adminService.UpdateAdminAsync(updateAdminDto);
+                var updateAdminResult = await adminService.UpdateAdminAsync(updateAdminDto,UserIdentityId);
 
                 if (updateAdminResult.IsSuccess)
                 {
@@ -165,11 +172,11 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 {
                     ViewData["BirthDate"] += item.ErrorMessage + "\n";
                 }
-                else if (item.ErrorCode == "4")
+                else if (item.ErrorCode == "5")
                 {
                     ViewData["Gender"] += item.ErrorMessage + "\n";
                 }
-                else if (item.ErrorCode == "5")
+                else if (item.ErrorCode == "4")
                 {
                     ViewData["Email"] += item.ErrorMessage + "\n";
                 }
@@ -185,7 +192,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> SoftDelete(int id)
         {
 
-            var softDeleteAdmin = await adminService.SoftDeleteAdminAsync(id);
+            var softDeleteAdmin = await adminService.SoftDeleteAdminAsync(id,UserIdentityId);
             if (softDeleteAdmin.IsSuccess)
             {
                 TempData["SoftDeleteSuccess"] = softDeleteAdmin.Message;
@@ -203,7 +210,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> HardDelete(int id)
         {
 
-            var hardDeleteAdmin = await adminService.HardDeleteAdminAsync(id);
+            var hardDeleteAdmin = await adminService.HardDeleteAdminAsync(id,UserIdentityId);
             if (hardDeleteAdmin.IsSuccess)
             {
                 TempData["HardDeleteSuccess"] = hardDeleteAdmin.Message;

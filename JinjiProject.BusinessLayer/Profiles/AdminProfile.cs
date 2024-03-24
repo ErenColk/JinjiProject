@@ -14,13 +14,13 @@ namespace JinjiProject.BusinessLayer.Profiles
         public AdminProfile()
         {
             CreateMap<CreateAdminDto, Admin>().ReverseMap();
-            CreateMap<UpdateAdminDto, Admin>().ReverseMap()
+            CreateMap<Admin, UpdateAdminDto>().ReverseMap()
                 .ForMember(dest => dest.FirstName, opt => opt.Condition(src => src.FirstName != null))
                 .ForMember(dest => dest.LastName, opt => opt.Condition(src => src.LastName != null))
                 .ForMember(dest => dest.BirthDate, opt => opt.Condition(src => src.BirthDate != null))
                 .ForMember(dest => dest.Gender, opt => opt.Condition(src => src.Gender != null))
                 .ForMember(dest => dest.ImagePath, opt => opt.Condition(src => src.ImagePath != null));
-            CreateMap<UpdateAdminDto, GetAdminDto>().ReverseMap()
+            CreateMap<GetAdminDto, UpdateAdminDto>().ReverseMap()
                  .ForMember(dest => dest.FirstName, opt => opt.Condition(src => src.FirstName != null))
                 .ForMember(dest => dest.LastName, opt => opt.Condition(src => src.LastName != null))
                 .ForMember(dest => dest.BirthDate, opt => opt.Condition(src => src.BirthDate != null))
