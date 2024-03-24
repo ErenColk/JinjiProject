@@ -3,63 +3,63 @@
 <div class="sidebar">
 	<div class="scrollbar-inner sidebar-wrapper">
 		<ul class="nav">
-			<li class="nav-item active">
+			<li class="nav-item" id="adminList">
 				<a href="/Admin/Admin/AdminList">
 					<i class="la la-briefcase"></i>
 					<p>Admin Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item ">
-				<a href="/Admin/Product/ProductList">
+			<li class="nav-item " id="productList">
+				<a href="/Admin/Product/ProductList" >
 					<i class="la la-cart-plus"></i>
 					<p>Ürün Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
-				<a href="/Admin/Category/CategoryList">
+			<li class="nav-item" id="categoryList">
+				<a href="/Admin/Category/CategoryList" >
 					<i class="la la-table"></i>
 					<p>Kategori Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
-				<a href="/Admin/Category/HomePageEdit">
+			<li class="nav-item" id="categoryHomePageEdit">
+				<a href="/Admin/Category/HomePageEdit" >
 					<i class="la la-table"></i>
 					<p>Anasayfa Kategori Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" id="genreList">
 				<a href="/Admin/Genre/GenreList">
 					<i class="la la-sitemap"></i>
 					<p>Tür Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" id="genreHomePageEdit">
 				<a href="/Admin/Genre/HomePageEditGenre">
 					<i class="la la-sitemap"></i>
 					<p>Anasayfa Tür Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" id="brandList">
 				<a href="/Admin/Brand/BrandList">
 					<i class="la la-keyboard-o"></i>
 					<p>Marka Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" id="materialList">
 				<a href="/Admin/Material/MaterialList">
 					<i class="la la-slack"></i>
 					<p>Malzeme Yönetimi</p>
 					<span class="badge badge-count"></span>
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" id="subscriberList">
 				<a href="/Admin/Subscriber/SubscriberList">
 					<i class="la la-group"></i>
 					<p>Abone Yönetimi</p>
@@ -70,3 +70,56 @@
 	</div>
 
 </div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var urlParams = new URLSearchParams(window.location.pathname);
+		var activeMenu = urlParams.get('activeMenu');
+		var menuItems = document.querySelectorAll(".nav-item");
+
+		if (activeMenu) {
+			document.getElementById(activeMenu).classList.add("active");
+		} else {
+			// Sayfa yüklenirken aktif menü belirtilmemişse, URL'ye göre belirle
+			var path = window.location.pathname;
+			if (path.includes("/Admin/Admin/AdminList")) {
+				document.getElementById("adminList").classList.add("active");
+			} else if (path.includes("/Admin/Product/ProductList")) {
+				document.getElementById("productList").classList.add("active");
+			}
+			else if (path.includes("/Admin/Category/CategoryList")) {
+				document.getElementById("categoryList").classList.add("active");
+			}
+			else if (path.includes("/Admin/Category/HomePageEdit")) {
+				document.getElementById("categoryHomePageEdit").classList.add("active");
+			}
+			else if (path.includes("/Admin/Genre/GenreList")) {
+				document.getElementById("genreList").classList.add("active");
+			}
+			else if (path.includes("/Admin/Genre/HomePageEdit")) {
+				document.getElementById("genreHomePageEdit").classList.add("active");
+			}
+			else if (path.includes("/Admin/Brand/BrandList")) {
+				document.getElementById("brandList").classList.add("active");
+			}
+			else if (path.includes("/Admin/Material/MaterialList")) {
+				document.getElementById("materialList").classList.add("active");
+			}
+			else if (path.includes("/Admin/Subscriber/SubscriberList")) {
+				document.getElementById("subscriberList").classList.add("active");
+			}
+		}
+
+		menuItems.forEach(function (item) {
+			item.addEventListener("click", function () {
+				menuItems.forEach(function (item) {
+					item.classList.remove("active");
+				});
+				this.classList.add("active");
+				window.history.replaceState(null, null, this.querySelector("a").getAttribute("href") + "?activeMenu=" + this.id);
+			});
+		});
+	});
+
+
+</script>
