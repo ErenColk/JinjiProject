@@ -31,9 +31,8 @@
                                     <div class="thumb">
                                         <div class="hover-content">
                                             <ul>
-                                                <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <li><a asp-action="ProductDetails" asp-route-id="@product.Id" asp-controller="Product"><i class="fa fa-eye"></i></a></li>
+
                                             </ul>
                                         </div>
                                         <div><img class="img-thumbnail" src="@product.ImagePath" style="width: 350px; height:400px;" /></div>

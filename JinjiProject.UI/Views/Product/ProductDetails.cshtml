@@ -22,9 +22,20 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="left-images">
-                    <img src="@Model.ImagePath" alt="">
-                    <img src="assets/images/single-product-02.jpg" alt="">
+                <div class="left-images d-flex flex-row ">
+                    <div class="d-flex flex-column image-container">
+                        @if (@Model.ImagePathSecond != null)
+                        {
+                            <img src="@Model.ImagePathSecond" onclick="changeImage(this,this.getAttribute('src'))" class="image" />
+                        }
+
+                        @if (@Model.ImagePathThirth != null)
+                        {
+                            <img src="@Model.ImagePathThirth" onclick="changeImage(this,this.getAttribute('src'))" class="image" />
+
+                        }
+                    </div>
+                    <img id="main-photo" src="@Model.ImagePath" alt="">
                 </div>
             </div>
             <div class="col-lg-4">
@@ -133,13 +144,43 @@
     .price {
         text-align: center; /* Metni ortalamak için */
         display: flex; /* Flex kullanarak içeriği dikey ve yatayda ortalamak için */
-
         /*height: 100vh; /* Sayfa boyunca div'i ortalayın */ */
     }
+
+    .image-container {
+        max-width: 150px;
+        height: auto;
+        margin-right: 10px;
+    }
+
+    .image {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         runOwlCarousel();
     });
+
+
+
+    function changeImage(element, imagePath) {
+
+        var mainPhotoElement = document.getElementById('main-photo')
+        var mainPhotoSrc = mainPhotoElement.getAttribute('src');
+        mainPhotoElement.removeAttribute('src');
+        mainPhotoElement.setAttribute('src', imagePath);
+
+        console.log(mainPhotoSrc)
+        element.setAttribute('src', mainPhotoSrc)
+
+
+
+    }
 </script>
