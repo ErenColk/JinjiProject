@@ -6,7 +6,6 @@
     await deletebutton.setAttribute('href', '/Admin/Material/HardDelete/' + id);
 
     const deletebuttonhref2 = deletebutton.getAttribute('href');
-    console.log(deletebuttonhref2)
 
     const rows = table.getElementsByTagName('tr');
 
@@ -24,7 +23,6 @@
 
 
 function getMaterial(materialid) {
-    console.log(materialid)
     return $.ajax({
         url: '/Admin/Material/GetMaterial',
         data: { materialid: materialid }

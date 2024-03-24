@@ -67,7 +67,6 @@ function formatPrice(inputElement, id) {
 
 
 function getProduct(productid) {
-    console.log(productid)
     return $.ajax({
         url: '/Admin/Product/GetProduct',
         data: { productid: productid }

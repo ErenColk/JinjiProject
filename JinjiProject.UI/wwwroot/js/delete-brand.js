@@ -6,7 +6,6 @@
     await deletebutton.setAttribute('href', '/Admin/Brand/HardDelete/' + id);
 
     const deletebuttonhref2 = deletebutton.getAttribute('href');
-    console.log(deletebuttonhref2)
 
     const rows = table.getElementsByTagName('tr');
 
@@ -24,7 +23,6 @@
 
 
 function getBrand(brandid) {
-    console.log(brandid)
     return $.ajax({
         url: '/Admin/Brand/GetBrand',
         data: { brandid: brandid }

@@ -146,8 +146,7 @@
 
 <script>
     function submitForm() {
-        console.log("form çalıştı");
-        debugger;
+        
 
 
         var selectedTableBody = document.getElementById("selectedCategoriesTable");
@@ -180,7 +179,6 @@
                 CreatedDate: new Date(row.cells[2].innerText),
             };
             selectedCategories.push(category);
-            console.log(JSON.stringify(selectedCategories))
             // var cells = row.querySelectorAll('td');
             // cells.forEach(function (cell) {
                 
@@ -197,7 +195,6 @@
             data: selectedCategoriesData,
             success: function (data) {
 
-                console.log(data);
                 window.location.href = '/Admin/Category/CategoryList';
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -205,7 +202,6 @@
             }
         });
 
-        console.log(gelenAjax);
     }
 
 
@@ -227,7 +223,6 @@
             });
             return false;
         }
-        console.log(row)
 
         // buton ekler geri al
         var selectedCategoriesTable = document.getElementById("selectedCategoriesTable");
@@ -279,7 +274,6 @@
 
         var categoryId = parseInt(deletedRow.querySelector('[name$="Id"]').value);
 
-        console.log(categoryId)
 
         selectedCategories = selectedCategories.filter(function (category) {
             return category.Id !== categoryId;

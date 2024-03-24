@@ -1,5 +1,4 @@
-﻿console.log("productlist çekildi", productList);
-
+﻿
 const productsContainer = document.getElementById('product-list');
 const paginationList = document.getElementById('pagination-list');
 const productsPerPage = 8; // Her sayfada gösterilecek ürün sayısı
@@ -63,7 +62,6 @@ function fillProducts(products) {
     products.forEach((product, index) => {
         const productDiv = document.createElement('div');
         productDiv.classList.add('col-lg-3');
-        console.log(product.oldPrice)
 
         productDiv.innerHTML = `
             <div class="item ">
@@ -109,7 +107,6 @@ function filterProductsByKeyword(keyword) {
 
     // Sayfa numaralarını güncelle
     updatePagination(totalPages, filteredProducts);
-    console.log(filteredProducts)
     // İlk sayfayı göster
     showPage(1, filteredProducts);
     updateActiveClass(1);

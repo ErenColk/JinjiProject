@@ -33,7 +33,6 @@
 
 
 function getBrand(brandid) {
-    console.log(brandid)
     return $.ajax({
         url: '/Admin/Brand/GetDetailBrand',
         data: { brandid: brandid }

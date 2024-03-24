@@ -36,7 +36,6 @@
 
 
 function getCategory(categoryid) {
-    console.log(categoryid)
     return $.ajax({
         url: '/Admin/Category/GetDetailCategory',
         data: { categoryid: categoryid }

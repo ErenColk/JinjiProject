@@ -33,7 +33,6 @@
 
 
 function getMaterial(materialid) {
-    console.log(materialid)
     return $.ajax({
         url: '/Admin/Material/GetDetailMaterial',
         data: { materialid: materialid }

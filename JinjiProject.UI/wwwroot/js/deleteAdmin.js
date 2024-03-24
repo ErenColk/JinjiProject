@@ -7,7 +7,6 @@ async function loadAdminData(id) {
     await deletebutton.setAttribute('href', '/Admin/Admin/HardDelete/' + id);
 
     const deletebuttonhref2 = deletebutton.getAttribute('href');
-    console.log(deletebuttonhref2)
 
     const rows = table.getElementsByTagName('tr');
 
@@ -25,7 +24,6 @@ async function loadAdminData(id) {
 
 
 function getAdmin(adminId) {
-    console.log(adminId)
     return $.ajax({
         url: '/Admin/Admin/GetAdmin',
         data: { adminId: adminId }

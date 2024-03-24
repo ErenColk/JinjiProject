@@ -18,7 +18,6 @@ function homePageGenrePartialView() {
 		type: 'GET',
 
 		success: function (response) {
-			console.log(response)
 			$("#homePage-genrelist").html(response)
 		}
 	});

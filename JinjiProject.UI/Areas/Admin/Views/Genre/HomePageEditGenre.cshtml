@@ -146,8 +146,6 @@
 
 <script>
     function submitForm() {
-        console.log("form çalıştı");
-        /*debugger;*/
 
 
         var selectedTableBody = document.getElementById("selectedGenresTable");
@@ -180,7 +178,6 @@
                 CreatedDate: new Date(row.cells[2].innerText),
             };
             selectedGenres.push(genre);
-            console.log(JSON.stringify(selectedGenres))
             // var cells = row.querySelectorAll('td');
             // cells.forEach(function (cell) {
 
@@ -197,7 +194,6 @@
             data: selectedGenresData,
             success: function (data) {
 
-                console.log(data);
                 window.location.href = '/Admin/Genre/GenreList';
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -205,7 +201,6 @@
             }
         });
 
-        console.log(gelenAjax);
     }
 
 
@@ -227,7 +222,6 @@
             });
             return false;
         }
-        console.log(row)
 
         // buton ekler geri al
         var selectedGenresTable = document.getElementById("selectedGenresTable");
@@ -279,7 +273,6 @@
 
         var genreId = parseInt(deletedRow.querySelector('[name$="Id"]').value);
 
-        console.log(genreId)
 
         selectedGenres = selectedGenres.filter(function (genre) {
             return genre.Id !== genreId;

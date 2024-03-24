@@ -3,7 +3,6 @@ const paginationList = document.getElementById('pagination-list');
 const totalPages = Math.ceil(productList.length / productsPerPage); // Toplam sayfa sayısı
 const productTableBody = document.getElementById('product-table-body');
 var currentPage = 1;
-console.log(productList)
 updatePagination(totalPages, productList)
 updateActiveClass(currentPage);
 showPage(currentPage, productList)

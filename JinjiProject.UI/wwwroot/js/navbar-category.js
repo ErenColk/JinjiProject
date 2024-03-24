@@ -43,7 +43,6 @@ async function fillNavbarCategories() {
         categoryLink.onclick = function () {
             // Buraya tıklandığında yapılacak işlemleri ekleyin
             // Örneğin, kategoriye tıklandığında bir fonksiyon çağrılabilir veya bir sayfa yüklenmesi sağlanabilir
-            console.log('Kategoriye tıklandı:', category.name);
 
             // Tüm <a> elementlerinden 'active' sınıfını kaldır
             const allNavLinks = document.querySelectorAll('#navbar-ul a');

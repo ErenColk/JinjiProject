@@ -73,7 +73,6 @@ function showPage(pageNumber, brands) {
     const brandsOnPage = brands.slice(startIndex, endIndex);
 
     // Ürünleri listele
-    console.log('productOnPage', brandsOnPage)
     fillBrands(brandsOnPage);
 
 }

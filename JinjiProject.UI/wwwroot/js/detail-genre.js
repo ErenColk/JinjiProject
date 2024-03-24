@@ -119,7 +119,6 @@ function closeModal() {
 
 
 async function getDetailGenre(genreid) {
-    console.log(genreid)
     return $.ajax({
         url: '/Admin/Genre/GetGenre',
         data: { genreid: genreid }

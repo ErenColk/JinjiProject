@@ -95,7 +95,7 @@ function runOwlCarousel() {
 		// Scroll animation init
 		window.sr = new scrollReveal();
 
-		console.log($('.menu-trigger').length)
+		
 		//Menu Dropdown Toggle
 		if ($('.menu-trigger').length) {
 			$(".menu-trigger").on('click', function () {
