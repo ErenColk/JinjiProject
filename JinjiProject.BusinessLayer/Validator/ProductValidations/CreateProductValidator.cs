@@ -15,7 +15,7 @@ namespace JinjiProject.BusinessLayer.Validator.ProductValidations
         public CreateProductValidator()
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Ürün adı boş geçilemez!").WithErrorCode("1");
-            RuleFor(x => x.Name).MaximumLength(20).WithMessage("Ürün adı en fazla 20 karakter olabilir!").WithErrorCode("1");
+            RuleFor(x => x.Name).MaximumLength(150).WithMessage("Ürün adı en fazla 20 karakter olabilir!").WithErrorCode("1");
             RuleFor(x => x.Price).NotEmpty().WithMessage("Ürün fiyatı boş geçilemez!").WithErrorCode("2");
             RuleFor(x => x.Stock).NotEmpty().WithMessage("Ürün stoğu boş geçilemez!").WithErrorCode("3");
             RuleFor(x => x.Color).NotEmpty().WithMessage("Ürün rengi boş geçilemez!").WithErrorCode("4");
