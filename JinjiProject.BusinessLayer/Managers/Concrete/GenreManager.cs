@@ -46,7 +46,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 {
                     using (var image = Image.Load(createGenreDto.UploadPath.OpenReadStream()))
                     {
-                        image.Mutate(x => x.Resize(385, 330));
+                        //image.Mutate(x => x.Resize(821, 952));
                         image.Mutate(x => x.Brightness(0.6F));
                         Guid guid = Guid.NewGuid();
                         image.Save($"wwwroot/images/genrePhotos/{guid}{Path.GetExtension(createGenreDto.UploadPath.FileName)}");
