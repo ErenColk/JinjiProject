@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /JinjiProject.UI/appsettings.Development.json
+/JinjiProject.DataAccessLayer/Migrations/20240404073951_init.cs
+/JinjiProject.DataAccessLayer/Migrations/20240404073951_init.Designer.cs
+/JinjiProject.DataAccessLayer/Migrations/AppDbContextModelSnapshot.cs
+/.gitignore
