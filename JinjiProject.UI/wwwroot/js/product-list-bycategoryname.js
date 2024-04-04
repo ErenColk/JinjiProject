@@ -140,43 +140,50 @@ const maxStrapLengthInput = document.getElementById('max-strap-length');
 const searchStrapLengthButton = document.getElementById('search-strap-length');
 const clearStrapLengthButton = document.getElementById('clear-strap-length-filter');
 
-// Askı boyuna göre filtreleme işlevi
-function filterProductsByStrapLength(minStrapLength, maxStrapLength) {
-    minStrapLength = minStrapLength || 0; // Varsayılan değerler
-    maxStrapLength = maxStrapLength || Number.MAX_SAFE_INTEGER;
+if (productList[0].strapLength) {
+    
 
-    clearStrapLengthButton.style.display = 'inline-block';
+    // Askı boyuna göre filtreleme işlevi
+    function filterProductsByStrapLength(minStrapLength, maxStrapLength) {
+        minStrapLength = minStrapLength || 0; // Varsayılan değerler
+        maxStrapLength = maxStrapLength || Number.MAX_SAFE_INTEGER;
 
-    const filteredProducts = productList.filter(product => {
-        return product.strapLength >= minStrapLength && product.strapLength <= maxStrapLength;
+        clearStrapLengthButton.style.display = 'inline-block';
+
+        const filteredProducts = productList.filter(product => {
+            return product.strapLength >= minStrapLength && product.strapLength <= maxStrapLength;
+        });
+
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        updatePagination(totalPages, filteredProducts);
+        showPage(1, filteredProducts);
+        updateActiveClass(1);
+
+        //// Temizle düğmesini görünür hale getir
+        //clearStrapLengthButton.style.display = 'inline-block';
+    }
+
+    searchStrapLengthButton.addEventListener('click', function () {
+        const minStrapLength = parseFloat(minStrapLengthInput.value) || 0;
+        const maxStrapLength = parseFloat(maxStrapLengthInput.value) || Number.MAX_SAFE_INTEGER;
+
+        filterProductsByStrapLength(minStrapLength, maxStrapLength);
     });
 
-    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-    updatePagination(totalPages, filteredProducts);
-    showPage(1, filteredProducts);
-    updateActiveClass(1);
+    clearStrapLengthButton.addEventListener('click', function () {
+        minStrapLengthInput.value = '';
+        maxStrapLengthInput.value = '';
+        updateFilter();
 
-    //// Temizle düğmesini görünür hale getir
-    //clearStrapLengthButton.style.display = 'inline-block';
+        // Temizle düğmesini gizle
+        clearStrapLengthButton.style.display = 'none';
+
+
+    });
 }
 
-searchStrapLengthButton.addEventListener('click', function () {
-    const minStrapLength = parseFloat(minStrapLengthInput.value) || 0;
-    const maxStrapLength = parseFloat(maxStrapLengthInput.value) || Number.MAX_SAFE_INTEGER;
 
-    filterProductsByStrapLength(minStrapLength, maxStrapLength);
-});
 
-clearStrapLengthButton.addEventListener('click', function () {
-    minStrapLengthInput.value = '';
-    maxStrapLengthInput.value = '';
-    updateFilter();
-
-    // Temizle düğmesini gizle
-    clearStrapLengthButton.style.display = 'none';
-
-   
-});
 
 
 
