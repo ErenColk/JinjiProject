@@ -28,6 +28,7 @@ namespace JinjiProject.Dtos.Products
         public float? Height { get; set; }
         public float? Width { get; set; }
         public float? Length { get; set; }
+        public float? StrapLength { get; set; }
 
         public int? Capacity { get; set; }
         public string MaterialId { get; set; }

@@ -27,6 +27,7 @@ namespace JinjiProject.Core.Entities.Concrete
         public float? Width { get; set; }
         public float? Length { get; set; }
         public float? Height { get; set; }
+        public float? StrapLength { get; set; }
         [NotMapped]
         public IFormFile UploadPath { get; set; }
         [NotMapped]
