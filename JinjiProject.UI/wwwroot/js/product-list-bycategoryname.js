@@ -3,7 +3,10 @@ const productsContainer = document.getElementById('product-list');
 const paginationList = document.getElementById('pagination-list');
 const productsPerPage = 8; // Her sayfada gösterilecek ürün sayısı
 const totalPages = Math.ceil(productList.length / productsPerPage); // Toplam sayfa sayısı
-
+function htmlDecode(input) {
+    var doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
+}
 // Sayfa numaralarını günceller. Parametre olarak toplam sayfa sayısı ve ürün listesini alır.
 function updatePagination(totalPages, products) {
     paginationList.innerHTML = "";
@@ -195,6 +198,9 @@ function filterProductsByPrice(minPrice, maxPrice) {
     minPrice = minPrice || 0; // Varsayılan değerler
     maxPrice = maxPrice || Number.MAX_SAFE_INTEGER;
 
+    // Temizle düğmesini görünür hale getir
+    clearPriceButton.style.display = 'inline-block';
+
     const filteredProducts = productList.filter(product => {
         return product.price >= minPrice && product.price <= maxPrice;
     });
@@ -204,13 +210,12 @@ function filterProductsByPrice(minPrice, maxPrice) {
     showPage(1, filteredProducts);
     updateActiveClass(1);
 
-    // Temizle düğmesini görünür hale getir
-    clearPriceButton.style.display = 'inline-block';
+    
 }
 
 searchPriceButton.addEventListener('click', function () {
-    const minPrice = parseFloat(minPriceInput.value);
-    const maxPrice = parseFloat(maxPriceInput.value);
+    const minPrice = parseFloat(minPriceInput.value) || 0;
+    const maxPrice = parseFloat(maxPriceInput.value) || Number.MAX_SAFE_INTEGER;
 
     filterProductsByPrice(minPrice, maxPrice);
 });
@@ -277,9 +282,11 @@ clearPriceButton.addEventListener('click', function () {
 
 var sizeFiltreItem = document.getElementById('filter-size');
 var colorFiltreItem = document.getElementById('filter-color');
+var genreFiltreItem = document.getElementById('filter-genre');
 
 fillFilterMaterial();
 fillFilterColor();
+fillFilterGenre(htmlDecode(categoryName));
 
 
 const clearSizeButton = document.getElementById('clear-size-filter');
@@ -310,11 +317,27 @@ clearColorButton.addEventListener('click', function () {
     updateFilter();
 });
 
+const clearGenreButton = document.getElementById('clear-genre-filter');
+
+clearGenreButton.addEventListener('click', function () {
+
+    // Temizle düğmesini gizle
+    clearGenreButton.style.display = 'none';
+
+    var genreRadioInputs = genreFiltreItem.querySelectorAll('input[type="radio"]');
+    genreRadioInputs.forEach(radio => {
+        radio.checked = false;
+    });
+    updateFilter();
+});
+
 function updateFilter() {
     var sizeRadioInputs = sizeFiltreItem.querySelectorAll('input[type="radio"]');
     var colorRadioInputs = colorFiltreItem.querySelectorAll('input[type="radio"]');
+    var genreRadioInputs = genreFiltreItem.querySelectorAll('input[type="radio"]');
     const selectedSizes = [];
     const selectedColors = [];
+    const selectedGenres = [];
     sizeRadioInputs.forEach(radio => {
         if (radio.checked) {
             selectedSizes.push(radio.value);
@@ -323,6 +346,11 @@ function updateFilter() {
     colorRadioInputs.forEach(radio => {
         if (radio.checked) {
             selectedColors.push(radio.value);
+        }
+    });
+    genreRadioInputs.forEach(radio => {
+        if (radio.checked) {
+            selectedGenres.push(radio.value);
         }
     });
 
@@ -341,6 +369,7 @@ function updateFilter() {
         const strapLengthInRange = product.strapLength >= minStrapLength && product.strapLength <= maxStrapLength;
         let sizeMatches = true;
         let colorMatches = true;
+        let genreMatches = true;
         if (minPrice != 0 && maxPrice != Number.MAX_SAFE_INTEGER) {
             clearPriceButton.style.display = 'inline-block';
         }
@@ -356,8 +385,14 @@ function updateFilter() {
             colorMatches = selectedColors.includes(product.color);
             clearColorButton.style.display = 'inline-block';
         }
+        if (selectedGenres.length > 0) {
+            genreMatches = selectedGenres.includes(product.genreName);
+            clearGenreButton.style.display = 'inline-block';
+        }
 
-        return nameMatches && priceInRange && sizeMatches && colorMatches && strapLengthInRange;
+
+        return nameMatches && priceInRange && sizeMatches && colorMatches && strapLengthInRange && genreMatches;
+
     });
 
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -456,7 +491,44 @@ async function fillFilterColor() {
         console.error(error);
     }
 }
+async function fillFilterGenre(categoryName) {
+    try {
+        var genreNames = await getGenreNames(categoryName);
 
+        // Oluşturulan elementleri saklayacak bir fragment oluşturun
+        const fragment = document.createDocumentFragment();
+
+        // Renkleri ekleyin
+        genreNames.forEach((name, index) => {
+            const radioInput = document.createElement('input');
+            radioInput.type = 'radio';
+            radioInput.name = 'genre';
+            radioInput.id = `genre-${name}`;
+            radioInput.value = name;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `genre-${name}`);
+            label.textContent = genreNames[index];
+
+            const br = document.createElement('br');
+
+            fragment.appendChild(radioInput);
+            fragment.appendChild(label);
+            fragment.appendChild(br);
+        });
+
+        genreFiltreItem.appendChild(fragment);
+
+        // Olay dinleyicilerini ekleyin
+        genreNames.forEach(name => {
+            const radio = document.getElementById(`genre-${name}`);
+            radio.addEventListener('change', updateFilter);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+}
 async function getColorNames() {
     return $.ajax({
         url: '/Product/GetColorNames',
@@ -465,5 +537,12 @@ async function getColorNames() {
 async function getCategoryNames() {
     return $.ajax({
         url: '/Product/GetSizeNames',
+    });
+}
+
+async function getGenreNames(categoryName) {
+    return $.ajax({
+        url: '/Product/GetGenreNames',
+        data: { categoryName : categoryName }
     });
 }

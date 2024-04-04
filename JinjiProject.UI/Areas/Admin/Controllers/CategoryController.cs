@@ -13,209 +13,219 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JinjiProject.UI.Areas.Admin.Controllers
 {
-	public class CategoryController : AdminBaseController
-	{
-		private readonly ICategoryService _categoryService;
-		private readonly IMapper _mapper;
+    public class CategoryController : AdminBaseController
+    {
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-		public CategoryController(ICategoryService categoryService, IMapper mapper)
-		{
-			_categoryService = categoryService;
-			_mapper = mapper;
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> CategoryList(bool showWarning = true)
-		{
-			var categoryListResult = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
-			var categoryList = _mapper.Map<List<ListCategoryDto>>(categoryListResult.Data);
-
-			if ((categoryList.Count <= 0 || categoryList == null) && showWarning)
-			{
-				NotifyError(categoryListResult.Message);
-			}
-			else if (showWarning)
-			{
-				NotifySuccess(categoryListResult.Message);
-			}
-
-			return View(categoryList);
-		}
-
-
-		[HttpGet]
-		public async Task<IActionResult> CreateCategory()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
-		{
-
-			CreateCategoryValidator validations = new CreateCategoryValidator();
-			var result = validations.Validate(createCategoryDto);
-
-			if (result.IsValid)
-			{
-				var createCategoryResult = await _categoryService.CreateCategoryAsync(createCategoryDto);
-				if (createCategoryResult.IsSuccess)
-				{
-					NotifySuccess(createCategoryResult.Message);
-				}
-				else
-				{
-					NotifyError(createCategoryResult.Message);
-
-				}
-				return RedirectToAction(nameof(CategoryList), new { showWarning = false });
-			}
-
-			foreach (var item in result.Errors)
-			{
-				if (item.ErrorCode == "1")
-				{
-					ViewData["NameError"] += item.ErrorMessage + "\n";
-				}
-				else
-				{
-					ViewData["DescriptionError"] += item.ErrorMessage + "\n";
-
-				}
-			}
-			return View(createCategoryDto);
-
-		}
-
-		[HttpGet]
-		public async Task<IActionResult> HomePageEdit()
-		{    
-			var categoryResult = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
-            List<ListHomePageCategory> categoryDtos = _mapper.Map<List<ListHomePageCategory>>(categoryResult.Data.OrderBy(category => category.Order));
-
-			return View(categoryDtos);
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> HomePageEdit([FromBody] List<ListHomePageCategory> listCategoryDto)
+        public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
-            List<UpdateCategoryDto> categories= _mapper.Map<List<UpdateCategoryDto>>(listCategoryDto);
+            _categoryService = categoryService;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryList(bool showWarning = true)
+        {
+            var categoryListResult = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            var categoryList = _mapper.Map<List<ListCategoryDto>>(categoryListResult.Data);
+
+            if ((categoryList.Count <= 0 || categoryList == null) && showWarning)
+            {
+                NotifyError(categoryListResult.Message);
+            }
+            else if (showWarning)
+            {
+                NotifySuccess(categoryListResult.Message);
+            }
+
+            return View(categoryList);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
+        {
+
+            CreateCategoryValidator validations = new CreateCategoryValidator();
+            var result = validations.Validate(createCategoryDto);
+
+            if (result.IsValid)
+            {
+                var createCategoryResult = await _categoryService.CreateCategoryAsync(createCategoryDto);
+                if (createCategoryResult.IsSuccess)
+                {
+                    NotifySuccess(createCategoryResult.Message);
+                }
+                else
+                {
+                    NotifyError(createCategoryResult.Message);
+
+                }
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
+
+            foreach (var item in result.Errors)
+            {
+                if (item.ErrorCode == "1")
+                {
+                    ViewData["NameError"] += item.ErrorMessage + "\n";
+                }
+                else
+                {
+                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+
+                }
+            }
+            return View(createCategoryDto);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> HomePageEdit()
+        {
+            var categoryResult = await _categoryService.GetAllByExpression(category => category.Status != Status.Deleted);
+            if (categoryResult.IsSuccess)
+            {
+                List<ListHomePageCategory> categoryDtos = _mapper.Map<List<ListHomePageCategory>>(categoryResult.Data.OrderBy(category => category.Order));
+                NotifySuccess(categoryResult.Message);
+                return View(categoryDtos);
+            }
+            else
+            {
+                NotifyError(categoryResult.Message);
+                return View();
+
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HomePageEdit([FromBody] List<ListHomePageCategory> listCategoryDto)
+        {
+            List<UpdateCategoryDto> categories = _mapper.Map<List<UpdateCategoryDto>>(listCategoryDto);
 
             var updateCategoryResult = await _categoryService.UpdateAllCategoryAsync(categories);
 
-			if (updateCategoryResult.IsSuccess)
-			{
+            if (updateCategoryResult.IsSuccess)
+            {
 
-				NotifySuccess(updateCategoryResult.Message);
-			}
-			else
-			{
-				NotifyError(updateCategoryResult.Message);
-				return View(listCategoryDto);
-			}
+                NotifySuccess(updateCategoryResult.Message);
+            }
+            else
+            {
+                NotifyError(updateCategoryResult.Message);
+                return View(listCategoryDto);
+            }
 
 
-			return Ok();
-		}
+            return Ok();
+        }
 
         [HttpGet]
-		public async Task<IActionResult> UpdateCategory(int id)
-		{
-			var updateCategoryResult = await _categoryService.GetCategoryById(id);
-			if (updateCategoryResult.IsSuccess)
-			{
-				UpdateCategoryDto updateCategory = _mapper.Map<UpdateCategoryDto>(updateCategoryResult.Data);
-				return View(updateCategory);
+        public async Task<IActionResult> UpdateCategory(int id)
+        {
+            var updateCategoryResult = await _categoryService.GetCategoryById(id);
+            if (updateCategoryResult.IsSuccess)
+            {
+                UpdateCategoryDto updateCategory = _mapper.Map<UpdateCategoryDto>(updateCategoryResult.Data);
+                return View(updateCategory);
 
-			}
-			else
-			{
-				NotifyError(updateCategoryResult.Message);
-				return RedirectToAction(nameof(CategoryList), new { showWarning = false });
-			}
-
-
-
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
-		{
-			UpdateCategoryValidator updateCategoryValidator = new UpdateCategoryValidator();
-			var result = updateCategoryValidator.Validate(updateCategoryDto);
-
-			if (result.IsValid)
-			{
-				var updateCategoryResult = await _categoryService.UpdateCategoryAsync(updateCategoryDto);
-
-				if (updateCategoryResult.IsSuccess)
-				{
-
-					NotifySuccess(updateCategoryResult.Message);
-
-				}
-				else
-				{
-					NotifyError(updateCategoryResult.Message);
-				}
-
-				return RedirectToAction(nameof(CategoryList), new { showWarning = false });
-			}
-
-			foreach (var item in result.Errors)
-			{
-				if (item.ErrorCode == "1")
-				{
-					ViewData["NameError"] += item.ErrorMessage + "\n";
-				}
-				else
-				{
-					ViewData["DescriptionError"] += item.ErrorMessage + "\n";
-
-				}
-			}
-			return View(updateCategoryDto);
-
-
-		}
-
-
-		[HttpGet]
-		public async Task<IActionResult> SoftDelete(int id)
-		{
-
-			var softDeleteResult = await _categoryService.SoftDeleteCategoryAsync(id);
-
-
-			if (softDeleteResult.IsSuccess)
-			{
-				NotifySuccess(softDeleteResult.Message);
-
-
-				return RedirectToAction(nameof(CategoryList), new { showWarning = false });
-			}
-			else
-			{
-				if (softDeleteResult.Data == null)
-				{
-					NotifyError(softDeleteResult.Message);
-
-					return RedirectToAction(nameof(CategoryList), new { showWarning = false });
-				}
-				NotifyError(softDeleteResult.Message);
-
-				return RedirectToAction(nameof(CategoryList), new { showWarning = false });
-			}
-
-
-		}
+            }
+            else
+            {
+                NotifyError(updateCategoryResult.Message);
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
 
 
 
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> HardDelete(int id)
-		{
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
+        {
+            UpdateCategoryValidator updateCategoryValidator = new UpdateCategoryValidator();
+            var result = updateCategoryValidator.Validate(updateCategoryDto);
+
+            if (result.IsValid)
+            {
+                var updateCategoryResult = await _categoryService.UpdateCategoryAsync(updateCategoryDto);
+
+                if (updateCategoryResult.IsSuccess)
+                {
+
+                    NotifySuccess(updateCategoryResult.Message);
+
+                }
+                else
+                {
+                    NotifyError(updateCategoryResult.Message);
+                }
+
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
+
+            foreach (var item in result.Errors)
+            {
+                if (item.ErrorCode == "1")
+                {
+                    ViewData["NameError"] += item.ErrorMessage + "\n";
+                }
+                else
+                {
+                    ViewData["DescriptionError"] += item.ErrorMessage + "\n";
+
+                }
+            }
+            return View(updateCategoryDto);
+
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> SoftDelete(int id)
+        {
+
+            var softDeleteResult = await _categoryService.SoftDeleteCategoryAsync(id);
+
+
+            if (softDeleteResult.IsSuccess)
+            {
+                NotifySuccess(softDeleteResult.Message);
+
+
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
+            else
+            {
+                if (softDeleteResult.Data == null)
+                {
+                    NotifyError(softDeleteResult.Message);
+
+                    return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+                }
+                NotifyError(softDeleteResult.Message);
+
+                return RedirectToAction(nameof(CategoryList), new { showWarning = false });
+            }
+
+
+        }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> HardDelete(int id)
+        {
 
             var hardDeleteResult = await _categoryService.HardDeleteCategoryAsync(id);
 
@@ -241,59 +251,59 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         }
 
 
-		[HttpGet]
-		public async Task<GetCategoryDto> GetCategory(int categoryid)
-		{
+        [HttpGet]
+        public async Task<GetCategoryDto> GetCategory(int categoryid)
+        {
 
-			var categoryResult = await _categoryService.GetCategoryById(categoryid);
+            var categoryResult = await _categoryService.GetCategoryById(categoryid);
 
-			return categoryResult.Data;
-		}
+            return categoryResult.Data;
+        }
 
-		[HttpGet]
-		public async Task<IActionResult> DeletedCategoryList(bool showWarning = true)
-		{
+        [HttpGet]
+        public async Task<IActionResult> DeletedCategoryList(bool showWarning = true)
+        {
 
-			var deletedCategory = await _categoryService.GetAllByExpression(x => x.Status == Status.Deleted);
-			List<DeletedCategoryListDto> deletedCategoryList = _mapper.Map<List<DeletedCategoryListDto>>(deletedCategory.Data);
-
-
-			if ((deletedCategoryList.Count <= 0 || deletedCategoryList == null) && showWarning)
-			{
-				NotifyError("Silinen Kategori Listesi Boş");
-			}
-			else if (showWarning)
-			{
-				NotifySuccess("Silinen Kategoriler Listelendi");
-
-			}
-			return View(deletedCategoryList);
-
-		}
+            var deletedCategory = await _categoryService.GetAllByExpression(x => x.Status == Status.Deleted);
+            List<DeletedCategoryListDto> deletedCategoryList = _mapper.Map<List<DeletedCategoryListDto>>(deletedCategory.Data);
 
 
-		[HttpGet]
-		public async Task<IActionResult> AddAgainCategory(int id)
-		{
-			var categoryToAdded = await _categoryService.GetCategoryById(id);
+            if ((deletedCategoryList.Count <= 0 || deletedCategoryList == null) && showWarning)
+            {
+                NotifyError("Silinen Kategori Listesi Boş");
+            }
+            else if (showWarning)
+            {
+                NotifySuccess("Silinen Kategoriler Listelendi");
 
-			if (categoryToAdded.Data == null)
-			{
-				NotifyError(categoryToAdded.Message);
-				return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
-			}
-			else
-			{
+            }
+            return View(deletedCategoryList);
 
-				categoryToAdded.Data.Status = Status.Active;
-				UpdateCategoryDto updatedToCategory = _mapper.Map<UpdateCategoryDto>(categoryToAdded.Data);
+        }
 
-				var categoryToUpdated = await _categoryService.UpdateCategoryAsync(updatedToCategory);
-				NotifySuccess("Kategori yeniden eklendi.");
 
-				return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
-			}
-		}
+        [HttpGet]
+        public async Task<IActionResult> AddAgainCategory(int id)
+        {
+            var categoryToAdded = await _categoryService.GetCategoryById(id);
+
+            if (categoryToAdded.Data == null)
+            {
+                NotifyError(categoryToAdded.Message);
+                return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
+            }
+            else
+            {
+
+                categoryToAdded.Data.Status = Status.Active;
+                UpdateCategoryDto updatedToCategory = _mapper.Map<UpdateCategoryDto>(categoryToAdded.Data);
+
+                var categoryToUpdated = await _categoryService.UpdateCategoryAsync(updatedToCategory);
+                NotifySuccess("Kategori yeniden eklendi.");
+
+                return RedirectToAction(nameof(DeletedCategoryList), new { showWarning = false });
+            }
+        }
 
         [HttpGet]
         public async Task<DetailCategoryDto> GetDetailCategory(int categoryid)
@@ -305,16 +315,16 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             return categoryResult;
         }
 
-		[HttpGet]
-		[AllowAnonymous]
-		public async Task<List<CategoryNameVM>> GetActiveCategoryNames()
-		{
-			var categories = await _categoryService.GetAllByExpression(x => x.Status != Status.Deleted);
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<List<CategoryNameVM>> GetActiveCategoryNames()
+        {
+            var categories = await _categoryService.GetAllByExpression(x => x.Status != Status.Deleted);
 
-			var categoryNames = _mapper.Map<List<CategoryNameVM>>(categories.Data);
+            var categoryNames = _mapper.Map<List<CategoryNameVM>>(categories.Data);
 
-			return categoryNames;
-		}
+            return categoryNames;
+        }
 
         [HttpGet]
         [AllowAnonymous]

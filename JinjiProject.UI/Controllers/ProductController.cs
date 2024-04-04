@@ -108,5 +108,17 @@ namespace JinjiProject.UI.Controllers
             return distinctColorNames;
         }
 
+        [HttpGet]
+        public async Task<object> GetGenreNames(string categoryName)
+        {
+            var products = await productService.GetAllByExpression(x => x.Status != Core.Enums.Status.Deleted && x.Genre.Category.Name == categoryName);
+            List<string> genreNames = new List<string>();
+            foreach (var item in products.Data)
+            {
+                genreNames.Add(item.GenreName);
+            }
+            var distinctGenreNames = genreNames.Distinct();
+            return distinctGenreNames;
+        }
     }
 }
