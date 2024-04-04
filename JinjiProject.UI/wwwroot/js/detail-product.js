@@ -84,8 +84,8 @@ async function loadProductData(id) {
 
     product.capacity != null ? (productCapacityCell.textContent = ":" + "   " + product.capacity + " lt") : (productCapacityCell.textContent = "");
     product.width != null ? (productXCell.textContent = ":" + " " + product.width + " genişlik ") : (productXCell.textContent = "");
-    product.length != null ? (productYCell.textContent =" " + product.length + " uzunluk ") : (productYCell.textContent =  "");
-    product.height != null ? (productZCell.textContent =" " + product.height + " yükseklik ") : (productZCell.textContent = "");
+    product.length != null ? (productYCell.textContent =" " + product.length + " en ") : (productYCell.textContent =  "");
+    product.height != null ? (productZCell.textContent =" " + product.height + " boy ") : (productZCell.textContent = "");
     product.sizeName != null ? (productSizeCell.textContent = ":" + "   " + product.sizeName) : (productSizeCell.textContent = "" ) ;
 
     productCreatedDateCell.textContent = ":" + "   " + new Date(product.createdDate).toLocaleDateString();
