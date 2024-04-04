@@ -37,6 +37,7 @@
     }
 
     #clear-color-filter,
+    #clear-genre-filter,
     #clear-size-filter {
         margin-top: -35px;
         margin-right: 0;
@@ -58,6 +59,7 @@
 
 
     #clear-color-filter:hover,
+    #clear-genre-filter:hover,
     #clear-size-filter:hover {
         color: white; /* Hover durumunda yazı rengi beyaz olacak */
     }
@@ -195,6 +197,11 @@
                             <input type="radio" id="range-4" name="price-range" value="1000-2000">
                             <label for="range-4">1000₺-2000₺</label>
                         </div>
+                        <div class="filtre-item" id="filter-genre">
+                            <hr />
+                            <h3 class="text-muted">Tür</h3>
+                            <a class="btn " id="clear-genre-filter" style="display: none;">  <i class="fa fa-trash"></i></a>
+                        </div>
                         <div class="filtre-item" id="filter-color">
                             <hr />
                             <h3 class="text-muted">Renk</h3>
@@ -231,6 +238,7 @@
 
 <script>
     // Model verilerini JavaScript nesnelerine dönüştürme
+    var categoryName = '@ViewBag.CategoryName';
     var productList = [];
     productList = @Html.Raw(Json.Serialize(Model));
 </script>
