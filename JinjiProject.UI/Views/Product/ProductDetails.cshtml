@@ -65,7 +65,7 @@
                                         </tr>
                                         <tr>
                                             <td>Stok Sayısı</td>
-                                            <td>: @Model.Stock</td>
+                                            <td>: @Model.Stock Adet</td>
                                         </tr>
                                         <tr>
                                             <td>Marka</td>
@@ -90,21 +90,28 @@
                                         {
                                             <tr>
                                                 <td>Boy</td>
-                                                <td>: @Model.Height</td>
+                                                <td>: @Model.Height cm</td>
                                             </tr>
                                         }
                                         @if (Model.Width != null)
                                         {
                                             <tr>
                                                 <td>Genişlik</td>
-                                                <td>: @Model.Width</td>
+                                                <td>: @Model.Width cm</td>
                                             </tr>
                                         }
                                         @if (Model.Length != null)
                                         {
                                             <tr>
                                                 <td>En</td>
-                                                <td>: @Model.Length</td>
+                                                <td>: @Model.Length cm</td>
+                                            </tr>
+                                        }
+                                        @if (Model.StrapLength != null)
+                                        {
+                                            <tr>
+                                                <td>Askı Boyu</td>
+                                                <td>: @Model.StrapLength cm</td>
                                             </tr>
                                         }
                                         @if (Model.Size != null)
