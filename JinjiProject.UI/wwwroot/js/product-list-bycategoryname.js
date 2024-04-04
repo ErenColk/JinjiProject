@@ -160,8 +160,8 @@ function filterProductsByPrice(minPrice, maxPrice) {
 }
 
 searchPriceButton.addEventListener('click', function () {
-    const minPrice = parseFloat(minPriceInput.value);
-    const maxPrice = parseFloat(maxPriceInput.value);
+    const minPrice = parseFloat(minPriceInput.value) || 0;
+    const maxPrice = parseFloat(maxPriceInput.value) || Number.MAX_SAFE_INTEGER;
 
     filterProductsByPrice(minPrice, maxPrice);
 });
