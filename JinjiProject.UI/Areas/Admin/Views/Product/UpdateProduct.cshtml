@@ -111,7 +111,7 @@
 
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="input-container d-flex">
                                     <div class="d-flex flex-column ">
                                         <span class="text-muted font-weight-bold">ÖLÇÜLER</span>
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span class="text-muted font-weight-bold">BOYUT</span>
                                 <div class="input-group d-flex">
 
@@ -179,7 +179,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span class="text-muted font-weight-bold">HACİM</span>
                                 <div class="input-group d-flex">
                                     @{
@@ -197,6 +197,34 @@
                                             <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: none; margin-left:10px">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-3">
+                                <span class="text-muted font-weight-bold">ASKI BOYU</span>
+                                <div class="input-group d-flex">
+                                    @{
+                                        if (Model.StrapLength != null)
+                                        {
+                                            <input type="checkbox" data-result="true" onchange="showStrapLength('product-strap-length-update')" id="input-strap-length-toggle" data-toggle="toggle" data-onstyle="success" checked>
+                                            <input asp-for="StrapLength" type="number" class="form-control" id="product-strap-length-update" placeholder="Ürün Hacmini Giriniz..." style="display: block; margin-left:10px">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="product-cm" style="display: block;">cm</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" data-result="false" onchange="showStrapLength('product-strap-length-update')" id="input-strap-length-toggle" data-toggle="toggle" data-onstyle="success">
+                                            <input asp-for="StrapLength" type="number" class="form-control" id="product-strap-length-update" placeholder="Ürün Hacmini Giriniz..." style="display: none; margin-left:10px">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="product-cm" style="display: none;">cm</span>
                                             </div>
                                         }
                                     }

@@ -60,9 +60,35 @@ function showCapacity(id) {
     } else {
         inputElement.setAttribute('data-result', 'false');
         capacity.style.display = 'none';
+        capacity.value = null;
+
         lt.style.display = 'none';
     }
 }
+
+
+
+function showStrapLength(id) {
+    debugger;
+    var straplength = document.getElementById(id);
+    var cm = document.getElementById('product-cm');
+
+    var inputElement = document.getElementById('input-strap-length-toggle');
+    var dataResultValue = inputElement.getAttribute('data-result');
+
+    if (dataResultValue == "false") {
+        straplength.style.display = 'block';
+        cm.style.display = 'block';
+        inputElement.setAttribute('data-result', 'true');
+    } else {
+        inputElement.setAttribute('data-result', 'false');
+        straplength.value = null;
+
+        straplength.style.display = 'none';
+        cm.style.display = 'none';
+    }
+}
+
 
 function showSize(id) {
     var size = document.getElementById(id);
@@ -76,6 +102,11 @@ function showSize(id) {
     } else {
         inputElement.setAttribute('data-result', 'false');
         size.style.display = 'none';
+        var firstOption = size.querySelector('option:first-child');
+        if (firstOption) {
+            firstOption.selected = true;
+        }
+
     }
 }
 
@@ -87,6 +118,7 @@ function showDimensions(className) {
             elements[i].style.display = "block";
         } else {
             elements[i].style.display = "none";
+            elements[i].value = null;
         }
     }
 }
