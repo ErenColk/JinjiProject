@@ -214,7 +214,7 @@
                         </div>
                         @if(Model != null)
                         {
-                            @if (Model.FirstOrDefault().StrapLength != null)
+                            @if (Model.Find(x => x.StrapLength != null) != null)
                             {
                                 <div class="filtre-item">
                                     <hr />
