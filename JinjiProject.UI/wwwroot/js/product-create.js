@@ -1,11 +1,22 @@
 ﻿
+document.addEventListener("DOMContentLoaded", function () {
+    debugger;
+    let selectedCategoryId = $("#product-category").val();
 
+    if (selectedCategoryId != null) {
+        onCategoryChange();
+    }
+
+});
 
 async function onCategoryChange() {
+    debugger;
     let selectedCategoryId = $("#product-category").val();
     genres = [];
 
     genres = genres ? await getGenre(selectedCategoryId) : genres;
+    debugger;
+
     populateSelectList("product-genre", genres);
 };
 

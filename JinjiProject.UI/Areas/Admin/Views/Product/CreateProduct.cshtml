@@ -10,7 +10,7 @@
         <div class="card-header">
             <div class="card-title">Ürün Ekleme İşlemleri</div>
         </div>
-        <form asp-area="Admin" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+        <form  asp-area="Admin" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
             <div class="col-md-12">
                 <div class="card-body">
                     <div class="form-group text-muted">
@@ -108,7 +108,7 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="input-container d-flex">
                                     <div class="d-flex flex-column ">
                                         <span class="text-muted font-weight-bold">ÖLÇÜLER</span>
@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span class="text-muted font-weight-bold">BOYUT</span>
                                 <div class="input-group d-flex">
                                     <input type="checkbox" data-result="false" onchange="showSize('product-size')" id="input-size-toggle" data-toggle="toggle" data-onstyle="success">
@@ -154,13 +154,23 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span class="text-muted font-weight-bold">HACİM</span>
                                 <div class="input-group d-flex">
                                     <input type="checkbox" data-result="false" onchange="showCapacity('product-capacity')" id="input-capacity-toggle" data-toggle="toggle" data-onstyle="success">
                                     <input asp-for="Capacity" type="number" class="form-control" id="product-capacity" placeholder="Ürün Hacmini Giriniz..." style="display: none; margin-left:10px">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="product-lt" style="display: none;">Lt</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="text-muted font-weight-bold">ASKI BOYU</span>
+                                <div class="input-group d-flex">
+                                    <input type="checkbox" data-result="false" onchange="showStrapLength('product-strap-length')" id="input-strap-length-toggle" data-toggle="toggle" data-onstyle="success">
+                                    <input asp-for="StrapLength" type="number" class="form-control" id="product-strap-length" placeholder="Ürün Askı Boyunu Giriniz..." style="display: none; margin-left:10px">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="product-cm" style="display: none;">cm</span>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +195,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-3 d-flex align-items-center">
@@ -215,7 +224,7 @@
                                     <span class="text-muted font-weight-bold">ÜRÜNÜN  3.FOTOĞRAFI</span>
                                     <input asp-for="UploadPathThirth" type="file" class="form-control-file" id="product-photo" onchange="previewImage(event,'image-preview-thirth','image-preview-label-thirth')">
                                     <div>
-                                    <small class="text-muted" style="font-size: smaller;">Kare formatındaki fotoğraflar daha iyi görünebilir. Opsiyonel fotoğraflarınızı kare formatında tercih edin.</small>  
+                                        <small class="text-muted" style="font-size: smaller;">Kare formatındaki fotoğraflar daha iyi görünebilir. Opsiyonel fotoğraflarınızı kare formatında tercih edin.</small>
                                     </div>
                                     <span class="text-danger">@ViewData["ImageErrorThirth"]</span>
                                 </div>
@@ -232,7 +241,7 @@
 
                 </div>
                 <div class="card-action d-flex justify-content-end  ">
-                    <button type="submit" class="btn btn-outline-success mr-2">Kaydet</button>
+                    <button type="submit" id="btn-product-create" class="btn btn-outline-success mr-2">Kaydet</button>
                     <a asp-area="Admin" asp-action="ProductList" asp-controller="Product" class="btn btn-outline-primary">Geri Dön</a>
                 </div>
             </div>
@@ -268,6 +277,25 @@
             inputElement.setAttribute('data-result', 'false');
             capacity.style.display = 'none';
             lt.style.display = 'none';
+        }
+    } 
+    
+    
+    function showStrapLength(id) {
+        var straplength = document.getElementById(id);
+        var cm = document.getElementById('product-cm');
+
+        var inputElement = document.getElementById('input-strap-length-toggle');
+        var dataResultValue = inputElement.getAttribute('data-result');
+
+        if (dataResultValue == "false") {
+            straplength.style.display = 'block';
+            cm.style.display = 'block';
+            inputElement.setAttribute('data-result', 'true');
+        } else {
+            inputElement.setAttribute('data-result', 'false');
+            straplength.style.display = 'none';
+            cm.style.display = 'none';
         }
     }
 

@@ -104,6 +104,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             if (!listBrandDto.IsSuccess || !listCategoryDto.IsSuccess || !listMaterialDto.IsSuccess)
             {
                 NotifyError("Öncelikle gerekli diğer özellikler eklenmelidir!");
+                return RedirectToAction("ProductList");
             }
             ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
             ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
@@ -133,7 +134,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                     NotifyError(createProductResult.Message);
 
                 }
-                return RedirectToAction(nameof(ProductList), new { showWarning = false });
+                return RedirectToAction(nameof(ProductList), new { showWarning = true });
             }
 
             foreach (var item in result.Errors)
