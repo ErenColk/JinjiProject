@@ -32,38 +32,46 @@
                                         </tr>
                                     </thead>
                                     <tbody id="selectedGenresTable">
-                                        @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                        @if(Model == null)
                                         {
-                                            if (item.Value.IsOnHomePage == true)
-                                            {
 
-                                                <tr>
-                                                    <td>
-
-                                                        @item.Index
-                                                    </td>
-                                                    <td>
-                                                        @item.Value.Name
-                                                    </td>
-                                                    <td>
-                                                        @item.Value.CreatedDate
-                                                    </td>
-                                                    <td style="display: none;">
-                                                        <input type="hidden" asp-for="@item.Value.Id" />
-                                                    </td>
-                                                    <td style="display: none;">
-                                                        <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
-                                                    </td>
-                                                    <td style="display: none;">
-                                                        <input type="hidden" asp-for="@item.Value.Order" />
-                                                    </td>
-                                                    <td style="display: none;">
-                                                        <input type="hidden" asp-for="@item.Value.Description" />
-                                                    </td>
-                                                    <td><button class="btn btn-outline-danger" onclick="undoGenre(this)">Geri Al</button></td>
-                                                </tr>
-                                            }
                                         }
+                                        else
+                                        { @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                            {
+                                                if (item.Value.IsOnHomePage == true)
+                                                {
+
+                                                    <tr>
+                                                        <td>
+
+                                                            @item.Index
+                                                        </td>
+                                                        <td>
+                                                            @item.Value.Name
+                                                        </td>
+                                                        <td>
+                                                            @item.Value.CreatedDate
+                                                        </td>
+                                                        <td style="display: none;">
+                                                            <input type="hidden" asp-for="@item.Value.Id" />
+                                                        </td>
+                                                        <td style="display: none;">
+                                                            <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
+                                                        </td>
+                                                        <td style="display: none;">
+                                                            <input type="hidden" asp-for="@item.Value.Order" />
+                                                        </td>
+                                                        <td style="display: none;">
+                                                            <input type="hidden" asp-for="@item.Value.Description" />
+                                                        </td>
+                                                        <td><button class="btn btn-outline-danger" onclick="undoGenre(this)">Geri Al</button></td>
+                                                    </tr>
+                                                }
+                                            }
+                                            
+                                        }
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -102,38 +110,46 @@
                                 </tr>
                             </thead>
                             <tbody id="selectGenresTable">
-                                @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                @if (Model == null)
                                 {
-                                    if (item.Value.IsOnHomePage == false || item.Value.IsOnHomePage == null)
-                                    {
-                                        <tr>
-                                            <td>
-
-                                                @item.Index
-                                            </td>
-                                            <td>
-                                                @item.Value.Name
-                                            </td>
-                                            <td>
-                                                @item.Value.CreatedDate
-                                            </td>
-                                            <td style="display: none;">
-                                                <input type="hidden" asp-for="@item.Value.Id" />
-                                            </td>
-                                            <td style="display: none;">
-                                                <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
-                                            </td>
-                                            <td style="display: none;">
-                                                <input type="hidden" asp-for="@item.Value.Order" />
-                                            </td>
-                                            <td style="display: none;">
-                                                <input type="hidden" asp-for="@item.Value.Description" />
-                                            </td>
-                                            <td><button class="btn btn-outline-success" onclick="addGenre(this)">Ekle</button></td>
-                                        </tr>
-                                    }
 
                                 }
+                                else
+                                {  @foreach (var item in Model.Select((value, index) => new { Index = index + 1, Value = value }))
+                                    {
+                                        if (item.Value.IsOnHomePage == false || item.Value.IsOnHomePage == null)
+                                        {
+                                            <tr>
+                                                <td>
+
+                                                    @item.Index
+                                                </td>
+                                                <td>
+                                                    @item.Value.Name
+                                                </td>
+                                                <td>
+                                                    @item.Value.CreatedDate
+                                                </td>
+                                                <td style="display: none;">
+                                                    <input type="hidden" asp-for="@item.Value.Id" />
+                                                </td>
+                                                <td style="display: none;">
+                                                    <input type="hidden" asp-for="@item.Value.IsOnHomePage" />
+                                                </td>
+                                                <td style="display: none;">
+                                                    <input type="hidden" asp-for="@item.Value.Order" />
+                                                </td>
+                                                <td style="display: none;">
+                                                    <input type="hidden" asp-for="@item.Value.Description" />
+                                                </td>
+                                                <td><button class="btn btn-outline-success" onclick="addGenre(this)">Ekle</button></td>
+                                            </tr>
+                                        }
+
+                                    }
+                                    
+                                }
+                              
                             </tbody>
                         </table>
                     </div>

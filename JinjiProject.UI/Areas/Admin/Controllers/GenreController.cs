@@ -60,7 +60,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
             if (listGenreDto.CategoryId != 0)
                 category = listGenreDto.CategoryId.ToString();
 
-            var genreListResponse = await _genreService.GetGenreBySearchValues(listGenreDto.Name,category, listGenreDto.CreatedDate.ToString());
+            var genreListResponse = await _genreService.GetGenreBySearchValues(listGenreDto.Name, category, listGenreDto.CreatedDate.ToString());
 
             if (category == null && listGenreDto.CreatedDate.Year == 1 && listGenreDto.Name == null)
                 return RedirectToAction("GenreList");
@@ -115,7 +115,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 {
                     ViewData["NameError"] += item.ErrorMessage + "\n";
                 }
-                else if(item.ErrorCode == "2")
+                else if (item.ErrorCode == "2")
                 {
                     ViewData["DescriptionError"] += item.ErrorMessage + "\n";
                 }
@@ -141,9 +141,19 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         public async Task<IActionResult> HomePageEditGenre()
         {
             var genreResult = await _genreService.GetAllByExpression(genre => genre.Status != Status.Deleted);
-            List<ListHomePageGenreDto> genreDtos = _mapper.Map<List<ListHomePageGenreDto>>(genreResult.Data.OrderBy(genre => genre.Order));
+            if (genreResult.IsSuccess)
+            {
+                List<ListHomePageGenreDto> genreDtos = _mapper.Map<List<ListHomePageGenreDto>>(genreResult.Data.OrderBy(genre => genre.Order));
+                NotifySuccess(genreResult.Message);
+                return View(genreDtos);
 
-            return View(genreDtos);
+            }
+            else
+            {
+                NotifyError(genreResult.Message);
+                return View();
+            }
+
         }
 
         [HttpPost]
@@ -179,7 +189,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                 {
                     ViewBag.Categories = await CategoryItems.GetCategory(listCategoryDto.Data);
 
-                }               
+                }
 
                 UpdateGenreDto updateGenre = _mapper.Map<UpdateGenreDto>(updateGenreResult.Data);
                 return View(updateGenre);
@@ -215,7 +225,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
                     NotifyError(updateGenreResult.Message);
                 }
 
-                
+
 
                 return RedirectToAction(nameof(GenreList), new { showWarning = false });
             }
