@@ -22,6 +22,7 @@ namespace JinjiProject.Dtos.Products
         public string? ImagePathThirth { get; set; }
         public int? Capacity { get; set; }
         public Size? Size { get; set; }
+        public float? StrapLength { get; set; }
         public string SizeName{ get; set; }
         public string GenreName { get; set; }
         public DateTime DeletedDate { get; set; }

@@ -131,6 +131,55 @@ clearButton.addEventListener('click', function () {
     updateFilter();
 });
 
+//Askı boyuna göre filtreleme
+const minStrapLengthInput = document.getElementById('min-strap-length');
+const maxStrapLengthInput = document.getElementById('max-strap-length');
+const searchStrapLengthButton = document.getElementById('search-strap-length');
+const clearStrapLengthButton = document.getElementById('clear-strap-length-filter');
+
+// Askı boyuna göre filtreleme işlevi
+function filterProductsByStrapLength(minStrapLength, maxStrapLength) {
+    minStrapLength = minStrapLength || 0; // Varsayılan değerler
+    maxStrapLength = maxStrapLength || Number.MAX_SAFE_INTEGER;
+
+    clearStrapLengthButton.style.display = 'inline-block';
+
+    const filteredProducts = productList.filter(product => {
+        return product.strapLength >= minStrapLength && product.strapLength <= maxStrapLength;
+    });
+
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    updatePagination(totalPages, filteredProducts);
+    showPage(1, filteredProducts);
+    updateActiveClass(1);
+
+    //// Temizle düğmesini görünür hale getir
+    //clearStrapLengthButton.style.display = 'inline-block';
+}
+
+searchStrapLengthButton.addEventListener('click', function () {
+    const minStrapLength = parseFloat(minStrapLengthInput.value) || 0;
+    const maxStrapLength = parseFloat(maxStrapLengthInput.value) || Number.MAX_SAFE_INTEGER;
+
+    filterProductsByStrapLength(minStrapLength, maxStrapLength);
+});
+
+clearStrapLengthButton.addEventListener('click', function () {
+    minStrapLengthInput.value = '';
+    maxStrapLengthInput.value = '';
+    updateFilter();
+
+    // Temizle düğmesini gizle
+    clearStrapLengthButton.style.display = 'none';
+
+   
+});
+
+
+
+
+
+
 // Fiyata göre filtreleme
 const minPriceInput = document.getElementById('min-price');
 const maxPriceInput = document.getElementById('max-price');
@@ -282,13 +331,21 @@ function updateFilter() {
     const minPrice = parseFloat(minPriceInput.value) || 0;
     const maxPrice = parseFloat(maxPriceInput.value) || Number.MAX_SAFE_INTEGER;
 
+    const minStrapLength = parseFloat(minStrapLengthInput.value) || 0;
+    const maxStrapLength = parseFloat(maxStrapLengthInput.value) || Number.MAX_SAFE_INTEGER;
+
+
     const filteredProducts = productList.filter(product => {
         const nameMatches = product.name.toLowerCase().includes(keyword);
         const priceInRange = product.price >= minPrice && product.price <= maxPrice;
+        const strapLengthInRange = product.strapLength >= minStrapLength && product.strapLength <= maxStrapLength;
         let sizeMatches = true;
         let colorMatches = true;
         if (minPrice != 0 && maxPrice != Number.MAX_SAFE_INTEGER) {
             clearPriceButton.style.display = 'inline-block';
+        }
+        if (minStrapLength != 0 && maxStrapLength != Number.MAX_SAFE_INTEGER) {
+            clearStrapLengthButton.style.display = 'inline-block';
         }
         if (selectedSizes.length > 0) {
             sizeMatches = selectedSizes.includes(product.size);
@@ -300,7 +357,7 @@ function updateFilter() {
             clearColorButton.style.display = 'inline-block';
         }
 
-        return nameMatches && priceInRange && sizeMatches && colorMatches;
+        return nameMatches && priceInRange && sizeMatches && colorMatches && strapLengthInRange;
     });
 
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -312,6 +369,7 @@ function updateFilter() {
 
 searchInput.addEventListener('input', updateFilter);
 searchPriceButton.addEventListener('click', updateFilter);
+searchStrapLengthButton.addEventListener('click', updateFilter);
 range1Radio.addEventListener('change', updateFilter);
 range2Radio.addEventListener('change', updateFilter);
 range3Radio.addEventListener('change', updateFilter);
