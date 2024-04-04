@@ -37,8 +37,9 @@ async function loadProductData(id) {
     const productCapacityRow = rows[6];
     const productMeasureRow = rows[7];
     const productSizeRow = rows[8];
-    const productCreatedDateRow = rows[9];
-    const productModifiedDateRow = rows[10];
+    const productStrapLengthRow = rows[9];
+    const productCreatedDateRow = rows[10];
+    const productModifiedDateRow = rows[11];
 
     const productNameCell = productNameRow.cells[1];
     const productDescriptionCell = productDescriptionRow.cells[1];
@@ -53,6 +54,7 @@ async function loadProductData(id) {
     const productZCell = productMeasureRow.cells[3];
 
     const productSizeCell = productSizeRow.cells[1];
+    const productStrapLengthCell = productStrapLengthRow.cells[1];
 
 
     const productCreatedDateCell = productCreatedDateRow.cells[1];
@@ -81,12 +83,14 @@ async function loadProductData(id) {
     product.capacity != null ? (productCapacityRow.style.display = 'table-row') : (productCapacityRow.style.display = 'none');
     product.width != null || (product.length != null) || (product.height != null) ? (productMeasureRow.style.display = 'table-row') : (productMeasureRow.style.display = 'none');
     product.sizeName != "" ? (productSizeRow.style.display = 'table-row') : (productSizeRow.style.display = 'none');
+    product.strapLength != null ? (productStrapLengthRow.style.display = 'table-row') : (productStrapLengthRow.style.display = 'none');
 
     product.capacity != null ? (productCapacityCell.textContent = ":" + "   " + product.capacity + " lt") : (productCapacityCell.textContent = "");
     product.width != null ? (productXCell.textContent = ":" + " " + product.width + " genişlik ") : (productXCell.textContent = "");
-    product.length != null ? (productYCell.textContent =" " + product.length + " en ") : (productYCell.textContent =  "");
-    product.height != null ? (productZCell.textContent =" " + product.height + " boy ") : (productZCell.textContent = "");
+    product.length != null ? (productXCell.textContent += "- " + product.length + " en ") : (productXCell.textContent =  "");
+    product.height != null ? (productXCell.textContent += "- " + product.height + " boy ") : (productXCell.textContent = "");
     product.sizeName != null ? (productSizeCell.textContent = ":" + "   " + product.sizeName) : (productSizeCell.textContent = "" ) ;
+    product.strapLength != null ? (productStrapLengthCell.textContent = ":" + "   " + product.strapLength) : (productStrapLengthCell.textContent = "" ) ;
 
     productCreatedDateCell.textContent = ":" + "   " + new Date(product.createdDate).toLocaleDateString();
     const productModifiedDate =  await new Date(product.modifiedDate).getFullYear();
