@@ -149,6 +149,9 @@ function filterProductsByPrice(minPrice, maxPrice) {
     minPrice = minPrice || 0; // Varsayılan değerler
     maxPrice = maxPrice || Number.MAX_SAFE_INTEGER;
 
+    // Temizle düğmesini görünür hale getir
+    clearPriceButton.style.display = 'inline-block';
+
     const filteredProducts = productList.filter(product => {
         return product.price >= minPrice && product.price <= maxPrice;
     });
@@ -158,8 +161,7 @@ function filterProductsByPrice(minPrice, maxPrice) {
     showPage(1, filteredProducts);
     updateActiveClass(1);
 
-    // Temizle düğmesini görünür hale getir
-    clearPriceButton.style.display = 'inline-block';
+    
 }
 
 searchPriceButton.addEventListener('click', function () {
