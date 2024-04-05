@@ -26,7 +26,7 @@ namespace JinjiProject.UI.Controllers
                 {
                     if (products.Data.Count > 0)
                     {
-                    var categoryResult = await _categoryService.GetFilteredCategory(x => x.Genres.First().Id == products.Data.FirstOrDefault().GenreId);
+                    var categoryResult = await _categoryService.GetFilteredCategory(x => x.Genres.Any(src=> src.Id == products.Data.FirstOrDefault().GenreId));
 
                         ViewBag.CategoryName = categoryResult.Data.Name;
                         ViewBag.Genre = genre;
@@ -47,7 +47,7 @@ namespace JinjiProject.UI.Controllers
                 {
                     if (products.Data.Count > 0)
                     {
-                        var categoryResult = await _categoryService.GetFilteredCategory(x => x.Genres.First().Id == products.Data.FirstOrDefault().GenreId);
+                        var categoryResult = await _categoryService.GetFilteredCategory(x => x.Genres.Any(src => src.Id == products.Data.FirstOrDefault().GenreId));
 
                         ViewBag.CategoryName = categoryResult.Data.Name;
                         ViewBag.Genre = genre;
