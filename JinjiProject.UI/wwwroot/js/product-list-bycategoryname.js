@@ -180,6 +180,8 @@ if (productList[0].strapLength) {
 
 
     });
+
+    searchStrapLengthButton.addEventListener('click', updateFilter);
 }
 
 
@@ -366,8 +368,9 @@ function updateFilter() {
     const minPrice = parseFloat(minPriceInput.value) || 0;
     const maxPrice = parseFloat(maxPriceInput.value) || Number.MAX_SAFE_INTEGER;
 
-    const minStrapLength = parseFloat(minStrapLengthInput.value) || 0;
-    const maxStrapLength = parseFloat(maxStrapLengthInput.value) || Number.MAX_SAFE_INTEGER;
+
+    const minStrapLength = parseFloat(minStrapLengthInput ? minStrapLengthInput.value : 0) || 0;
+    const maxStrapLength = parseFloat(maxStrapLengthInput ? maxStrapLengthInput.value : Number.MAX_SAFE_INTEGER) || Number.MAX_SAFE_INTEGER;
 
 
     const filteredProducts = productList.filter(product => {
@@ -411,7 +414,6 @@ function updateFilter() {
 
 searchInput.addEventListener('input', updateFilter);
 searchPriceButton.addEventListener('click', updateFilter);
-searchStrapLengthButton.addEventListener('click', updateFilter);
 range1Radio.addEventListener('change', updateFilter);
 range2Radio.addEventListener('change', updateFilter);
 range3Radio.addEventListener('change', updateFilter);
