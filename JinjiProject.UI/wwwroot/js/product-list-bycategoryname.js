@@ -74,17 +74,17 @@ function fillProducts(products) {
                             <li><a href="/Product/ProductDetails/${product.id}"><i class="fa fa-eye"></i></a></li>
                         </ul>
                     </div>
-                    <img class="img-thumbnail" src="${product.imagePath}" style="height:320px" alt="">
+                    <img class="img-thumbnail" src="${product.imagePath}" style="height:400px" alt="">
                 </div>
                 <div class="down-content">
                 <div class="d-flex flex-row justify-content-between">
                     <h4>${product.name}</h4>
 <ul style="padding: 0;">
     <li style="font-family: Blippo, fantasy; font-size: 18px; display: inline-block;">
-        ${product.oldPrice ? `<del style="color: rgba(0, 0, 0, 0.6);">${product.price} ₺</del>` : `<p style="font-family: Blippo, fantasy; color: rgba(46, 139, 87, 0.6); font-size: 25px;">${product.price} ₺</p>`}
+        ${product.oldPrice ? `<del style="color: rgba(0, 0, 0, 0.6);">${product.price}₺</del>` : `<p style="font-family: Blippo, fantasy; color: rgba(46, 139, 87, 0.6); font-size: 25px;">${product.price}₺</p>`}
     </li>
     <li style="font-family: Blippo, fantasy;  font-size: 18px; display: inline-block; color: rgba(46, 139, 87, 0.6);">
-        ${product.oldPrice ? `<p style="font-family: Blippo, fantasy; color: rgba(46, 139, 87, 0.6); font-size: 25px;">${product.oldPrice} ₺</p>` : ''}
+        ${product.oldPrice ? `<p style="font-family: Blippo, fantasy; color: rgba(46, 139, 87, 0.6); font-size: 25px;">${product.oldPrice}₺</p>` : ''}
     </li>
 </ul>
 
