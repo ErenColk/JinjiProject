@@ -6,6 +6,7 @@ using JinjiProject.Core.Entities.Concrete;
 using JinjiProject.Core.Enums;
 using JinjiProject.Dtos.Brands;
 using JinjiProject.Dtos.Categories;
+using JinjiProject.Dtos.Genres;
 using JinjiProject.Dtos.Materials;
 using JinjiProject.Dtos.Products;
 using JinjiProject.UI.Controllers;
@@ -89,6 +90,12 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
 
             if(productListResponse.Data == null)
                 NotifyError(productListResponse.Message);
+            var listBrandDto = await _brandService.GetAllByExpression(brand => brand.Status != Status.Deleted);
+            var listGenreDto = await _genreService.GetAllByExpression(category => category.Status != Status.Deleted);
+            var listMaterialDto = await _materialService.GetAllByExpression(material => material.Status != Status.Deleted);
+            ViewBag.Brands = await BrandItems.GetBrands(listBrandDto.Data);
+            ViewBag.Genres = await GenreItems.GetGenres(listGenreDto.Data);
+            ViewBag.Materials = await MaterialItems.GetMaterial(listMaterialDto.Data);
             return View("ProductList", productListResponse.Data);
         }
 

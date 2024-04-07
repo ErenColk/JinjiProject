@@ -217,6 +217,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 {
                     item.Order = null;
                     item.IsOnHomePage = false;
+                    item.ModifiedDate = DateTime.Now;
                     _mapper.Map(item, genreToUpdate);
                     bool result = await _genreRepository.Update(genreToUpdate);
                     if (!result)

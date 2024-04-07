@@ -211,6 +211,7 @@ namespace JinjiProject.BusinessLayer.Managers.Concrete
                 {
                     item.Order = null;
                     item.IsOnHomePage = false;
+                    item.ModifiedDate = DateTime.Now;
                     _mapper.Map(item, categoryToUpdate);
                     bool result = await _categoryRepository.Update(categoryToUpdate);
                     if (!result)

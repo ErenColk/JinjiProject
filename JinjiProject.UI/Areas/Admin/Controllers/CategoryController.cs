@@ -109,6 +109,7 @@ namespace JinjiProject.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> HomePageEdit([FromBody] List<ListHomePageCategory> listCategoryDto)
         {
+
             List<UpdateCategoryDto> categories = _mapper.Map<List<UpdateCategoryDto>>(listCategoryDto);
 
             var updateCategoryResult = await _categoryService.UpdateAllCategoryAsync(categories);
