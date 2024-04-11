@@ -366,3 +366,7 @@ FodyWeavers.xsd
 /JinjiProject.DataAccessLayer/Migrations/20240404073951_init.Designer.cs
 /JinjiProject.DataAccessLayer/Migrations/AppDbContextModelSnapshot.cs
 /.gitignore
+/JinjiProject.UI/appsettings.json
+/JinjiProject.UI/appsettings.Development.json
+/JinjiProject.BusinessLayer/Constants/SuperAdmin.cs
+/JinjiProject.DataAccess.EFCore/Seeds/AdminSeed.cs
